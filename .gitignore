@@ -6,6 +6,14 @@
 [LLEe]og/
 [Ll]ogs/
 
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+dist/
+
 # Visual Studio files
 .vs/
 *.user
