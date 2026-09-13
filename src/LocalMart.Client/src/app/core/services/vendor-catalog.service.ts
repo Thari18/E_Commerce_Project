@@ -99,6 +99,12 @@ export class VendorCatalogService {
     return this.http.post<CreateProductResponse>(`${this.baseUrl}/products`, request);
   }
 
+  uploadProductImage(file: File): Observable<{ imageUrl: string }> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.http.post<{ imageUrl: string }>(`${this.baseUrl}/products/upload-image`, formData);
+  }
+
   updateProduct(id: string, request: UpdateProductRequest): Observable<VendorProductItem> {
     return this.http.put<VendorProductItem>(`${this.baseUrl}/products/${id}`, request);
   }

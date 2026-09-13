@@ -90,6 +90,28 @@ public class VendorProductsController : ApiController
         return Ok(result);
     }
 
+    [HttpPost("upload-image")]
+    [Consumes("multipart/form-data")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> UploadProductImage(IFormFile file, [FromServices] LocalMart.Application.Common.Interfaces.IPhotoService photoService)
+    {
+        if (file == null || file.Length == 0)
+        {
+            return BadRequest(new { message = "Please select a valid image file." });
+        }
+
+        using var stream = file.OpenReadStream();
+        var imageUrl = await photoService.UploadImageAsync(stream, file.FileName, "products");
+
+        if (string.IsNullOrEmpty(imageUrl))
+        {
+            return BadRequest(new { message = "Failed to upload image to Cloudinary." });
+        }
+
+        return Ok(new { imageUrl });
+    }
+
     private Guid GetCurrentUserId()
     {
         var claim = User.FindFirstValue(ClaimTypes.NameIdentifier);
