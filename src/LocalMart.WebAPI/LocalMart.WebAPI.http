@@ -1,0 +1,6 @@
+@LocalMart.WebAPI_HostAddress = http://localhost:5212
+
+GET {{LocalMart.WebAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

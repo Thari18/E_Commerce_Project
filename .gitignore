@@ -1,0 +1,31 @@
+## Ignore Visual Studio / .NET build artifacts and user settings
+
+# Build results
+[Bb]in/
+[Oo]bj/
+[LLEe]og/
+[Ll]ogs/
+
+# Visual Studio files
+.vs/
+*.user
+*.userosscache
+*.sln.docstates
+*.suo
+*.userlibraries
+
+# NuGet
+*.nupkg
+**/packages/
+project.lock.json
+project.assets.json
+*.nuget.props
+*.nuget.targets
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.idea/
+.vscode/
