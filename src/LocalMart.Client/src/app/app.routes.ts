@@ -3,6 +3,7 @@ import { LandingComponent } from './features/landing/landing.component';
 import { LoginComponent } from './features/login/login.component';
 import { RegisterComponent } from './features/register/register.component';
 import { VendorApplicationComponent } from './features/vendor-application/vendor-application.component';
+import { VendorSetPasswordComponent } from './features/vendor/vendor-set-password.component';
 import { CustomerDashboardComponent } from './features/customer-dashboard/customer-dashboard.component';
 import { VendorDashboardComponent } from './features/vendor-dashboard/vendor-dashboard.component';
 import { AdminDashboardComponent } from './features/admin-dashboard/admin-dashboard.component';
@@ -15,6 +16,7 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'vendor-application', component: VendorApplicationComponent },
+  { path: 'vendor/set-password', component: VendorSetPasswordComponent },
   {
     path: 'customer/dashboard',
     component: CustomerDashboardComponent,

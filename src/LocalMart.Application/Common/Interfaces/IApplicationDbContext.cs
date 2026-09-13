@@ -11,6 +11,7 @@ public interface IApplicationDbContext
     DbSet<UserRole> UserRoles { get; }
     DbSet<RolePermission> RolePermissions { get; }
     DbSet<RefreshToken> RefreshTokens { get; }
+    DbSet<PasswordResetToken> PasswordResetTokens { get; }
     DbSet<VendorApplication> VendorApplications { get; }
     DbSet<Vendor> Vendors { get; }
     DbSet<Category> Categories { get; }

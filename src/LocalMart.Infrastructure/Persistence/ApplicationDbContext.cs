@@ -16,6 +16,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<UserRole> UserRoles => Set<UserRole>();
     public DbSet<RolePermission> RolePermissions => Set<RolePermission>();
     public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
+    public DbSet<PasswordResetToken> PasswordResetTokens => Set<PasswordResetToken>();
     public DbSet<VendorApplication> VendorApplications => Set<VendorApplication>();
     public DbSet<Vendor> Vendors => Set<Vendor>();
     public DbSet<Category> Categories => Set<Category>();
@@ -73,10 +74,38 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
         modelBuilder.Entity<Role>(b => b.ToTable("roles"));
         modelBuilder.Entity<Permission>(b => b.ToTable("permissions"));
         modelBuilder.Entity<RefreshToken>(b => b.ToTable("refresh_tokens"));
+        modelBuilder.Entity<PasswordResetToken>(b =>
+        {
+            b.HasIndex(t => t.TokenHash);
+            b.Property(t => t.TokenHash).HasMaxLength(255).IsRequired();
+            b.Property(t => t.TokenType).HasMaxLength(50).IsRequired();
+            b.HasOne(t => t.User).WithMany(u => u.PasswordResetTokens).HasForeignKey(t => t.UserId).OnDelete(DeleteBehavior.Cascade);
+            b.ToTable("password_reset_tokens");
+        });
         modelBuilder.Entity<VendorApplication>(b =>
         {
             b.HasIndex(va => va.Status);
             b.HasIndex(va => va.ApplicantUserId);
+            b.HasIndex(va => va.BusinessRegistrationNumber);
+            b.Property(va => va.OwnerFullName).HasMaxLength(150);
+            b.Property(va => va.OwnerEmail).HasMaxLength(255);
+            b.Property(va => va.OwnerPhone).HasMaxLength(30);
+            b.Property(va => va.OwnershipType).HasMaxLength(50);
+            b.Property(va => va.BusinessName).HasMaxLength(150);
+            b.Property(va => va.BusinessType).HasMaxLength(50);
+            b.Property(va => va.BusinessCategory).HasMaxLength(100);
+            b.Property(va => va.BusinessRegistrationNumber).HasMaxLength(100).IsRequired(false);
+            b.Property(va => va.TaxIdentificationNumber).HasMaxLength(100);
+            b.Property(va => va.VatRegistrationNumber).HasMaxLength(100);
+            b.Property(va => va.ContactPhone).HasMaxLength(30);
+            b.Property(va => va.ContactEmail).HasMaxLength(255);
+            b.Property(va => va.AddressLine1).HasMaxLength(255);
+            b.Property(va => va.AddressLine2).HasMaxLength(255);
+            b.Property(va => va.City).HasMaxLength(100);
+            b.Property(va => va.District).HasMaxLength(100);
+            b.Property(va => va.Province).HasMaxLength(100);
+            b.Property(va => va.PostalCode).HasMaxLength(20);
+            b.Property(va => va.Status).HasMaxLength(50);
             b.HasOne(va => va.ApplicantUser).WithMany().HasForeignKey(va => va.ApplicantUserId).OnDelete(DeleteBehavior.Restrict);
             b.HasOne(va => va.ReviewedByAdmin).WithMany().HasForeignKey(va => va.ReviewedByAdminId).OnDelete(DeleteBehavior.SetNull);
             b.ToTable("vendor_applications");

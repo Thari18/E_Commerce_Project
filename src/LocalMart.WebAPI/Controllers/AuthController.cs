@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using LocalMart.Application.DTOs;
 using LocalMart.Application.Features.Auth.Commands;
+using LocalMart.Application.Features.Auth.Queries;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -38,6 +39,53 @@ public class AuthController : ApiController
         return Ok(result);
     }
 
+    [HttpGet("vendor/verify-token")]
+    [AllowAnonymous]
+    [ProducesResponseType(typeof(VerifyVendorTokenResponseDto), StatusCodes.Status200OK)]
+    public async Task<IActionResult> VerifyVendorToken([FromQuery] string token, CancellationToken ct)
+    {
+        var query = new VerifyVendorPasswordSetupTokenQuery(token);
+        var result = await Mediator.Send(query, ct);
+        return Ok(result);
+    }
+
+    [HttpPost("vendor/set-password")]
+    [AllowAnonymous]
+    [ProducesResponseType(typeof(SetVendorPasswordResponseDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> SetVendorPassword([FromBody] SetVendorPasswordRequestDto request, CancellationToken ct)
+    {
+        var command = new SetVendorPasswordCommand(
+            request.Token,
+            request.NewPassword,
+            request.ConfirmPassword
+        );
+        try
+        {
+            var result = await Mediator.Send(command, ct);
+            return Ok(result);
+        }
+        catch (KeyNotFoundException ex)
+        {
+            return NotFound(new ProblemDetails
+            {
+                Title = "Not Found",
+                Detail = ex.Message,
+                Status = StatusCodes.Status404NotFound
+            });
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new ProblemDetails
+            {
+                Title = "Invalid Operation",
+                Detail = ex.Message,
+                Status = StatusCodes.Status400BadRequest
+            });
+        }
+    }
+
     [HttpGet("me")]
     [Authorize]
     [ProducesResponseType(typeof(UserProfileDto), StatusCodes.Status200OK)]
@@ -60,3 +108,4 @@ public class AuthController : ApiController
         return Ok(profile);
     }
 }
+

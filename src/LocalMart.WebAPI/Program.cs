@@ -22,15 +22,23 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("CanReadVendorApplications", policy => policy.RequireRole("Admin"));
 });
 
-// Configure CORS for Angular Frontend (http://localhost:4200)
+// Configure CORS for Frontend Application (configurable via FrontendSettings:BaseUrl)
+var configuredFrontendUrl = builder.Configuration.GetSection("FrontendSettings")["BaseUrl"];
+var allowedOrigins = !string.IsNullOrWhiteSpace(configuredFrontendUrl)
+    ? new[] { configuredFrontendUrl.TrimEnd('/') }
+    : (builder.Environment.IsDevelopment() ? new[] { "http://localhost:4200" } : Array.Empty<string>());
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("CorsPolicy", policy =>
     {
-        policy.WithOrigins("http://localhost:4200")
-              .AllowAnyHeader()
-              .AllowAnyMethod()
-              .AllowCredentials();
+        if (allowedOrigins.Length > 0)
+        {
+            policy.WithOrigins(allowedOrigins)
+                  .AllowAnyHeader()
+                  .AllowAnyMethod()
+                  .AllowCredentials();
+        }
     });
 });
 
@@ -104,9 +112,13 @@ using (var scope = app.Services.CreateScope())
         {
             dbCreator.Create();
         }
-        if (!dbCreator.HasTables())
+        try
         {
             dbCreator.CreateTables();
+        }
+        catch (Exception)
+        {
+            // Tables already exist or partially exist in database
         }
     }
 
@@ -195,10 +207,24 @@ using (var scope = app.Services.CreateScope())
         context.Users.Add(vendorUser);
         context.UserRoles.Add(new LocalMart.Domain.Entities.UserRole { UserId = vendorUser.Id, RoleId = vendorRole.Id });
 
+        var application = new LocalMart.Domain.Entities.VendorApplication
+        {
+            Id = Guid.NewGuid(),
+            ApplicantUserId = vendorUser.Id,
+            BusinessName = "Green Leaf Organics",
+            BusinessRegistrationNumber = "REG-GLO-2026-001",
+            ContactPhone = "+15550192834",
+            ContactEmail = "vendor@localmart.com",
+            Status = "Approved",
+            ReviewedAt = DateTime.UtcNow
+        };
+        context.VendorApplications.Add(application);
+
         var vendor = new LocalMart.Domain.Entities.Vendor
         {
             Id = Guid.NewGuid(),
             UserId = vendorUser.Id,
+            ApplicationId = application.Id,
             StoreName = "Green Leaf Organics",
             Description = "Neighborhood Organic Farm Store",
             Status = "Approved"

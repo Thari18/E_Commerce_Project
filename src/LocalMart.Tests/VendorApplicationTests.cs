@@ -1,3 +1,4 @@
+using FluentValidation.TestHelper;
 using LocalMart.Application.Features.Auth.Commands;
 using LocalMart.Application.Features.VendorApplications.Commands;
 using LocalMart.Domain.Entities;
@@ -26,6 +27,53 @@ public class VendorApplicationTests
         context.SaveChanges();
 
         return context;
+    }
+
+    private static SubmitVendorApplicationCommand CreateSampleCommand(Guid? userId = null)
+    {
+        return new SubmitVendorApplicationCommand(
+            ApplicantUserId: userId,
+            OwnerFullName: "Jane Smith",
+            OwnerEmail: "jane@bakery.com",
+            OwnerPhone: "+15559990000",
+            OwnershipType: "Sole Proprietor",
+            ResidentialAddress: "123 Main St, Apt 4B",
+            IdType: "NationalId",
+            IdNumber: "NIC-99887766",
+            OwnerPhotoRef: "private/assets/owner_jane.jpg",
+            IdDocumentRef: "private/assets/nic_scan.pdf",
+            BusinessName: "Jane's Bakery",
+            BusinessType: "Bakery",
+            BusinessCategory: "Food & Beverage",
+            BusinessRegistrationNumber: "REG-998811",
+            BusinessDescription: "Fresh daily artisan breads and pastries.",
+            BusinessRegistrationDate: new DateTime(2024, 1, 15, 0, 0, 0, DateTimeKind.Utc),
+            TaxIdentificationNumber: "TAX-112233",
+            VatRegistrationNumber: "VAT-445566",
+            ContactPhone: "+15559990000",
+            ContactEmail: "contact@janesbakery.com",
+            WebsiteUrl: "https://janesbakery.local",
+            SocialMediaUrl: "https://instagram.com/janesbakery",
+            AddressLine1: "45 Market Street",
+            AddressLine2: "Suite 100",
+            City: "Colombo",
+            District: "Colombo",
+            Province: "Western",
+            PostalCode: "00100",
+            Latitude: 6.9271,
+            Longitude: 79.8612,
+            BusinessRegistrationCertificateRef: "private/assets/brc_998811.pdf",
+            TinCertificateRef: "private/assets/tin_cert.pdf",
+            TradeLicenceRef: "private/assets/trade_licence.pdf",
+            OtherLicenceRef: null,
+            StoreFrontPhotoRef: "public/stores/storefront.jpg",
+            BusinessNameboardPhotoRef: "public/stores/nameboard.jpg",
+            StoreInteriorPhotoRef: "public/stores/interior.jpg",
+            StoreLogoRef: "public/stores/logo.png",
+            TermsAccepted: true,
+            MarketplacePolicyAccepted: true,
+            InformationAccuracyConfirmed: true
+        );
     }
 
     [Fact]
@@ -64,14 +112,7 @@ public class VendorApplicationTests
         context.UserRoles.Add(new UserRole { UserId = user.Id, RoleId = customerRole.Id });
         await context.SaveChangesAsync();
 
-        var command = new SubmitVendorApplicationCommand(
-            user.Id,
-            "Jane's Bakery",
-            "REG-998811",
-            "TAX-112233",
-            "+15559990000",
-            "jane@bakery.com"
-        );
+        var command = CreateSampleCommand(user.Id);
         var handler = new SubmitVendorApplicationCommandHandler(context);
 
         // Act
@@ -85,6 +126,13 @@ public class VendorApplicationTests
         var app = await context.VendorApplications.FirstOrDefaultAsync(a => a.Id == result.ApplicationId);
         Assert.NotNull(app);
         Assert.Equal("Pending", app.Status);
+        Assert.Equal("Jane Smith", app.OwnerFullName);
+        Assert.Equal("Bakery", app.BusinessType);
+        Assert.Equal("Sole Proprietor", app.OwnershipType);
+        Assert.Equal("TAX-112233", app.TaxIdentificationNumber);
+        Assert.Equal("VAT-445566", app.VatRegistrationNumber);
+        Assert.Equal("private/assets/owner_jane.jpg", app.OwnerPhotoRef);
+        Assert.Equal("public/stores/storefront.jpg", app.StoreFrontPhotoRef);
 
         // Verify Vendor entity NOT created yet
         var vendor = await context.Vendors.FirstOrDefaultAsync(v => v.ApplicationId == app.Id);
@@ -112,10 +160,28 @@ public class VendorApplicationTests
         {
             Id = Guid.NewGuid(),
             ApplicantUserId = user.Id,
+            OwnerFullName = "Jane Smith",
+            OwnerEmail = "jane@bakery.com",
+            OwnerPhone = "+15559990000",
+            OwnershipType = "Sole Proprietor",
+            OwnerPhotoRef = "private/assets/owner_jane.jpg",
+            IdDocumentRef = "private/assets/nic_scan.pdf",
             BusinessName = "Jane's Bakery",
+            BusinessType = "Bakery",
+            BusinessCategory = "Food & Beverage",
             BusinessRegistrationNumber = "REG-998811",
+            BusinessDescription = "Fresh daily artisan breads.",
             ContactPhone = "+15559990000",
-            ContactEmail = "jane@bakery.com",
+            ContactEmail = "contact@janesbakery.com",
+            AddressLine1 = "45 Market Street",
+            City = "Colombo",
+            District = "Colombo",
+            Province = "Western",
+            PostalCode = "00100",
+            Latitude = 6.9271,
+            Longitude = 79.8612,
+            StoreLogoRef = "public/stores/logo.png",
+            StoreFrontPhotoRef = "public/stores/storefront.jpg",
             Status = "Pending"
         };
         context.VendorApplications.Add(application);
@@ -136,11 +202,16 @@ public class VendorApplicationTests
         Assert.Equal("Approved", updatedApp.Status);
         Assert.Equal(admin.Id, updatedApp.ReviewedByAdminId);
 
-        // Verify Vendor Entity Created
+        // Verify Vendor Entity Created with STORE attributes ONLY (Zero Private Verification Assets copied)
         var vendor = await context.Vendors.FirstOrDefaultAsync(v => v.ApplicationId == application.Id);
         Assert.NotNull(vendor);
         Assert.Equal("Approved", vendor.Status);
         Assert.Equal("Jane's Bakery", vendor.StoreName);
+        Assert.Equal("Fresh daily artisan breads.", vendor.Description);
+        Assert.Equal("public/stores/logo.png", vendor.LogoUrl);
+        Assert.Equal("public/stores/storefront.jpg", vendor.BannerUrl);
+        Assert.Equal(6.9271, vendor.Latitude);
+        Assert.Equal(79.8612, vendor.Longitude);
         Assert.Equal(12.50m, vendor.CommissionRate);
 
         // Verify Vendor Role Provisioned
@@ -162,10 +233,21 @@ public class VendorApplicationTests
         {
             Id = Guid.NewGuid(),
             ApplicantUserId = user.Id,
+            OwnerFullName = "Bob Jones",
+            OwnerEmail = "bob@goods.com",
+            OwnerPhone = "+15558881111",
+            OwnershipType = "Company",
             BusinessName = "Bob's Goods",
+            BusinessType = "RetailShop",
+            BusinessCategory = "General Store",
             BusinessRegistrationNumber = "REG-776655",
             ContactPhone = "+15558881111",
             ContactEmail = "bob@goods.com",
+            AddressLine1 = "10 Main Rd",
+            City = "Kandy",
+            District = "Kandy",
+            Province = "Central",
+            PostalCode = "20000",
             Status = "Pending"
         };
         context.VendorApplications.Add(application);
@@ -190,5 +272,36 @@ public class VendorApplicationTests
         var vendorRole = context.Roles.First(r => r.Name == "Vendor");
         var userVendorRole = await context.UserRoles.FirstOrDefaultAsync(ur => ur.UserId == user.Id && ur.RoleId == vendorRole.Id);
         Assert.Null(userVendorRole);
+    }
+
+    [Fact]
+    public void SubmitVendorApplicationValidator_FailsWhenTermsNotAccepted()
+    {
+        var validator = new SubmitVendorApplicationCommandValidator();
+        var command = CreateSampleCommand() with { TermsAccepted = false };
+
+        var result = validator.TestValidate(command);
+        result.ShouldHaveValidationErrorFor(x => x.TermsAccepted);
+    }
+
+    [Fact]
+    public void SubmitVendorApplicationValidator_FailsWhenRequiredOwnerDetailsMissing()
+    {
+        var validator = new SubmitVendorApplicationCommandValidator();
+        var command = CreateSampleCommand() with { OwnerFullName = "", OwnerEmail = "invalid-email" };
+
+        var result = validator.TestValidate(command);
+        result.ShouldHaveValidationErrorFor(x => x.OwnerFullName);
+        result.ShouldHaveValidationErrorFor(x => x.OwnerEmail);
+    }
+
+    [Fact]
+    public void SubmitVendorApplicationValidator_FailsWhenOwnershipTypeInvalid()
+    {
+        var validator = new SubmitVendorApplicationCommandValidator();
+        var command = CreateSampleCommand() with { OwnershipType = "InvalidType" };
+
+        var result = validator.TestValidate(command);
+        result.ShouldHaveValidationErrorFor(x => x.OwnershipType);
     }
 }

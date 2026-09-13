@@ -1,9 +1,14 @@
+using System;
+using System.Security.Cryptography;
+using System.Text;
 using FluentValidation;
 using LocalMart.Application.Common.Interfaces;
 using LocalMart.Application.DTOs;
 using LocalMart.Domain.Entities;
+using LocalMart.Application.Common.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 namespace LocalMart.Application.Features.VendorApplications.Commands;
 
@@ -26,10 +31,17 @@ public class ApproveVendorApplicationCommandValidator : AbstractValidator<Approv
 public class ApproveVendorApplicationCommandHandler : IRequestHandler<ApproveVendorApplicationCommand, ApproveVendorApplicationResponseDto>
 {
     private readonly IApplicationDbContext _context;
+    private readonly IEmailService? _emailService;
+    private readonly FrontendSettings _frontendSettings;
 
-    public ApproveVendorApplicationCommandHandler(IApplicationDbContext context)
+    public ApproveVendorApplicationCommandHandler(
+        IApplicationDbContext context, 
+        IEmailService? emailService = null,
+        IOptions<FrontendSettings>? frontendOptions = null)
     {
         _context = context;
+        _emailService = emailService;
+        _frontendSettings = frontendOptions?.Value ?? new FrontendSettings();
     }
 
     public async Task<ApproveVendorApplicationResponseDto> Handle(ApproveVendorApplicationCommand request, CancellationToken cancellationToken)
@@ -64,13 +76,21 @@ public class ApproveVendorApplicationCommandHandler : IRequestHandler<ApproveVen
 
         if (existingVendor == null)
         {
+            // Only public store profile assets and location are mapped to Vendor.
+            // Private verification assets (OwnerPhotoRef, ID documents, Certificates) are STRICTLY excluded.
             vendor = new Vendor
             {
                 Id = Guid.NewGuid(),
                 UserId = application.ApplicantUserId,
                 ApplicationId = application.Id,
                 StoreName = application.BusinessName,
-                Description = $"Store profile for {application.BusinessName}",
+                Description = !string.IsNullOrWhiteSpace(application.BusinessDescription) 
+                    ? application.BusinessDescription 
+                    : $"Store profile for {application.BusinessName}",
+                LogoUrl = application.StoreLogoRef ?? string.Empty,
+                BannerUrl = application.StoreFrontPhotoRef ?? string.Empty,
+                Latitude = application.Latitude ?? 0.0,
+                Longitude = application.Longitude ?? 0.0,
                 Status = "Approved",
                 CommissionRate = request.CommissionRate
             };
@@ -80,6 +100,10 @@ public class ApproveVendorApplicationCommandHandler : IRequestHandler<ApproveVen
         {
             vendor = existingVendor;
             vendor.Status = "Approved";
+            if (!string.IsNullOrWhiteSpace(application.StoreLogoRef)) vendor.LogoUrl = application.StoreLogoRef;
+            if (!string.IsNullOrWhiteSpace(application.StoreFrontPhotoRef)) vendor.BannerUrl = application.StoreFrontPhotoRef;
+            if (application.Latitude.HasValue) vendor.Latitude = application.Latitude.Value;
+            if (application.Longitude.HasValue) vendor.Longitude = application.Longitude.Value;
         }
 
         // 3. Provision Vendor Role to Applicant User
@@ -97,7 +121,57 @@ public class ApproveVendorApplicationCommandHandler : IRequestHandler<ApproveVen
             }
         }
 
-        await _context.SaveChangesAsync(cancellationToken);
+        // 4. Onboarding Authentication Flow: Guest Vendor vs Existing Customer
+        var user = application.ApplicantUser;
+        var needsPasswordSetup = user != null && string.IsNullOrWhiteSpace(user.PasswordHash);
+
+        if (needsPasswordSetup && user != null)
+        {
+            // Generate 256-bit cryptographically secure token
+            var rawToken = Convert.ToHexString(RandomNumberGenerator.GetBytes(32)).ToLowerInvariant();
+            var tokenHash = Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(rawToken)));
+
+            var setupToken = new PasswordResetToken
+            {
+                Id = Guid.NewGuid(),
+                UserId = user.Id,
+                TokenHash = tokenHash,
+                TokenType = "VendorActivation",
+                ExpiresAt = DateTime.UtcNow.AddHours(24),
+                IsUsed = false
+            };
+
+            _context.PasswordResetTokens.Add(setupToken);
+            await _context.SaveChangesAsync(cancellationToken);
+
+            var baseUrl = !string.IsNullOrWhiteSpace(_frontendSettings.BaseUrl)
+                ? _frontendSettings.BaseUrl.TrimEnd('/')
+                : "http://localhost:4200";
+
+            var setupUrl = $"{baseUrl}/vendor/set-password?token={rawToken}";
+            if (_emailService != null)
+            {
+                await _emailService.SendVendorApprovalPasswordSetupEmailAsync(
+                    recipientEmail: application.ContactEmail,
+                    recipientName: application.OwnerFullName,
+                    setupUrl: setupUrl,
+                    cancellationToken: cancellationToken
+                );
+            }
+        }
+        else
+        {
+            await _context.SaveChangesAsync(cancellationToken);
+
+            if (_emailService != null)
+            {
+                await _emailService.SendVendorApprovalNotificationEmailAsync(
+                    recipientEmail: application.ContactEmail,
+                    recipientName: application.OwnerFullName,
+                    cancellationToken: cancellationToken
+                );
+            }
+        }
 
         return new ApproveVendorApplicationResponseDto(
             application.Id,

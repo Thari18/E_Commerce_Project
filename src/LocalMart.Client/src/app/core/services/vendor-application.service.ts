@@ -5,11 +5,58 @@ import { environment } from '../../../environments/environment';
 
 export interface SubmitVendorApplicationRequest {
   applicantUserId?: string;
+
+  // 1. Owner & Identity Details (Private Verification Assets)
+  ownerFullName: string;
+  ownerEmail: string;
+  ownerPhone: string;
+  ownershipType: string; // Individual, Partnership, Company
+  residentialAddress?: string;
+  idType?: string; // NationalId, Passport, DrivingLicense
+  idNumber?: string;
+  ownerPhotoRef?: string; // Private verification asset
+  idDocumentRef?: string; // Private verification asset
+
+  // 2. Business & Tax Details
   businessName: string;
-  businessRegistrationNumber: string;
-  taxIdentificationNumber?: string;
+  businessType: string; // RetailShop, Grocery, Bakery, Restaurant, etc.
+  businessCategory: string;
+  businessRegistrationNumber?: string;
+  businessDescription?: string;
+  businessRegistrationDate?: string;
+  taxIdentificationNumber?: string; // TIN Number
+  vatRegistrationNumber?: string; // VAT Number (distinct from TIN)
   contactPhone: string;
   contactEmail: string;
+  websiteUrl?: string;
+  socialMediaUrl?: string;
+
+  // 3. Store Physical Location
+  addressLine1: string;
+  addressLine2?: string;
+  city: string;
+  district: string;
+  province: string;
+  postalCode: string;
+  latitude?: number;
+  longitude?: number;
+
+  // 4. Verification Documents (Private Verification Assets — Conditional based on policy)
+  businessRegistrationCertificateRef?: string;
+  tinCertificateRef?: string; // Document ref (distinct from TIN number)
+  tradeLicenceRef?: string;
+  otherLicenceRef?: string;
+
+  // 5. Store Profile Assets (Public Storefront)
+  storeFrontPhotoRef?: string;
+  businessNameboardPhotoRef?: string;
+  storeInteriorPhotoRef?: string;
+  storeLogoRef?: string;
+
+  // 6. Declarations
+  termsAccepted: boolean;
+  marketplacePolicyAccepted: boolean;
+  informationAccuracyConfirmed: boolean;
 }
 
 export interface VendorApplicationResponse {
@@ -31,11 +78,61 @@ export interface VendorApplicationDetail {
   id: string;
   applicantUserId: string;
   applicantName: string;
+
+  // Owner & Identity (Private Verification Assets)
+  ownerFullName: string;
+  ownerEmail: string;
+  ownerPhone: string;
+  ownershipType: string;
+  residentialAddress?: string;
+  idType?: string;
+  idNumber?: string;
+  ownerPhotoRef?: string;
+  idDocumentRef?: string;
+
+  // Business & Tax Details
   businessName: string;
-  businessRegistrationNumber: string;
+  businessType: string;
+  businessCategory: string;
+  businessRegistrationNumber?: string;
+  businessDescription?: string;
+  businessRegistrationDate?: string;
   taxIdentificationNumber?: string;
+  vatRegistrationNumber?: string;
   contactPhone: string;
   contactEmail: string;
+  websiteUrl?: string;
+  socialMediaUrl?: string;
+
+  // Store Physical Location
+  addressLine1: string;
+  addressLine2?: string;
+  city: string;
+  district: string;
+  province: string;
+  postalCode: string;
+  latitude?: number;
+  longitude?: number;
+
+  // Verification Documents (Private Verification Assets)
+  businessRegistrationCertificateRef?: string;
+  tinCertificateRef?: string;
+  tradeLicenceRef?: string;
+  otherLicenceRef?: string;
+
+  // Store Profile Assets (Public Storefront)
+  storeFrontPhotoRef?: string;
+  businessNameboardPhotoRef?: string;
+  storeInteriorPhotoRef?: string;
+  storeLogoRef?: string;
+
+  // Declarations & Audit
+  termsAccepted: boolean;
+  marketplacePolicyAccepted: boolean;
+  informationAccuracyConfirmed: boolean;
+  termsAcceptedAt?: string;
+
+  // Moderation Status
   status: string;
   rejectionReason?: string;
   reviewedByAdminId?: string;

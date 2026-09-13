@@ -58,4 +58,14 @@ export class AuthService {
   hasRole(roleName: string): boolean {
     return this.userRoles().includes(roleName);
   }
+
+  verifyVendorSetupToken(token: string): Observable<{ isValid: boolean; email?: string; reason?: string }> {
+    return this.http.get<{ isValid: boolean; email?: string; reason?: string }>(`${this.apiUrl}/vendor/verify-token`, {
+      params: { token }
+    });
+  }
+
+  setVendorPassword(request: { token: string; newPassword: string; confirmPassword: string }): Observable<{ success: boolean; message: string }> {
+    return this.http.post<{ success: boolean; message: string }>(`${this.apiUrl}/vendor/set-password`, request);
+  }
 }

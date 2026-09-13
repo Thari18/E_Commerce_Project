@@ -2,6 +2,7 @@ using System.Text;
 using LocalMart.Application.Common.Interfaces;
 using LocalMart.Infrastructure.Identity;
 using LocalMart.Infrastructure.Persistence;
+using LocalMart.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -29,16 +30,35 @@ public static class DependencyInjection
 
         services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
         services.AddTransient<IPasswordHasher, PasswordHasherAdapter>();
+        services.AddScoped<IEmailService, LoggingEmailService>();
+
+        // Frontend Application Settings
+        services.Configure<LocalMart.Application.Common.Models.FrontendSettings>(configuration.GetSection(LocalMart.Application.Common.Models.FrontendSettings.SectionName));
+
+        // JWT Settings Options & Token Generator
+        services.Configure<JwtSettings>(configuration.GetSection(JwtSettings.SectionName));
         services.AddTransient<IJwtTokenGenerator, JwtTokenGenerator>();
 
-        // Cloudinary Image Upload Service
-        services.Configure<LocalMart.Infrastructure.Services.CloudinarySettings>(configuration.GetSection("CloudinarySettings"));
-        services.AddScoped<IPhotoService, LocalMart.Infrastructure.Services.CloudinaryPhotoService>();
+        // Cloudinary Image Upload & Media Signing Services
+        services.Configure<CloudinarySettings>(configuration.GetSection("CloudinarySettings"));
+        services.AddScoped<IPhotoService, CloudinaryPhotoService>();
+        services.AddScoped<ICloudinaryMediaService, CloudinaryMediaService>();
 
-        // JWT Authentication Configuration
-        var secretKey = configuration["JwtSettings:Secret"] ?? "LocalMartSuperSecretKey2026LocationAwareMarketplaceKey!";
-        var issuer = configuration["JwtSettings:Issuer"] ?? "LocalMartAPI";
-        var audience = configuration["JwtSettings:Audience"] ?? "LocalMartClients";
+        // JWT Authentication Configuration - Strict Validation (No Fallback)
+        var jwtSection = configuration.GetSection(JwtSettings.SectionName);
+        var secretKey = jwtSection["Secret"];
+        var issuer = jwtSection["Issuer"] ?? "LocalMartAPI";
+        var audience = jwtSection["Audience"] ?? "LocalMartClients";
+
+        if (string.IsNullOrWhiteSpace(secretKey))
+        {
+            throw new InvalidOperationException("Application configuration error: JWT secret key is missing (JwtSettings:Secret). A secure key must be configured in environment variables or user secrets.");
+        }
+
+        if (Encoding.UTF8.GetBytes(secretKey).Length < 32)
+        {
+            throw new InvalidOperationException("Application configuration error: JWT secret key must be at least 256 bits (32 bytes) in length.");
+        }
 
         services.AddAuthentication(options =>
         {

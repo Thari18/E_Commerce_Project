@@ -3,33 +3,44 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using LocalMart.Application.Common.Interfaces;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 namespace LocalMart.Infrastructure.Identity;
 
 public class JwtTokenGenerator : IJwtTokenGenerator
 {
-    private readonly IConfiguration _configuration;
+    private readonly JwtSettings _jwtSettings;
 
-    public JwtTokenGenerator(IConfiguration configuration)
+    public JwtTokenGenerator(IOptions<JwtSettings> jwtOptions)
     {
-        _configuration = configuration;
+        _jwtSettings = jwtOptions?.Value ?? throw new ArgumentNullException(nameof(jwtOptions));
+
+        if (string.IsNullOrWhiteSpace(_jwtSettings.Secret))
+        {
+            throw new InvalidOperationException("JWT signing key is not configured. Secret must be provided in secure configuration.");
+        }
+
+        if (Encoding.UTF8.GetBytes(_jwtSettings.Secret).Length < 32)
+        {
+            throw new InvalidOperationException("JWT signing key must be at least 256 bits (32 bytes) in length.");
+        }
     }
 
     public string GenerateAccessToken(Guid userId, string email, IEnumerable<string> roles)
     {
-        var secretKey = _configuration["JwtSettings:Secret"] ?? "LocalMartSuperSecretKey2026LocationAwareMarketplaceKey!";
-        var issuer = _configuration["JwtSettings:Issuer"] ?? "LocalMartAPI";
-        var audience = _configuration["JwtSettings:Audience"] ?? "LocalMartClients";
-        var expiryMinutes = int.Parse(_configuration["JwtSettings:ExpiryMinutes"] ?? "60");
+        var now = DateTime.UtcNow;
+        var expiryMinutes = _jwtSettings.ExpiryMinutes > 0 ? _jwtSettings.ExpiryMinutes : 60;
+        var expires = now.AddMinutes(expiryMinutes);
 
         var claims = new List<Claim>
         {
             new(ClaimTypes.NameIdentifier, userId.ToString()),
             new(ClaimTypes.Email, email),
             new(JwtRegisteredClaimNames.Sub, userId.ToString()),
-            new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            new(JwtRegisteredClaimNames.Iss, _jwtSettings.Issuer),
+            new(JwtRegisteredClaimNames.Aud, _jwtSettings.Audience)
         };
 
         foreach (var role in roles)
@@ -37,14 +48,12 @@ public class JwtTokenGenerator : IJwtTokenGenerator
             claims.Add(new Claim(ClaimTypes.Role, role));
         }
 
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Secret));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-        var expires = DateTime.UtcNow.AddMinutes(expiryMinutes);
 
         var token = new JwtSecurityToken(
-            issuer: issuer,
-            audience: audience,
             claims: claims,
+            notBefore: now,
             expires: expires,
             signingCredentials: creds
         );
