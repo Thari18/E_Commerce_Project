@@ -30,6 +30,10 @@ public static class DependencyInjection
         services.AddTransient<IPasswordHasher, PasswordHasherAdapter>();
         services.AddTransient<IJwtTokenGenerator, JwtTokenGenerator>();
 
+        // Cloudinary Image Upload Service
+        services.Configure<LocalMart.Infrastructure.Services.CloudinarySettings>(configuration.GetSection("CloudinarySettings"));
+        services.AddScoped<IPhotoService, LocalMart.Infrastructure.Services.CloudinaryPhotoService>();
+
         // JWT Authentication Configuration
         var secretKey = configuration["JwtSettings:Secret"] ?? "LocalMartSuperSecretKey2026LocationAwareMarketplaceKey!";
         var issuer = configuration["JwtSettings:Issuer"] ?? "LocalMartAPI";
