@@ -2,12 +2,13 @@ import { Injectable, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { AuthResponse, LoginRequest, RegisterRequest, UserProfile } from '../models/auth.models';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private readonly apiUrl = 'http://localhost:5212/api/v1/auth';
+  private readonly apiUrl = `${environment.apiUrl}/auth`;
   
   // Angular Signal State
   readonly currentUser = signal<UserProfile | null>(this.loadUserFromStorage());

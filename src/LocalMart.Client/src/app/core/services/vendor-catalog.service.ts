@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 export interface CreateProductRequest {
   categoryId: string;
@@ -80,7 +81,7 @@ export interface UpdateInventoryResponse {
   providedIn: 'root'
 })
 export class VendorCatalogService {
-  private readonly baseUrl = 'http://localhost:5212/api/v1/vendor';
+  private readonly baseUrl = `${environment.apiUrl}/vendor`;
 
   constructor(private http: HttpClient) {}
 

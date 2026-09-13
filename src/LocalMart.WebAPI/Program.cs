@@ -3,6 +3,8 @@ using LocalMart.Infrastructure;
 using LocalMart.Infrastructure.Persistence;
 using LocalMart.WebAPI.Middleware;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -94,8 +96,19 @@ using (var scope = app.Services.CreateScope())
     var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     var hasher = scope.ServiceProvider.GetRequiredService<LocalMart.Application.Common.Interfaces.IPasswordHasher>();
     
-    // Ensure DB Created
-    context.Database.EnsureCreated();
+    // Ensure Database & Tables Created for PostgreSQL
+    var dbCreator = context.Database.GetService<IRelationalDatabaseCreator>();
+    if (dbCreator != null)
+    {
+        if (!dbCreator.Exists())
+        {
+            dbCreator.Create();
+        }
+        if (!dbCreator.HasTables())
+        {
+            dbCreator.CreateTables();
+        }
+    }
 
     // Seed Roles
     var roles = new[] { "Customer", "Vendor", "Admin", "Delivery Staff" };

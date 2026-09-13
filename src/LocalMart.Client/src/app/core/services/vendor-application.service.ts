@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 export interface SubmitVendorApplicationRequest {
   applicantUserId?: string;
@@ -46,7 +47,7 @@ export interface VendorApplicationDetail {
   providedIn: 'root'
 })
 export class VendorApplicationService {
-  private apiUrl = 'http://localhost:5212/api/v1';
+  private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 
