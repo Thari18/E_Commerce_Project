@@ -1,0 +1,4056 @@
+{
+  "audit_logs": {
+    "Columns": [
+      {
+        "Name": "Id",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "ActorId",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "Action",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "EntityName",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "EntityId",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "OldValuesJson",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "NewValuesJson",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "IpAddress",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "CreatedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "UpdatedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      }
+    ],
+    "Constraints": [
+      {
+        "ConstraintName": "FK_audit_logs_users_ActorId",
+        "Type": "FOREIGN KEY",
+        "Column": "ActorId",
+        "ForeignTable": "users",
+        "ForeignColumn": "Id",
+        "DeleteRule": "CASCADE"
+      },
+      {
+        "ConstraintName": "PK_audit_logs",
+        "Type": "PRIMARY KEY",
+        "Column": "Id",
+        "ForeignTable": "audit_logs",
+        "ForeignColumn": "Id",
+        "DeleteRule": null
+      }
+    ],
+    "Indexes": [
+      {
+        "IndexName": "IX_audit_logs_ActorId",
+        "IndexDef": "CREATE INDEX \u0022IX_audit_logs_ActorId\u0022 ON public.audit_logs USING btree (\u0022ActorId\u0022)"
+      },
+      {
+        "IndexName": "PK_audit_logs",
+        "IndexDef": "CREATE UNIQUE INDEX \u0022PK_audit_logs\u0022 ON public.audit_logs USING btree (\u0022Id\u0022)"
+      }
+    ]
+  },
+  "cart_items": {
+    "Columns": [
+      {
+        "Name": "Id",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "CartId",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "ProductId",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "Quantity",
+        "DataType": "integer",
+        "UdtName": "int4",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": 32,
+        "Scale": 0
+      },
+      {
+        "Name": "UnitPrice",
+        "DataType": "numeric",
+        "UdtName": "numeric",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": 12,
+        "Scale": 2
+      },
+      {
+        "Name": "CreatedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "UpdatedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      }
+    ],
+    "Constraints": [
+      {
+        "ConstraintName": "FK_cart_items_carts_CartId",
+        "Type": "FOREIGN KEY",
+        "Column": "CartId",
+        "ForeignTable": "carts",
+        "ForeignColumn": "Id",
+        "DeleteRule": "CASCADE"
+      },
+      {
+        "ConstraintName": "FK_cart_items_products_ProductId",
+        "Type": "FOREIGN KEY",
+        "Column": "ProductId",
+        "ForeignTable": "products",
+        "ForeignColumn": "Id",
+        "DeleteRule": "CASCADE"
+      },
+      {
+        "ConstraintName": "PK_cart_items",
+        "Type": "PRIMARY KEY",
+        "Column": "Id",
+        "ForeignTable": "cart_items",
+        "ForeignColumn": "Id",
+        "DeleteRule": null
+      }
+    ],
+    "Indexes": [
+      {
+        "IndexName": "IX_cart_items_CartId",
+        "IndexDef": "CREATE INDEX \u0022IX_cart_items_CartId\u0022 ON public.cart_items USING btree (\u0022CartId\u0022)"
+      },
+      {
+        "IndexName": "IX_cart_items_ProductId",
+        "IndexDef": "CREATE INDEX \u0022IX_cart_items_ProductId\u0022 ON public.cart_items USING btree (\u0022ProductId\u0022)"
+      },
+      {
+        "IndexName": "PK_cart_items",
+        "IndexDef": "CREATE UNIQUE INDEX \u0022PK_cart_items\u0022 ON public.cart_items USING btree (\u0022Id\u0022)"
+      }
+    ]
+  },
+  "carts": {
+    "Columns": [
+      {
+        "Name": "Id",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "CustomerId",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "CreatedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "UpdatedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      }
+    ],
+    "Constraints": [
+      {
+        "ConstraintName": "FK_carts_users_CustomerId",
+        "Type": "FOREIGN KEY",
+        "Column": "CustomerId",
+        "ForeignTable": "users",
+        "ForeignColumn": "Id",
+        "DeleteRule": "CASCADE"
+      },
+      {
+        "ConstraintName": "PK_carts",
+        "Type": "PRIMARY KEY",
+        "Column": "Id",
+        "ForeignTable": "carts",
+        "ForeignColumn": "Id",
+        "DeleteRule": null
+      }
+    ],
+    "Indexes": [
+      {
+        "IndexName": "IX_carts_CustomerId",
+        "IndexDef": "CREATE INDEX \u0022IX_carts_CustomerId\u0022 ON public.carts USING btree (\u0022CustomerId\u0022)"
+      },
+      {
+        "IndexName": "PK_carts",
+        "IndexDef": "CREATE UNIQUE INDEX \u0022PK_carts\u0022 ON public.carts USING btree (\u0022Id\u0022)"
+      }
+    ]
+  },
+  "categories": {
+    "Columns": [
+      {
+        "Name": "Id",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "ParentCategoryId",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "Name",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "Slug",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "Description",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "ImageUrl",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "DisplayOrder",
+        "DataType": "integer",
+        "UdtName": "int4",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": 32,
+        "Scale": 0
+      },
+      {
+        "Name": "IsActive",
+        "DataType": "boolean",
+        "UdtName": "bool",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "CreatedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "UpdatedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      }
+    ],
+    "Constraints": [
+      {
+        "ConstraintName": "FK_categories_categories_ParentCategoryId",
+        "Type": "FOREIGN KEY",
+        "Column": "ParentCategoryId",
+        "ForeignTable": "categories",
+        "ForeignColumn": "Id",
+        "DeleteRule": "NO ACTION"
+      },
+      {
+        "ConstraintName": "PK_categories",
+        "Type": "PRIMARY KEY",
+        "Column": "Id",
+        "ForeignTable": "categories",
+        "ForeignColumn": "Id",
+        "DeleteRule": null
+      }
+    ],
+    "Indexes": [
+      {
+        "IndexName": "IX_categories_ParentCategoryId",
+        "IndexDef": "CREATE INDEX \u0022IX_categories_ParentCategoryId\u0022 ON public.categories USING btree (\u0022ParentCategoryId\u0022)"
+      },
+      {
+        "IndexName": "IX_categories_Slug",
+        "IndexDef": "CREATE UNIQUE INDEX \u0022IX_categories_Slug\u0022 ON public.categories USING btree (\u0022Slug\u0022)"
+      },
+      {
+        "IndexName": "PK_categories",
+        "IndexDef": "CREATE UNIQUE INDEX \u0022PK_categories\u0022 ON public.categories USING btree (\u0022Id\u0022)"
+      }
+    ]
+  },
+  "coupon_usages": {
+    "Columns": [
+      {
+        "Name": "Id",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "CouponId",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "CustomerId",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "OrderId",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "DiscountApplied",
+        "DataType": "numeric",
+        "UdtName": "numeric",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": 12,
+        "Scale": 2
+      },
+      {
+        "Name": "UsedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "CreatedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "UpdatedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      }
+    ],
+    "Constraints": [
+      {
+        "ConstraintName": "FK_coupon_usages_coupons_CouponId",
+        "Type": "FOREIGN KEY",
+        "Column": "CouponId",
+        "ForeignTable": "coupons",
+        "ForeignColumn": "Id",
+        "DeleteRule": "CASCADE"
+      },
+      {
+        "ConstraintName": "FK_coupon_usages_orders_OrderId",
+        "Type": "FOREIGN KEY",
+        "Column": "OrderId",
+        "ForeignTable": "orders",
+        "ForeignColumn": "Id",
+        "DeleteRule": "CASCADE"
+      },
+      {
+        "ConstraintName": "FK_coupon_usages_users_CustomerId",
+        "Type": "FOREIGN KEY",
+        "Column": "CustomerId",
+        "ForeignTable": "users",
+        "ForeignColumn": "Id",
+        "DeleteRule": "CASCADE"
+      },
+      {
+        "ConstraintName": "PK_coupon_usages",
+        "Type": "PRIMARY KEY",
+        "Column": "Id",
+        "ForeignTable": "coupon_usages",
+        "ForeignColumn": "Id",
+        "DeleteRule": null
+      }
+    ],
+    "Indexes": [
+      {
+        "IndexName": "IX_coupon_usages_CouponId",
+        "IndexDef": "CREATE INDEX \u0022IX_coupon_usages_CouponId\u0022 ON public.coupon_usages USING btree (\u0022CouponId\u0022)"
+      },
+      {
+        "IndexName": "IX_coupon_usages_CustomerId",
+        "IndexDef": "CREATE INDEX \u0022IX_coupon_usages_CustomerId\u0022 ON public.coupon_usages USING btree (\u0022CustomerId\u0022)"
+      },
+      {
+        "IndexName": "IX_coupon_usages_OrderId",
+        "IndexDef": "CREATE INDEX \u0022IX_coupon_usages_OrderId\u0022 ON public.coupon_usages USING btree (\u0022OrderId\u0022)"
+      },
+      {
+        "IndexName": "PK_coupon_usages",
+        "IndexDef": "CREATE UNIQUE INDEX \u0022PK_coupon_usages\u0022 ON public.coupon_usages USING btree (\u0022Id\u0022)"
+      }
+    ]
+  },
+  "coupons": {
+    "Columns": [
+      {
+        "Name": "Id",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "Code",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "DiscountType",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "DiscountValue",
+        "DataType": "numeric",
+        "UdtName": "numeric",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": 12,
+        "Scale": 2
+      },
+      {
+        "Name": "MinOrderAmount",
+        "DataType": "numeric",
+        "UdtName": "numeric",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": 12,
+        "Scale": 2
+      },
+      {
+        "Name": "MaxDiscountAmount",
+        "DataType": "numeric",
+        "UdtName": "numeric",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": 12,
+        "Scale": 2
+      },
+      {
+        "Name": "MaxUses",
+        "DataType": "integer",
+        "UdtName": "int4",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": 32,
+        "Scale": 0
+      },
+      {
+        "Name": "UsedCount",
+        "DataType": "integer",
+        "UdtName": "int4",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": 32,
+        "Scale": 0
+      },
+      {
+        "Name": "StartDate",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "EndDate",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "IsActive",
+        "DataType": "boolean",
+        "UdtName": "bool",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "CreatedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "UpdatedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      }
+    ],
+    "Constraints": [
+      {
+        "ConstraintName": "PK_coupons",
+        "Type": "PRIMARY KEY",
+        "Column": "Id",
+        "ForeignTable": "coupons",
+        "ForeignColumn": "Id",
+        "DeleteRule": null
+      }
+    ],
+    "Indexes": [
+      {
+        "IndexName": "IX_coupons_Code",
+        "IndexDef": "CREATE UNIQUE INDEX \u0022IX_coupons_Code\u0022 ON public.coupons USING btree (\u0022Code\u0022)"
+      },
+      {
+        "IndexName": "PK_coupons",
+        "IndexDef": "CREATE UNIQUE INDEX \u0022PK_coupons\u0022 ON public.coupons USING btree (\u0022Id\u0022)"
+      }
+    ]
+  },
+  "customer_addresses": {
+    "Columns": [
+      {
+        "Name": "Id",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "CustomerId",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "Title",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "AddressLine1",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "AddressLine2",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "City",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "State",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "PostalCode",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "Latitude",
+        "DataType": "double precision",
+        "UdtName": "float8",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": 53,
+        "Scale": null
+      },
+      {
+        "Name": "Longitude",
+        "DataType": "double precision",
+        "UdtName": "float8",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": 53,
+        "Scale": null
+      },
+      {
+        "Name": "IsDefault",
+        "DataType": "boolean",
+        "UdtName": "bool",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "CreatedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "UpdatedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      }
+    ],
+    "Constraints": [
+      {
+        "ConstraintName": "FK_customer_addresses_users_CustomerId",
+        "Type": "FOREIGN KEY",
+        "Column": "CustomerId",
+        "ForeignTable": "users",
+        "ForeignColumn": "Id",
+        "DeleteRule": "CASCADE"
+      },
+      {
+        "ConstraintName": "PK_customer_addresses",
+        "Type": "PRIMARY KEY",
+        "Column": "Id",
+        "ForeignTable": "customer_addresses",
+        "ForeignColumn": "Id",
+        "DeleteRule": null
+      }
+    ],
+    "Indexes": [
+      {
+        "IndexName": "IX_customer_addresses_CustomerId",
+        "IndexDef": "CREATE INDEX \u0022IX_customer_addresses_CustomerId\u0022 ON public.customer_addresses USING btree (\u0022CustomerId\u0022)"
+      },
+      {
+        "IndexName": "PK_customer_addresses",
+        "IndexDef": "CREATE UNIQUE INDEX \u0022PK_customer_addresses\u0022 ON public.customer_addresses USING btree (\u0022Id\u0022)"
+      }
+    ]
+  },
+  "delivery_assignments": {
+    "Columns": [
+      {
+        "Name": "Id",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "VendorOrderId",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "DeliveryStaffId",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "Status",
+        "DataType": "integer",
+        "UdtName": "int4",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": 32,
+        "Scale": 0
+      },
+      {
+        "Name": "AssignedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "PickedUpAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "DeliveredAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "CreatedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "UpdatedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      }
+    ],
+    "Constraints": [
+      {
+        "ConstraintName": "FK_delivery_assignments_users_DeliveryStaffId",
+        "Type": "FOREIGN KEY",
+        "Column": "DeliveryStaffId",
+        "ForeignTable": "users",
+        "ForeignColumn": "Id",
+        "DeleteRule": "CASCADE"
+      },
+      {
+        "ConstraintName": "FK_delivery_assignments_vendor_orders_VendorOrderId",
+        "Type": "FOREIGN KEY",
+        "Column": "VendorOrderId",
+        "ForeignTable": "vendor_orders",
+        "ForeignColumn": "Id",
+        "DeleteRule": "CASCADE"
+      },
+      {
+        "ConstraintName": "PK_delivery_assignments",
+        "Type": "PRIMARY KEY",
+        "Column": "Id",
+        "ForeignTable": "delivery_assignments",
+        "ForeignColumn": "Id",
+        "DeleteRule": null
+      }
+    ],
+    "Indexes": [
+      {
+        "IndexName": "IX_delivery_assignments_DeliveryStaffId",
+        "IndexDef": "CREATE INDEX \u0022IX_delivery_assignments_DeliveryStaffId\u0022 ON public.delivery_assignments USING btree (\u0022DeliveryStaffId\u0022)"
+      },
+      {
+        "IndexName": "IX_delivery_assignments_VendorOrderId",
+        "IndexDef": "CREATE UNIQUE INDEX \u0022IX_delivery_assignments_VendorOrderId\u0022 ON public.delivery_assignments USING btree (\u0022VendorOrderId\u0022)"
+      },
+      {
+        "IndexName": "PK_delivery_assignments",
+        "IndexDef": "CREATE UNIQUE INDEX \u0022PK_delivery_assignments\u0022 ON public.delivery_assignments USING btree (\u0022Id\u0022)"
+      }
+    ]
+  },
+  "inventories": {
+    "Columns": [
+      {
+        "Name": "Id",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "ProductId",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "QuantityAvailable",
+        "DataType": "integer",
+        "UdtName": "int4",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": 32,
+        "Scale": 0
+      },
+      {
+        "Name": "QuantityReserved",
+        "DataType": "integer",
+        "UdtName": "int4",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": 32,
+        "Scale": 0
+      },
+      {
+        "Name": "LowStockThreshold",
+        "DataType": "integer",
+        "UdtName": "int4",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": 32,
+        "Scale": 0
+      },
+      {
+        "Name": "CreatedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "UpdatedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      }
+    ],
+    "Constraints": [
+      {
+        "ConstraintName": "FK_inventories_products_ProductId",
+        "Type": "FOREIGN KEY",
+        "Column": "ProductId",
+        "ForeignTable": "products",
+        "ForeignColumn": "Id",
+        "DeleteRule": "CASCADE"
+      },
+      {
+        "ConstraintName": "PK_inventories",
+        "Type": "PRIMARY KEY",
+        "Column": "Id",
+        "ForeignTable": "inventories",
+        "ForeignColumn": "Id",
+        "DeleteRule": null
+      }
+    ],
+    "Indexes": [
+      {
+        "IndexName": "IX_inventories_ProductId",
+        "IndexDef": "CREATE UNIQUE INDEX \u0022IX_inventories_ProductId\u0022 ON public.inventories USING btree (\u0022ProductId\u0022)"
+      },
+      {
+        "IndexName": "PK_inventories",
+        "IndexDef": "CREATE UNIQUE INDEX \u0022PK_inventories\u0022 ON public.inventories USING btree (\u0022Id\u0022)"
+      }
+    ]
+  },
+  "inventory_logs": {
+    "Columns": [
+      {
+        "Name": "Id",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "InventoryId",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "ChangeQuantity",
+        "DataType": "integer",
+        "UdtName": "int4",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": 32,
+        "Scale": 0
+      },
+      {
+        "Name": "PreviousQuantity",
+        "DataType": "integer",
+        "UdtName": "int4",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": 32,
+        "Scale": 0
+      },
+      {
+        "Name": "NewQuantity",
+        "DataType": "integer",
+        "UdtName": "int4",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": 32,
+        "Scale": 0
+      },
+      {
+        "Name": "Reason",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "CreatedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "UpdatedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      }
+    ],
+    "Constraints": [
+      {
+        "ConstraintName": "FK_inventory_logs_inventories_InventoryId",
+        "Type": "FOREIGN KEY",
+        "Column": "InventoryId",
+        "ForeignTable": "inventories",
+        "ForeignColumn": "Id",
+        "DeleteRule": "CASCADE"
+      },
+      {
+        "ConstraintName": "PK_inventory_logs",
+        "Type": "PRIMARY KEY",
+        "Column": "Id",
+        "ForeignTable": "inventory_logs",
+        "ForeignColumn": "Id",
+        "DeleteRule": null
+      }
+    ],
+    "Indexes": [
+      {
+        "IndexName": "IX_inventory_logs_InventoryId",
+        "IndexDef": "CREATE INDEX \u0022IX_inventory_logs_InventoryId\u0022 ON public.inventory_logs USING btree (\u0022InventoryId\u0022)"
+      },
+      {
+        "IndexName": "PK_inventory_logs",
+        "IndexDef": "CREATE UNIQUE INDEX \u0022PK_inventory_logs\u0022 ON public.inventory_logs USING btree (\u0022Id\u0022)"
+      }
+    ]
+  },
+  "notifications": {
+    "Columns": [
+      {
+        "Name": "Id",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "UserId",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "Title",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "Message",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "Type",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "IsRead",
+        "DataType": "boolean",
+        "UdtName": "bool",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "CreatedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "UpdatedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      }
+    ],
+    "Constraints": [
+      {
+        "ConstraintName": "FK_notifications_users_UserId",
+        "Type": "FOREIGN KEY",
+        "Column": "UserId",
+        "ForeignTable": "users",
+        "ForeignColumn": "Id",
+        "DeleteRule": "CASCADE"
+      },
+      {
+        "ConstraintName": "PK_notifications",
+        "Type": "PRIMARY KEY",
+        "Column": "Id",
+        "ForeignTable": "notifications",
+        "ForeignColumn": "Id",
+        "DeleteRule": null
+      }
+    ],
+    "Indexes": [
+      {
+        "IndexName": "IX_notifications_UserId",
+        "IndexDef": "CREATE INDEX \u0022IX_notifications_UserId\u0022 ON public.notifications USING btree (\u0022UserId\u0022)"
+      },
+      {
+        "IndexName": "PK_notifications",
+        "IndexDef": "CREATE UNIQUE INDEX \u0022PK_notifications\u0022 ON public.notifications USING btree (\u0022Id\u0022)"
+      }
+    ]
+  },
+  "order_items": {
+    "Columns": [
+      {
+        "Name": "Id",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "VendorOrderId",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "ProductId",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "ProductName",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "UnitPrice",
+        "DataType": "numeric",
+        "UdtName": "numeric",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": 12,
+        "Scale": 2
+      },
+      {
+        "Name": "Quantity",
+        "DataType": "integer",
+        "UdtName": "int4",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": 32,
+        "Scale": 0
+      },
+      {
+        "Name": "TotalPrice",
+        "DataType": "numeric",
+        "UdtName": "numeric",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": 12,
+        "Scale": 2
+      },
+      {
+        "Name": "CreatedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "UpdatedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      }
+    ],
+    "Constraints": [
+      {
+        "ConstraintName": "FK_order_items_products_ProductId",
+        "Type": "FOREIGN KEY",
+        "Column": "ProductId",
+        "ForeignTable": "products",
+        "ForeignColumn": "Id",
+        "DeleteRule": "CASCADE"
+      },
+      {
+        "ConstraintName": "FK_order_items_vendor_orders_VendorOrderId",
+        "Type": "FOREIGN KEY",
+        "Column": "VendorOrderId",
+        "ForeignTable": "vendor_orders",
+        "ForeignColumn": "Id",
+        "DeleteRule": "CASCADE"
+      },
+      {
+        "ConstraintName": "PK_order_items",
+        "Type": "PRIMARY KEY",
+        "Column": "Id",
+        "ForeignTable": "order_items",
+        "ForeignColumn": "Id",
+        "DeleteRule": null
+      }
+    ],
+    "Indexes": [
+      {
+        "IndexName": "IX_order_items_ProductId",
+        "IndexDef": "CREATE INDEX \u0022IX_order_items_ProductId\u0022 ON public.order_items USING btree (\u0022ProductId\u0022)"
+      },
+      {
+        "IndexName": "IX_order_items_VendorOrderId",
+        "IndexDef": "CREATE INDEX \u0022IX_order_items_VendorOrderId\u0022 ON public.order_items USING btree (\u0022VendorOrderId\u0022)"
+      },
+      {
+        "IndexName": "PK_order_items",
+        "IndexDef": "CREATE UNIQUE INDEX \u0022PK_order_items\u0022 ON public.order_items USING btree (\u0022Id\u0022)"
+      }
+    ]
+  },
+  "orders": {
+    "Columns": [
+      {
+        "Name": "Id",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "CustomerId",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "OrderNumber",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "ShippingAddressId",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "SubTotal",
+        "DataType": "numeric",
+        "UdtName": "numeric",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": 12,
+        "Scale": 2
+      },
+      {
+        "Name": "DiscountAmount",
+        "DataType": "numeric",
+        "UdtName": "numeric",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": 12,
+        "Scale": 2
+      },
+      {
+        "Name": "DeliveryFee",
+        "DataType": "numeric",
+        "UdtName": "numeric",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": 12,
+        "Scale": 2
+      },
+      {
+        "Name": "GrandTotal",
+        "DataType": "numeric",
+        "UdtName": "numeric",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": 12,
+        "Scale": 2
+      },
+      {
+        "Name": "PaymentStatus",
+        "DataType": "integer",
+        "UdtName": "int4",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": 32,
+        "Scale": 0
+      },
+      {
+        "Name": "PaymentMethod",
+        "DataType": "integer",
+        "UdtName": "int4",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": 32,
+        "Scale": 0
+      },
+      {
+        "Name": "CreatedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "UpdatedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      }
+    ],
+    "Constraints": [
+      {
+        "ConstraintName": "FK_orders_customer_addresses_ShippingAddressId",
+        "Type": "FOREIGN KEY",
+        "Column": "ShippingAddressId",
+        "ForeignTable": "customer_addresses",
+        "ForeignColumn": "Id",
+        "DeleteRule": "CASCADE"
+      },
+      {
+        "ConstraintName": "FK_orders_users_CustomerId",
+        "Type": "FOREIGN KEY",
+        "Column": "CustomerId",
+        "ForeignTable": "users",
+        "ForeignColumn": "Id",
+        "DeleteRule": "CASCADE"
+      },
+      {
+        "ConstraintName": "PK_orders",
+        "Type": "PRIMARY KEY",
+        "Column": "Id",
+        "ForeignTable": "orders",
+        "ForeignColumn": "Id",
+        "DeleteRule": null
+      }
+    ],
+    "Indexes": [
+      {
+        "IndexName": "IX_orders_CustomerId",
+        "IndexDef": "CREATE INDEX \u0022IX_orders_CustomerId\u0022 ON public.orders USING btree (\u0022CustomerId\u0022)"
+      },
+      {
+        "IndexName": "IX_orders_OrderNumber",
+        "IndexDef": "CREATE UNIQUE INDEX \u0022IX_orders_OrderNumber\u0022 ON public.orders USING btree (\u0022OrderNumber\u0022)"
+      },
+      {
+        "IndexName": "IX_orders_ShippingAddressId",
+        "IndexDef": "CREATE INDEX \u0022IX_orders_ShippingAddressId\u0022 ON public.orders USING btree (\u0022ShippingAddressId\u0022)"
+      },
+      {
+        "IndexName": "PK_orders",
+        "IndexDef": "CREATE UNIQUE INDEX \u0022PK_orders\u0022 ON public.orders USING btree (\u0022Id\u0022)"
+      }
+    ]
+  },
+  "payment_transactions": {
+    "Columns": [
+      {
+        "Name": "Id",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "PaymentId",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "TransactionType",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "Amount",
+        "DataType": "numeric",
+        "UdtName": "numeric",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": 12,
+        "Scale": 2
+      },
+      {
+        "Name": "Status",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "PayloadJson",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "CreatedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "UpdatedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      }
+    ],
+    "Constraints": [
+      {
+        "ConstraintName": "FK_payment_transactions_payments_PaymentId",
+        "Type": "FOREIGN KEY",
+        "Column": "PaymentId",
+        "ForeignTable": "payments",
+        "ForeignColumn": "Id",
+        "DeleteRule": "CASCADE"
+      },
+      {
+        "ConstraintName": "PK_payment_transactions",
+        "Type": "PRIMARY KEY",
+        "Column": "Id",
+        "ForeignTable": "payment_transactions",
+        "ForeignColumn": "Id",
+        "DeleteRule": null
+      }
+    ],
+    "Indexes": [
+      {
+        "IndexName": "IX_payment_transactions_PaymentId",
+        "IndexDef": "CREATE INDEX \u0022IX_payment_transactions_PaymentId\u0022 ON public.payment_transactions USING btree (\u0022PaymentId\u0022)"
+      },
+      {
+        "IndexName": "PK_payment_transactions",
+        "IndexDef": "CREATE UNIQUE INDEX \u0022PK_payment_transactions\u0022 ON public.payment_transactions USING btree (\u0022Id\u0022)"
+      }
+    ]
+  },
+  "payments": {
+    "Columns": [
+      {
+        "Name": "Id",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "OrderId",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "Amount",
+        "DataType": "numeric",
+        "UdtName": "numeric",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": 12,
+        "Scale": 2
+      },
+      {
+        "Name": "PaymentMethod",
+        "DataType": "integer",
+        "UdtName": "int4",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": 32,
+        "Scale": 0
+      },
+      {
+        "Name": "PaymentStatus",
+        "DataType": "integer",
+        "UdtName": "int4",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": 32,
+        "Scale": 0
+      },
+      {
+        "Name": "GatewayTransactionId",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "CreatedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "UpdatedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      }
+    ],
+    "Constraints": [
+      {
+        "ConstraintName": "FK_payments_orders_OrderId",
+        "Type": "FOREIGN KEY",
+        "Column": "OrderId",
+        "ForeignTable": "orders",
+        "ForeignColumn": "Id",
+        "DeleteRule": "CASCADE"
+      },
+      {
+        "ConstraintName": "PK_payments",
+        "Type": "PRIMARY KEY",
+        "Column": "Id",
+        "ForeignTable": "payments",
+        "ForeignColumn": "Id",
+        "DeleteRule": null
+      }
+    ],
+    "Indexes": [
+      {
+        "IndexName": "IX_payments_OrderId",
+        "IndexDef": "CREATE UNIQUE INDEX \u0022IX_payments_OrderId\u0022 ON public.payments USING btree (\u0022OrderId\u0022)"
+      },
+      {
+        "IndexName": "PK_payments",
+        "IndexDef": "CREATE UNIQUE INDEX \u0022PK_payments\u0022 ON public.payments USING btree (\u0022Id\u0022)"
+      }
+    ]
+  },
+  "permissions": {
+    "Columns": [
+      {
+        "Name": "Id",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "Name",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "Description",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "CreatedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "UpdatedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      }
+    ],
+    "Constraints": [
+      {
+        "ConstraintName": "PK_permissions",
+        "Type": "PRIMARY KEY",
+        "Column": "Id",
+        "ForeignTable": "permissions",
+        "ForeignColumn": "Id",
+        "DeleteRule": null
+      }
+    ],
+    "Indexes": [
+      {
+        "IndexName": "PK_permissions",
+        "IndexDef": "CREATE UNIQUE INDEX \u0022PK_permissions\u0022 ON public.permissions USING btree (\u0022Id\u0022)"
+      }
+    ]
+  },
+  "product_images": {
+    "Columns": [
+      {
+        "Name": "Id",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "ProductId",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "ImageUrl",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "DisplayOrder",
+        "DataType": "integer",
+        "UdtName": "int4",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": 32,
+        "Scale": 0
+      },
+      {
+        "Name": "IsMain",
+        "DataType": "boolean",
+        "UdtName": "bool",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "CreatedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "UpdatedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      }
+    ],
+    "Constraints": [
+      {
+        "ConstraintName": "FK_product_images_products_ProductId",
+        "Type": "FOREIGN KEY",
+        "Column": "ProductId",
+        "ForeignTable": "products",
+        "ForeignColumn": "Id",
+        "DeleteRule": "CASCADE"
+      },
+      {
+        "ConstraintName": "PK_product_images",
+        "Type": "PRIMARY KEY",
+        "Column": "Id",
+        "ForeignTable": "product_images",
+        "ForeignColumn": "Id",
+        "DeleteRule": null
+      }
+    ],
+    "Indexes": [
+      {
+        "IndexName": "IX_product_images_ProductId",
+        "IndexDef": "CREATE INDEX \u0022IX_product_images_ProductId\u0022 ON public.product_images USING btree (\u0022ProductId\u0022)"
+      },
+      {
+        "IndexName": "PK_product_images",
+        "IndexDef": "CREATE UNIQUE INDEX \u0022PK_product_images\u0022 ON public.product_images USING btree (\u0022Id\u0022)"
+      }
+    ]
+  },
+  "products": {
+    "Columns": [
+      {
+        "Name": "Id",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "VendorId",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "CategoryId",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "Name",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "Slug",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "Description",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "Price",
+        "DataType": "numeric",
+        "UdtName": "numeric",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": 12,
+        "Scale": 2
+      },
+      {
+        "Name": "SKU",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "Status",
+        "DataType": "integer",
+        "UdtName": "int4",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": 32,
+        "Scale": 0
+      },
+      {
+        "Name": "CreatedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "UpdatedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      }
+    ],
+    "Constraints": [
+      {
+        "ConstraintName": "FK_products_categories_CategoryId",
+        "Type": "FOREIGN KEY",
+        "Column": "CategoryId",
+        "ForeignTable": "categories",
+        "ForeignColumn": "Id",
+        "DeleteRule": "CASCADE"
+      },
+      {
+        "ConstraintName": "FK_products_vendors_VendorId",
+        "Type": "FOREIGN KEY",
+        "Column": "VendorId",
+        "ForeignTable": "vendors",
+        "ForeignColumn": "Id",
+        "DeleteRule": "CASCADE"
+      },
+      {
+        "ConstraintName": "PK_products",
+        "Type": "PRIMARY KEY",
+        "Column": "Id",
+        "ForeignTable": "products",
+        "ForeignColumn": "Id",
+        "DeleteRule": null
+      }
+    ],
+    "Indexes": [
+      {
+        "IndexName": "IX_products_CategoryId",
+        "IndexDef": "CREATE INDEX \u0022IX_products_CategoryId\u0022 ON public.products USING btree (\u0022CategoryId\u0022)"
+      },
+      {
+        "IndexName": "IX_products_SKU",
+        "IndexDef": "CREATE INDEX \u0022IX_products_SKU\u0022 ON public.products USING btree (\u0022SKU\u0022)"
+      },
+      {
+        "IndexName": "IX_products_Slug",
+        "IndexDef": "CREATE INDEX \u0022IX_products_Slug\u0022 ON public.products USING btree (\u0022Slug\u0022)"
+      },
+      {
+        "IndexName": "IX_products_VendorId",
+        "IndexDef": "CREATE INDEX \u0022IX_products_VendorId\u0022 ON public.products USING btree (\u0022VendorId\u0022)"
+      },
+      {
+        "IndexName": "PK_products",
+        "IndexDef": "CREATE UNIQUE INDEX \u0022PK_products\u0022 ON public.products USING btree (\u0022Id\u0022)"
+      }
+    ]
+  },
+  "refresh_tokens": {
+    "Columns": [
+      {
+        "Name": "Id",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "UserId",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "Token",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "ExpiresAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "IsRevoked",
+        "DataType": "boolean",
+        "UdtName": "bool",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "RevokedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "CreatedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "UpdatedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      }
+    ],
+    "Constraints": [
+      {
+        "ConstraintName": "FK_refresh_tokens_users_UserId",
+        "Type": "FOREIGN KEY",
+        "Column": "UserId",
+        "ForeignTable": "users",
+        "ForeignColumn": "Id",
+        "DeleteRule": "CASCADE"
+      },
+      {
+        "ConstraintName": "PK_refresh_tokens",
+        "Type": "PRIMARY KEY",
+        "Column": "Id",
+        "ForeignTable": "refresh_tokens",
+        "ForeignColumn": "Id",
+        "DeleteRule": null
+      }
+    ],
+    "Indexes": [
+      {
+        "IndexName": "IX_refresh_tokens_UserId",
+        "IndexDef": "CREATE INDEX \u0022IX_refresh_tokens_UserId\u0022 ON public.refresh_tokens USING btree (\u0022UserId\u0022)"
+      },
+      {
+        "IndexName": "PK_refresh_tokens",
+        "IndexDef": "CREATE UNIQUE INDEX \u0022PK_refresh_tokens\u0022 ON public.refresh_tokens USING btree (\u0022Id\u0022)"
+      }
+    ]
+  },
+  "reviews": {
+    "Columns": [
+      {
+        "Name": "Id",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "CustomerId",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "ProductId",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "VendorId",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "OrderItemId",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "Rating",
+        "DataType": "integer",
+        "UdtName": "int4",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": 32,
+        "Scale": 0
+      },
+      {
+        "Name": "Comment",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "CreatedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "UpdatedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      }
+    ],
+    "Constraints": [
+      {
+        "ConstraintName": "FK_reviews_order_items_OrderItemId",
+        "Type": "FOREIGN KEY",
+        "Column": "OrderItemId",
+        "ForeignTable": "order_items",
+        "ForeignColumn": "Id",
+        "DeleteRule": "CASCADE"
+      },
+      {
+        "ConstraintName": "FK_reviews_products_ProductId",
+        "Type": "FOREIGN KEY",
+        "Column": "ProductId",
+        "ForeignTable": "products",
+        "ForeignColumn": "Id",
+        "DeleteRule": "CASCADE"
+      },
+      {
+        "ConstraintName": "FK_reviews_users_CustomerId",
+        "Type": "FOREIGN KEY",
+        "Column": "CustomerId",
+        "ForeignTable": "users",
+        "ForeignColumn": "Id",
+        "DeleteRule": "CASCADE"
+      },
+      {
+        "ConstraintName": "FK_reviews_vendors_VendorId",
+        "Type": "FOREIGN KEY",
+        "Column": "VendorId",
+        "ForeignTable": "vendors",
+        "ForeignColumn": "Id",
+        "DeleteRule": "CASCADE"
+      },
+      {
+        "ConstraintName": "PK_reviews",
+        "Type": "PRIMARY KEY",
+        "Column": "Id",
+        "ForeignTable": "reviews",
+        "ForeignColumn": "Id",
+        "DeleteRule": null
+      }
+    ],
+    "Indexes": [
+      {
+        "IndexName": "IX_reviews_CustomerId",
+        "IndexDef": "CREATE INDEX \u0022IX_reviews_CustomerId\u0022 ON public.reviews USING btree (\u0022CustomerId\u0022)"
+      },
+      {
+        "IndexName": "IX_reviews_OrderItemId",
+        "IndexDef": "CREATE INDEX \u0022IX_reviews_OrderItemId\u0022 ON public.reviews USING btree (\u0022OrderItemId\u0022)"
+      },
+      {
+        "IndexName": "IX_reviews_ProductId",
+        "IndexDef": "CREATE INDEX \u0022IX_reviews_ProductId\u0022 ON public.reviews USING btree (\u0022ProductId\u0022)"
+      },
+      {
+        "IndexName": "IX_reviews_VendorId",
+        "IndexDef": "CREATE INDEX \u0022IX_reviews_VendorId\u0022 ON public.reviews USING btree (\u0022VendorId\u0022)"
+      },
+      {
+        "IndexName": "PK_reviews",
+        "IndexDef": "CREATE UNIQUE INDEX \u0022PK_reviews\u0022 ON public.reviews USING btree (\u0022Id\u0022)"
+      }
+    ]
+  },
+  "role_permissions": {
+    "Columns": [
+      {
+        "Name": "RoleId",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "PermissionId",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      }
+    ],
+    "Constraints": [
+      {
+        "ConstraintName": "FK_role_permissions_permissions_PermissionId",
+        "Type": "FOREIGN KEY",
+        "Column": "PermissionId",
+        "ForeignTable": "permissions",
+        "ForeignColumn": "Id",
+        "DeleteRule": "CASCADE"
+      },
+      {
+        "ConstraintName": "FK_role_permissions_roles_RoleId",
+        "Type": "FOREIGN KEY",
+        "Column": "RoleId",
+        "ForeignTable": "roles",
+        "ForeignColumn": "Id",
+        "DeleteRule": "CASCADE"
+      },
+      {
+        "ConstraintName": "PK_role_permissions",
+        "Type": "PRIMARY KEY",
+        "Column": "RoleId",
+        "ForeignTable": "role_permissions",
+        "ForeignColumn": "PermissionId",
+        "DeleteRule": null
+      },
+      {
+        "ConstraintName": "PK_role_permissions",
+        "Type": "PRIMARY KEY",
+        "Column": "RoleId",
+        "ForeignTable": "role_permissions",
+        "ForeignColumn": "RoleId",
+        "DeleteRule": null
+      },
+      {
+        "ConstraintName": "PK_role_permissions",
+        "Type": "PRIMARY KEY",
+        "Column": "PermissionId",
+        "ForeignTable": "role_permissions",
+        "ForeignColumn": "PermissionId",
+        "DeleteRule": null
+      },
+      {
+        "ConstraintName": "PK_role_permissions",
+        "Type": "PRIMARY KEY",
+        "Column": "PermissionId",
+        "ForeignTable": "role_permissions",
+        "ForeignColumn": "RoleId",
+        "DeleteRule": null
+      }
+    ],
+    "Indexes": [
+      {
+        "IndexName": "IX_role_permissions_PermissionId",
+        "IndexDef": "CREATE INDEX \u0022IX_role_permissions_PermissionId\u0022 ON public.role_permissions USING btree (\u0022PermissionId\u0022)"
+      },
+      {
+        "IndexName": "PK_role_permissions",
+        "IndexDef": "CREATE UNIQUE INDEX \u0022PK_role_permissions\u0022 ON public.role_permissions USING btree (\u0022RoleId\u0022, \u0022PermissionId\u0022)"
+      }
+    ]
+  },
+  "roles": {
+    "Columns": [
+      {
+        "Name": "Id",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "Name",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "Description",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "CreatedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "UpdatedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      }
+    ],
+    "Constraints": [
+      {
+        "ConstraintName": "PK_roles",
+        "Type": "PRIMARY KEY",
+        "Column": "Id",
+        "ForeignTable": "roles",
+        "ForeignColumn": "Id",
+        "DeleteRule": null
+      }
+    ],
+    "Indexes": [
+      {
+        "IndexName": "PK_roles",
+        "IndexDef": "CREATE UNIQUE INDEX \u0022PK_roles\u0022 ON public.roles USING btree (\u0022Id\u0022)"
+      }
+    ]
+  },
+  "search_logs": {
+    "Columns": [
+      {
+        "Name": "Id",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "CustomerId",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "SearchQuery",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "FiltersJson",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "ResultCount",
+        "DataType": "integer",
+        "UdtName": "int4",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": 32,
+        "Scale": 0
+      },
+      {
+        "Name": "CreatedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "UpdatedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      }
+    ],
+    "Constraints": [
+      {
+        "ConstraintName": "FK_search_logs_users_CustomerId",
+        "Type": "FOREIGN KEY",
+        "Column": "CustomerId",
+        "ForeignTable": "users",
+        "ForeignColumn": "Id",
+        "DeleteRule": "NO ACTION"
+      },
+      {
+        "ConstraintName": "PK_search_logs",
+        "Type": "PRIMARY KEY",
+        "Column": "Id",
+        "ForeignTable": "search_logs",
+        "ForeignColumn": "Id",
+        "DeleteRule": null
+      }
+    ],
+    "Indexes": [
+      {
+        "IndexName": "IX_search_logs_CustomerId",
+        "IndexDef": "CREATE INDEX \u0022IX_search_logs_CustomerId\u0022 ON public.search_logs USING btree (\u0022CustomerId\u0022)"
+      },
+      {
+        "IndexName": "PK_search_logs",
+        "IndexDef": "CREATE UNIQUE INDEX \u0022PK_search_logs\u0022 ON public.search_logs USING btree (\u0022Id\u0022)"
+      }
+    ]
+  },
+  "user_roles": {
+    "Columns": [
+      {
+        "Name": "UserId",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "RoleId",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      }
+    ],
+    "Constraints": [
+      {
+        "ConstraintName": "FK_user_roles_roles_RoleId",
+        "Type": "FOREIGN KEY",
+        "Column": "RoleId",
+        "ForeignTable": "roles",
+        "ForeignColumn": "Id",
+        "DeleteRule": "CASCADE"
+      },
+      {
+        "ConstraintName": "FK_user_roles_users_UserId",
+        "Type": "FOREIGN KEY",
+        "Column": "UserId",
+        "ForeignTable": "users",
+        "ForeignColumn": "Id",
+        "DeleteRule": "CASCADE"
+      },
+      {
+        "ConstraintName": "PK_user_roles",
+        "Type": "PRIMARY KEY",
+        "Column": "UserId",
+        "ForeignTable": "user_roles",
+        "ForeignColumn": "RoleId",
+        "DeleteRule": null
+      },
+      {
+        "ConstraintName": "PK_user_roles",
+        "Type": "PRIMARY KEY",
+        "Column": "UserId",
+        "ForeignTable": "user_roles",
+        "ForeignColumn": "UserId",
+        "DeleteRule": null
+      },
+      {
+        "ConstraintName": "PK_user_roles",
+        "Type": "PRIMARY KEY",
+        "Column": "RoleId",
+        "ForeignTable": "user_roles",
+        "ForeignColumn": "RoleId",
+        "DeleteRule": null
+      },
+      {
+        "ConstraintName": "PK_user_roles",
+        "Type": "PRIMARY KEY",
+        "Column": "RoleId",
+        "ForeignTable": "user_roles",
+        "ForeignColumn": "UserId",
+        "DeleteRule": null
+      }
+    ],
+    "Indexes": [
+      {
+        "IndexName": "IX_user_roles_RoleId",
+        "IndexDef": "CREATE INDEX \u0022IX_user_roles_RoleId\u0022 ON public.user_roles USING btree (\u0022RoleId\u0022)"
+      },
+      {
+        "IndexName": "PK_user_roles",
+        "IndexDef": "CREATE UNIQUE INDEX \u0022PK_user_roles\u0022 ON public.user_roles USING btree (\u0022UserId\u0022, \u0022RoleId\u0022)"
+      }
+    ]
+  },
+  "users": {
+    "Columns": [
+      {
+        "Name": "Id",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "Email",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "PasswordHash",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "FirstName",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "LastName",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "PhoneNumber",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "IsActive",
+        "DataType": "boolean",
+        "UdtName": "bool",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "CreatedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "UpdatedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      }
+    ],
+    "Constraints": [
+      {
+        "ConstraintName": "PK_users",
+        "Type": "PRIMARY KEY",
+        "Column": "Id",
+        "ForeignTable": "users",
+        "ForeignColumn": "Id",
+        "DeleteRule": null
+      }
+    ],
+    "Indexes": [
+      {
+        "IndexName": "IX_users_Email",
+        "IndexDef": "CREATE UNIQUE INDEX \u0022IX_users_Email\u0022 ON public.users USING btree (\u0022Email\u0022)"
+      },
+      {
+        "IndexName": "PK_users",
+        "IndexDef": "CREATE UNIQUE INDEX \u0022PK_users\u0022 ON public.users USING btree (\u0022Id\u0022)"
+      }
+    ]
+  },
+  "vendor_applications": {
+    "Columns": [
+      {
+        "Name": "Id",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "ApplicantUserId",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "BusinessName",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "BusinessRegistrationNumber",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "TaxIdentificationNumber",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "ContactPhone",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "ContactEmail",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "Status",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "RejectionReason",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "ReviewedByAdminId",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "SubmittedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "ReviewedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "CreatedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "UpdatedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "OwnerFullName",
+        "DataType": "character varying",
+        "UdtName": "varchar",
+        "IsNullable": "NO",
+        "Default": "\u0027\u0027::character varying",
+        "MaxLength": 150,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "OwnerEmail",
+        "DataType": "character varying",
+        "UdtName": "varchar",
+        "IsNullable": "NO",
+        "Default": "\u0027\u0027::character varying",
+        "MaxLength": 255,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "OwnerPhone",
+        "DataType": "character varying",
+        "UdtName": "varchar",
+        "IsNullable": "NO",
+        "Default": "\u0027\u0027::character varying",
+        "MaxLength": 30,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "OwnershipType",
+        "DataType": "character varying",
+        "UdtName": "varchar",
+        "IsNullable": "NO",
+        "Default": "\u0027Individual\u0027::character varying",
+        "MaxLength": 50,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "ResidentialAddress",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "IdType",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "IdNumber",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "OwnerPhotoRef",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "IdDocumentRef",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "BusinessType",
+        "DataType": "character varying",
+        "UdtName": "varchar",
+        "IsNullable": "NO",
+        "Default": "\u0027RetailShop\u0027::character varying",
+        "MaxLength": 50,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "BusinessCategory",
+        "DataType": "character varying",
+        "UdtName": "varchar",
+        "IsNullable": "NO",
+        "Default": "\u0027\u0027::character varying",
+        "MaxLength": 100,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "BusinessDescription",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "BusinessRegistrationDate",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "VatRegistrationNumber",
+        "DataType": "character varying",
+        "UdtName": "varchar",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": 100,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "WebsiteUrl",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "SocialMediaUrl",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "AddressLine1",
+        "DataType": "character varying",
+        "UdtName": "varchar",
+        "IsNullable": "NO",
+        "Default": "\u0027\u0027::character varying",
+        "MaxLength": 255,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "AddressLine2",
+        "DataType": "character varying",
+        "UdtName": "varchar",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": 255,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "City",
+        "DataType": "character varying",
+        "UdtName": "varchar",
+        "IsNullable": "NO",
+        "Default": "\u0027\u0027::character varying",
+        "MaxLength": 100,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "District",
+        "DataType": "character varying",
+        "UdtName": "varchar",
+        "IsNullable": "NO",
+        "Default": "\u0027\u0027::character varying",
+        "MaxLength": 100,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "Province",
+        "DataType": "character varying",
+        "UdtName": "varchar",
+        "IsNullable": "NO",
+        "Default": "\u0027\u0027::character varying",
+        "MaxLength": 100,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "PostalCode",
+        "DataType": "character varying",
+        "UdtName": "varchar",
+        "IsNullable": "NO",
+        "Default": "\u0027\u0027::character varying",
+        "MaxLength": 20,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "Latitude",
+        "DataType": "double precision",
+        "UdtName": "float8",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": 53,
+        "Scale": null
+      },
+      {
+        "Name": "Longitude",
+        "DataType": "double precision",
+        "UdtName": "float8",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": 53,
+        "Scale": null
+      },
+      {
+        "Name": "BusinessRegistrationCertificateRef",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "TinCertificateRef",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "TradeLicenceRef",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "OtherLicenceRef",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "StoreFrontPhotoRef",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "BusinessNameboardPhotoRef",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "StoreInteriorPhotoRef",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "StoreLogoRef",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "TermsAccepted",
+        "DataType": "boolean",
+        "UdtName": "bool",
+        "IsNullable": "NO",
+        "Default": "false",
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "MarketplacePolicyAccepted",
+        "DataType": "boolean",
+        "UdtName": "bool",
+        "IsNullable": "NO",
+        "Default": "false",
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "InformationAccuracyConfirmed",
+        "DataType": "boolean",
+        "UdtName": "bool",
+        "IsNullable": "NO",
+        "Default": "false",
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "TermsAcceptedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      }
+    ],
+    "Constraints": [
+      {
+        "ConstraintName": "FK_vendor_applications_users_ApplicantUserId",
+        "Type": "FOREIGN KEY",
+        "Column": "ApplicantUserId",
+        "ForeignTable": "users",
+        "ForeignColumn": "Id",
+        "DeleteRule": "RESTRICT"
+      },
+      {
+        "ConstraintName": "FK_vendor_applications_users_ReviewedByAdminId",
+        "Type": "FOREIGN KEY",
+        "Column": "ReviewedByAdminId",
+        "ForeignTable": "users",
+        "ForeignColumn": "Id",
+        "DeleteRule": "SET NULL"
+      },
+      {
+        "ConstraintName": "PK_vendor_applications",
+        "Type": "PRIMARY KEY",
+        "Column": "Id",
+        "ForeignTable": "vendor_applications",
+        "ForeignColumn": "Id",
+        "DeleteRule": null
+      }
+    ],
+    "Indexes": [
+      {
+        "IndexName": "IX_vendor_applications_ApplicantUserId",
+        "IndexDef": "CREATE INDEX \u0022IX_vendor_applications_ApplicantUserId\u0022 ON public.vendor_applications USING btree (\u0022ApplicantUserId\u0022)"
+      },
+      {
+        "IndexName": "IX_vendor_applications_ReviewedByAdminId",
+        "IndexDef": "CREATE INDEX \u0022IX_vendor_applications_ReviewedByAdminId\u0022 ON public.vendor_applications USING btree (\u0022ReviewedByAdminId\u0022)"
+      },
+      {
+        "IndexName": "IX_vendor_applications_Status",
+        "IndexDef": "CREATE INDEX \u0022IX_vendor_applications_Status\u0022 ON public.vendor_applications USING btree (\u0022Status\u0022)"
+      },
+      {
+        "IndexName": "PK_vendor_applications",
+        "IndexDef": "CREATE UNIQUE INDEX \u0022PK_vendor_applications\u0022 ON public.vendor_applications USING btree (\u0022Id\u0022)"
+      }
+    ]
+  },
+  "vendor_commissions": {
+    "Columns": [
+      {
+        "Name": "Id",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "VendorOrderId",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "CommissionRate",
+        "DataType": "numeric",
+        "UdtName": "numeric",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": 5,
+        "Scale": 2
+      },
+      {
+        "Name": "CommissionAmount",
+        "DataType": "numeric",
+        "UdtName": "numeric",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": 12,
+        "Scale": 2
+      },
+      {
+        "Name": "NetEarnings",
+        "DataType": "numeric",
+        "UdtName": "numeric",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": 12,
+        "Scale": 2
+      },
+      {
+        "Name": "CreatedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "UpdatedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      }
+    ],
+    "Constraints": [
+      {
+        "ConstraintName": "FK_vendor_commissions_vendor_orders_VendorOrderId",
+        "Type": "FOREIGN KEY",
+        "Column": "VendorOrderId",
+        "ForeignTable": "vendor_orders",
+        "ForeignColumn": "Id",
+        "DeleteRule": "CASCADE"
+      },
+      {
+        "ConstraintName": "PK_vendor_commissions",
+        "Type": "PRIMARY KEY",
+        "Column": "Id",
+        "ForeignTable": "vendor_commissions",
+        "ForeignColumn": "Id",
+        "DeleteRule": null
+      }
+    ],
+    "Indexes": [
+      {
+        "IndexName": "IX_vendor_commissions_VendorOrderId",
+        "IndexDef": "CREATE INDEX \u0022IX_vendor_commissions_VendorOrderId\u0022 ON public.vendor_commissions USING btree (\u0022VendorOrderId\u0022)"
+      },
+      {
+        "IndexName": "PK_vendor_commissions",
+        "IndexDef": "CREATE UNIQUE INDEX \u0022PK_vendor_commissions\u0022 ON public.vendor_commissions USING btree (\u0022Id\u0022)"
+      }
+    ]
+  },
+  "vendor_orders": {
+    "Columns": [
+      {
+        "Name": "Id",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "ParentOrderId",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "VendorId",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "SubOrderNumber",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "SubTotal",
+        "DataType": "numeric",
+        "UdtName": "numeric",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": 12,
+        "Scale": 2
+      },
+      {
+        "Name": "CommissionRate",
+        "DataType": "numeric",
+        "UdtName": "numeric",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": 5,
+        "Scale": 2
+      },
+      {
+        "Name": "CommissionAmount",
+        "DataType": "numeric",
+        "UdtName": "numeric",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": 12,
+        "Scale": 2
+      },
+      {
+        "Name": "NetEarnings",
+        "DataType": "numeric",
+        "UdtName": "numeric",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": 12,
+        "Scale": 2
+      },
+      {
+        "Name": "Status",
+        "DataType": "integer",
+        "UdtName": "int4",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": 32,
+        "Scale": 0
+      },
+      {
+        "Name": "CreatedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "UpdatedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      }
+    ],
+    "Constraints": [
+      {
+        "ConstraintName": "FK_vendor_orders_orders_ParentOrderId",
+        "Type": "FOREIGN KEY",
+        "Column": "ParentOrderId",
+        "ForeignTable": "orders",
+        "ForeignColumn": "Id",
+        "DeleteRule": "CASCADE"
+      },
+      {
+        "ConstraintName": "FK_vendor_orders_vendors_VendorId",
+        "Type": "FOREIGN KEY",
+        "Column": "VendorId",
+        "ForeignTable": "vendors",
+        "ForeignColumn": "Id",
+        "DeleteRule": "CASCADE"
+      },
+      {
+        "ConstraintName": "PK_vendor_orders",
+        "Type": "PRIMARY KEY",
+        "Column": "Id",
+        "ForeignTable": "vendor_orders",
+        "ForeignColumn": "Id",
+        "DeleteRule": null
+      }
+    ],
+    "Indexes": [
+      {
+        "IndexName": "IX_vendor_orders_ParentOrderId",
+        "IndexDef": "CREATE INDEX \u0022IX_vendor_orders_ParentOrderId\u0022 ON public.vendor_orders USING btree (\u0022ParentOrderId\u0022)"
+      },
+      {
+        "IndexName": "IX_vendor_orders_SubOrderNumber",
+        "IndexDef": "CREATE UNIQUE INDEX \u0022IX_vendor_orders_SubOrderNumber\u0022 ON public.vendor_orders USING btree (\u0022SubOrderNumber\u0022)"
+      },
+      {
+        "IndexName": "IX_vendor_orders_VendorId",
+        "IndexDef": "CREATE INDEX \u0022IX_vendor_orders_VendorId\u0022 ON public.vendor_orders USING btree (\u0022VendorId\u0022)"
+      },
+      {
+        "IndexName": "PK_vendor_orders",
+        "IndexDef": "CREATE UNIQUE INDEX \u0022PK_vendor_orders\u0022 ON public.vendor_orders USING btree (\u0022Id\u0022)"
+      }
+    ]
+  },
+  "vendor_payouts": {
+    "Columns": [
+      {
+        "Name": "Id",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "VendorId",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "Amount",
+        "DataType": "numeric",
+        "UdtName": "numeric",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": 12,
+        "Scale": 2
+      },
+      {
+        "Name": "Status",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "PayoutDate",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "TransactionReference",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "CreatedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "UpdatedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      }
+    ],
+    "Constraints": [
+      {
+        "ConstraintName": "FK_vendor_payouts_vendors_VendorId",
+        "Type": "FOREIGN KEY",
+        "Column": "VendorId",
+        "ForeignTable": "vendors",
+        "ForeignColumn": "Id",
+        "DeleteRule": "CASCADE"
+      },
+      {
+        "ConstraintName": "PK_vendor_payouts",
+        "Type": "PRIMARY KEY",
+        "Column": "Id",
+        "ForeignTable": "vendor_payouts",
+        "ForeignColumn": "Id",
+        "DeleteRule": null
+      }
+    ],
+    "Indexes": [
+      {
+        "IndexName": "IX_vendor_payouts_VendorId",
+        "IndexDef": "CREATE INDEX \u0022IX_vendor_payouts_VendorId\u0022 ON public.vendor_payouts USING btree (\u0022VendorId\u0022)"
+      },
+      {
+        "IndexName": "PK_vendor_payouts",
+        "IndexDef": "CREATE UNIQUE INDEX \u0022PK_vendor_payouts\u0022 ON public.vendor_payouts USING btree (\u0022Id\u0022)"
+      }
+    ]
+  },
+  "vendors": {
+    "Columns": [
+      {
+        "Name": "Id",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "UserId",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "ApplicationId",
+        "DataType": "uuid",
+        "UdtName": "uuid",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "StoreName",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "Description",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "LogoUrl",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "BannerUrl",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "Latitude",
+        "DataType": "double precision",
+        "UdtName": "float8",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": 53,
+        "Scale": null
+      },
+      {
+        "Name": "Longitude",
+        "DataType": "double precision",
+        "UdtName": "float8",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": 53,
+        "Scale": null
+      },
+      {
+        "Name": "ServiceRadiusKm",
+        "DataType": "double precision",
+        "UdtName": "float8",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": 53,
+        "Scale": null
+      },
+      {
+        "Name": "Status",
+        "DataType": "text",
+        "UdtName": "text",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "CommissionRate",
+        "DataType": "numeric",
+        "UdtName": "numeric",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": 5,
+        "Scale": 2
+      },
+      {
+        "Name": "CreatedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "NO",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      },
+      {
+        "Name": "UpdatedAt",
+        "DataType": "timestamp with time zone",
+        "UdtName": "timestamptz",
+        "IsNullable": "YES",
+        "Default": null,
+        "MaxLength": null,
+        "Precision": null,
+        "Scale": null
+      }
+    ],
+    "Constraints": [
+      {
+        "ConstraintName": "FK_vendors_users_UserId",
+        "Type": "FOREIGN KEY",
+        "Column": "UserId",
+        "ForeignTable": "users",
+        "ForeignColumn": "Id",
+        "DeleteRule": "CASCADE"
+      },
+      {
+        "ConstraintName": "FK_vendors_vendor_applications_ApplicationId",
+        "Type": "FOREIGN KEY",
+        "Column": "ApplicationId",
+        "ForeignTable": "vendor_applications",
+        "ForeignColumn": "Id",
+        "DeleteRule": "RESTRICT"
+      },
+      {
+        "ConstraintName": "PK_vendors",
+        "Type": "PRIMARY KEY",
+        "Column": "Id",
+        "ForeignTable": "vendors",
+        "ForeignColumn": "Id",
+        "DeleteRule": null
+      }
+    ],
+    "Indexes": [
+      {
+        "IndexName": "IX_vendors_ApplicationId",
+        "IndexDef": "CREATE UNIQUE INDEX \u0022IX_vendors_ApplicationId\u0022 ON public.vendors USING btree (\u0022ApplicationId\u0022)"
+      },
+      {
+        "IndexName": "IX_vendors_UserId",
+        "IndexDef": "CREATE UNIQUE INDEX \u0022IX_vendors_UserId\u0022 ON public.vendors USING btree (\u0022UserId\u0022)"
+      },
+      {
+        "IndexName": "PK_vendors",
+        "IndexDef": "CREATE UNIQUE INDEX \u0022PK_vendors\u0022 ON public.vendors USING btree (\u0022Id\u0022)"
+      }
+    ]
+  }
+}

@@ -1,0 +1,25 @@
+# SUPABASE BASELINE RECONCILIATION DETAILED REPORT
+Generated at: 2026-09-14 04:47:55Z
+
+[TYPE CHECK] Table 'customer_addresses'.'Latitude': EF Type 'double precision' vs DB Type 'double precision' (UDT: 'float8')
+[TYPE CHECK] Table 'customer_addresses'.'Longitude': EF Type 'double precision' vs DB Type 'double precision' (UDT: 'float8')
+[MISMATCH] Table 'role_permissions': Primary Key mismatch! EF=[PermissionId,RoleId], DB=[PermissionId,PermissionId,RoleId,RoleId]
+[MISMATCH] Table 'user_roles': Primary Key mismatch! EF=[RoleId,UserId], DB=[RoleId,RoleId,UserId,UserId]
+[TYPE CHECK] Table 'vendor_applications'.'BusinessName': EF Type 'character varying(150)' vs DB Type 'text' (UDT: 'text')
+[TYPE CHECK] Table 'vendor_applications'.'BusinessRegistrationNumber': EF Type 'character varying(100)' vs DB Type 'text' (UDT: 'text')
+[TYPE CHECK] Table 'vendor_applications'.'ContactEmail': EF Type 'character varying(255)' vs DB Type 'text' (UDT: 'text')
+[TYPE CHECK] Table 'vendor_applications'.'ContactPhone': EF Type 'character varying(30)' vs DB Type 'text' (UDT: 'text')
+[TYPE CHECK] Table 'vendor_applications'.'Latitude': EF Type 'double precision' vs DB Type 'double precision' (UDT: 'float8')
+[TYPE CHECK] Table 'vendor_applications'.'Longitude': EF Type 'double precision' vs DB Type 'double precision' (UDT: 'float8')
+[TYPE CHECK] Table 'vendor_applications'.'Status': EF Type 'character varying(50)' vs DB Type 'text' (UDT: 'text')
+[TYPE CHECK] Table 'vendor_applications'.'TaxIdentificationNumber': EF Type 'character varying(100)' vs DB Type 'text' (UDT: 'text')
+[MISMATCH] Table 'vendor_applications': EF Index 'IX_vendor_applications_BusinessRegistrationNumber' NOT FOUND in Supabase!
+[TYPE CHECK] Table 'vendors'.'Latitude': EF Type 'double precision' vs DB Type 'double precision' (UDT: 'float8')
+[TYPE CHECK] Table 'vendors'.'Longitude': EF Type 'double precision' vs DB Type 'double precision' (UDT: 'float8')
+[TYPE CHECK] Table 'vendors'.'ServiceRadiusKm': EF Type 'double precision' vs DB Type 'double precision' (UDT: 'float8')
+
+## PasswordResetTokens Analysis:
+- Present in EF Model (ModelSnapshot): True
+- Present in Supabase: False
+
+## Total Mismatches Detected for Existing 30 Tables: 3

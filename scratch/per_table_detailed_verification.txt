@@ -1,0 +1,774 @@
+# DETAILED PER-TABLE VERIFICATION OF ALL 30 TABLES
+Comparing Migration 1 / EF Core Model against Supabase PostgreSQL
+
+================================================================================
+TABLE: audit_logs
+================================================================================
+
+--- COLUMNS ---
+  - Id: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+  - Action: EF=[text, Nullable=False] | DB=[text(), Nullable=False, Default=none] => OK
+  - ActorId: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+  - CreatedAt: EF=[timestamp with time zone, Nullable=False] | DB=[timestamp with time zone(), Nullable=False, Default=none] => OK
+  - EntityId: EF=[text, Nullable=False] | DB=[text(), Nullable=False, Default=none] => OK
+  - EntityName: EF=[text, Nullable=False] | DB=[text(), Nullable=False, Default=none] => OK
+  - IpAddress: EF=[text, Nullable=False] | DB=[text(), Nullable=False, Default=none] => OK
+  - NewValuesJson: EF=[text, Nullable=True] | DB=[text(), Nullable=True, Default=none] => OK
+  - OldValuesJson: EF=[text, Nullable=True] | DB=[text(), Nullable=True, Default=none] => OK
+  - UpdatedAt: EF=[timestamp with time zone, Nullable=True] | DB=[timestamp with time zone(), Nullable=True, Default=none] => OK
+
+--- PRIMARY KEY ---
+  EF PK: [Id] | DB PK: [Id] => OK
+
+--- FOREIGN KEYS ---
+  - (ActorId) -> users(Id): DeleteBehavior EF=Cascade (CASCADE) | DB=CASCADE => OK
+
+--- INDEXES ---
+  - Index 'IX_audit_logs_ActorId' (Unique=False, Cols=[ActorId]): EXISTS IN DB
+
+================================================================================
+TABLE: cart_items
+================================================================================
+
+--- COLUMNS ---
+  - Id: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+  - CartId: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+  - CreatedAt: EF=[timestamp with time zone, Nullable=False] | DB=[timestamp with time zone(), Nullable=False, Default=none] => OK
+  - ProductId: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+  - Quantity: EF=[integer, Nullable=False] | DB=[integer(32), Nullable=False, Default=none] => OK
+  - UnitPrice: EF=[numeric(12,2), Nullable=False] | DB=[numeric(12), Nullable=False, Default=none] => OK
+  - UpdatedAt: EF=[timestamp with time zone, Nullable=True] | DB=[timestamp with time zone(), Nullable=True, Default=none] => OK
+
+--- PRIMARY KEY ---
+  EF PK: [Id] | DB PK: [Id] => OK
+
+--- FOREIGN KEYS ---
+  - (CartId) -> carts(Id): DeleteBehavior EF=Cascade (CASCADE) | DB=CASCADE => OK
+  - (ProductId) -> products(Id): DeleteBehavior EF=Cascade (CASCADE) | DB=CASCADE => OK
+
+--- INDEXES ---
+  - Index 'IX_cart_items_CartId' (Unique=False, Cols=[CartId]): EXISTS IN DB
+  - Index 'IX_cart_items_ProductId' (Unique=False, Cols=[ProductId]): EXISTS IN DB
+
+================================================================================
+TABLE: carts
+================================================================================
+
+--- COLUMNS ---
+  - Id: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+  - CreatedAt: EF=[timestamp with time zone, Nullable=False] | DB=[timestamp with time zone(), Nullable=False, Default=none] => OK
+  - CustomerId: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+  - UpdatedAt: EF=[timestamp with time zone, Nullable=True] | DB=[timestamp with time zone(), Nullable=True, Default=none] => OK
+
+--- PRIMARY KEY ---
+  EF PK: [Id] | DB PK: [Id] => OK
+
+--- FOREIGN KEYS ---
+  - (CustomerId) -> users(Id): DeleteBehavior EF=Cascade (CASCADE) | DB=CASCADE => OK
+
+--- INDEXES ---
+  - Index 'IX_carts_CustomerId' (Unique=False, Cols=[CustomerId]): EXISTS IN DB
+
+================================================================================
+TABLE: categories
+================================================================================
+
+--- COLUMNS ---
+  - Id: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+  - CreatedAt: EF=[timestamp with time zone, Nullable=False] | DB=[timestamp with time zone(), Nullable=False, Default=none] => OK
+  - Description: EF=[text, Nullable=False] | DB=[text(), Nullable=False, Default=none] => OK
+  - DisplayOrder: EF=[integer, Nullable=False] | DB=[integer(32), Nullable=False, Default=none] => OK
+  - ImageUrl: EF=[text, Nullable=False] | DB=[text(), Nullable=False, Default=none] => OK
+  - IsActive: EF=[boolean, Nullable=False] | DB=[boolean(), Nullable=False, Default=none] => OK
+  - Name: EF=[text, Nullable=False] | DB=[text(), Nullable=False, Default=none] => OK
+  - ParentCategoryId: EF=[uuid, Nullable=True] | DB=[uuid(), Nullable=True, Default=none] => OK
+  - Slug: EF=[text, Nullable=False] | DB=[text(), Nullable=False, Default=none] => OK
+  - UpdatedAt: EF=[timestamp with time zone, Nullable=True] | DB=[timestamp with time zone(), Nullable=True, Default=none] => OK
+
+--- PRIMARY KEY ---
+  EF PK: [Id] | DB PK: [Id] => OK
+
+--- FOREIGN KEYS ---
+  - (ParentCategoryId) -> categories(Id): DeleteBehavior EF=ClientSetNull (NO ACTION) | DB=NO ACTION => OK
+
+--- INDEXES ---
+  - Index 'IX_categories_ParentCategoryId' (Unique=False, Cols=[ParentCategoryId]): EXISTS IN DB
+  - Index 'IX_categories_Slug' (Unique=True, Cols=[Slug]): EXISTS IN DB
+
+================================================================================
+TABLE: coupon_usages
+================================================================================
+
+--- COLUMNS ---
+  - Id: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+  - CouponId: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+  - CreatedAt: EF=[timestamp with time zone, Nullable=False] | DB=[timestamp with time zone(), Nullable=False, Default=none] => OK
+  - CustomerId: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+  - DiscountApplied: EF=[numeric(12,2), Nullable=False] | DB=[numeric(12), Nullable=False, Default=none] => OK
+  - OrderId: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+  - UpdatedAt: EF=[timestamp with time zone, Nullable=True] | DB=[timestamp with time zone(), Nullable=True, Default=none] => OK
+  - UsedAt: EF=[timestamp with time zone, Nullable=False] | DB=[timestamp with time zone(), Nullable=False, Default=none] => OK
+
+--- PRIMARY KEY ---
+  EF PK: [Id] | DB PK: [Id] => OK
+
+--- FOREIGN KEYS ---
+  - (CouponId) -> coupons(Id): DeleteBehavior EF=Cascade (CASCADE) | DB=CASCADE => OK
+  - (CustomerId) -> users(Id): DeleteBehavior EF=Cascade (CASCADE) | DB=CASCADE => OK
+  - (OrderId) -> orders(Id): DeleteBehavior EF=Cascade (CASCADE) | DB=CASCADE => OK
+
+--- INDEXES ---
+  - Index 'IX_coupon_usages_CouponId' (Unique=False, Cols=[CouponId]): EXISTS IN DB
+  - Index 'IX_coupon_usages_CustomerId' (Unique=False, Cols=[CustomerId]): EXISTS IN DB
+  - Index 'IX_coupon_usages_OrderId' (Unique=False, Cols=[OrderId]): EXISTS IN DB
+
+================================================================================
+TABLE: coupons
+================================================================================
+
+--- COLUMNS ---
+  - Id: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+  - Code: EF=[text, Nullable=False] | DB=[text(), Nullable=False, Default=none] => OK
+  - CreatedAt: EF=[timestamp with time zone, Nullable=False] | DB=[timestamp with time zone(), Nullable=False, Default=none] => OK
+  - DiscountType: EF=[text, Nullable=False] | DB=[text(), Nullable=False, Default=none] => OK
+  - DiscountValue: EF=[numeric(12,2), Nullable=False] | DB=[numeric(12), Nullable=False, Default=none] => OK
+  - EndDate: EF=[timestamp with time zone, Nullable=False] | DB=[timestamp with time zone(), Nullable=False, Default=none] => OK
+  - IsActive: EF=[boolean, Nullable=False] | DB=[boolean(), Nullable=False, Default=none] => OK
+  - MaxDiscountAmount: EF=[numeric(12,2), Nullable=True] | DB=[numeric(12), Nullable=True, Default=none] => OK
+  - MaxUses: EF=[integer, Nullable=False] | DB=[integer(32), Nullable=False, Default=none] => OK
+  - MinOrderAmount: EF=[numeric(12,2), Nullable=False] | DB=[numeric(12), Nullable=False, Default=none] => OK
+  - StartDate: EF=[timestamp with time zone, Nullable=False] | DB=[timestamp with time zone(), Nullable=False, Default=none] => OK
+  - UpdatedAt: EF=[timestamp with time zone, Nullable=True] | DB=[timestamp with time zone(), Nullable=True, Default=none] => OK
+  - UsedCount: EF=[integer, Nullable=False] | DB=[integer(32), Nullable=False, Default=none] => OK
+
+--- PRIMARY KEY ---
+  EF PK: [Id] | DB PK: [Id] => OK
+
+--- FOREIGN KEYS ---
+
+--- INDEXES ---
+  - Index 'IX_coupons_Code' (Unique=True, Cols=[Code]): EXISTS IN DB
+
+================================================================================
+TABLE: customer_addresses
+================================================================================
+
+--- COLUMNS ---
+  - Id: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+  - AddressLine1: EF=[text, Nullable=False] | DB=[text(), Nullable=False, Default=none] => OK
+  - AddressLine2: EF=[text, Nullable=True] | DB=[text(), Nullable=True, Default=none] => OK
+  - City: EF=[text, Nullable=False] | DB=[text(), Nullable=False, Default=none] => OK
+  - CreatedAt: EF=[timestamp with time zone, Nullable=False] | DB=[timestamp with time zone(), Nullable=False, Default=none] => OK
+  - CustomerId: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+  - IsDefault: EF=[boolean, Nullable=False] | DB=[boolean(), Nullable=False, Default=none] => OK
+  - Latitude: EF=[double precision, Nullable=False] | DB=[double precision(53), Nullable=False, Default=none] => OK
+  - Longitude: EF=[double precision, Nullable=False] | DB=[double precision(53), Nullable=False, Default=none] => OK
+  - PostalCode: EF=[text, Nullable=False] | DB=[text(), Nullable=False, Default=none] => OK
+  - State: EF=[text, Nullable=False] | DB=[text(), Nullable=False, Default=none] => OK
+  - Title: EF=[text, Nullable=False] | DB=[text(), Nullable=False, Default=none] => OK
+  - UpdatedAt: EF=[timestamp with time zone, Nullable=True] | DB=[timestamp with time zone(), Nullable=True, Default=none] => OK
+
+--- PRIMARY KEY ---
+  EF PK: [Id] | DB PK: [Id] => OK
+
+--- FOREIGN KEYS ---
+  - (CustomerId) -> users(Id): DeleteBehavior EF=Cascade (CASCADE) | DB=CASCADE => OK
+
+--- INDEXES ---
+  - Index 'IX_customer_addresses_CustomerId' (Unique=False, Cols=[CustomerId]): EXISTS IN DB
+
+================================================================================
+TABLE: delivery_assignments
+================================================================================
+
+--- COLUMNS ---
+  - Id: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+  - AssignedAt: EF=[timestamp with time zone, Nullable=True] | DB=[timestamp with time zone(), Nullable=True, Default=none] => OK
+  - CreatedAt: EF=[timestamp with time zone, Nullable=False] | DB=[timestamp with time zone(), Nullable=False, Default=none] => OK
+  - DeliveredAt: EF=[timestamp with time zone, Nullable=True] | DB=[timestamp with time zone(), Nullable=True, Default=none] => OK
+  - DeliveryStaffId: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+  - PickedUpAt: EF=[timestamp with time zone, Nullable=True] | DB=[timestamp with time zone(), Nullable=True, Default=none] => OK
+  - Status: EF=[integer, Nullable=False] | DB=[integer(32), Nullable=False, Default=none] => OK
+  - UpdatedAt: EF=[timestamp with time zone, Nullable=True] | DB=[timestamp with time zone(), Nullable=True, Default=none] => OK
+  - VendorOrderId: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+
+--- PRIMARY KEY ---
+  EF PK: [Id] | DB PK: [Id] => OK
+
+--- FOREIGN KEYS ---
+  - (DeliveryStaffId) -> users(Id): DeleteBehavior EF=Cascade (CASCADE) | DB=CASCADE => OK
+  - (VendorOrderId) -> vendor_orders(Id): DeleteBehavior EF=Cascade (CASCADE) | DB=CASCADE => OK
+
+--- INDEXES ---
+  - Index 'IX_delivery_assignments_DeliveryStaffId' (Unique=False, Cols=[DeliveryStaffId]): EXISTS IN DB
+  - Index 'IX_delivery_assignments_VendorOrderId' (Unique=True, Cols=[VendorOrderId]): EXISTS IN DB
+
+================================================================================
+TABLE: inventories
+================================================================================
+
+--- COLUMNS ---
+  - Id: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+  - CreatedAt: EF=[timestamp with time zone, Nullable=False] | DB=[timestamp with time zone(), Nullable=False, Default=none] => OK
+  - LowStockThreshold: EF=[integer, Nullable=False] | DB=[integer(32), Nullable=False, Default=none] => OK
+  - ProductId: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+  - QuantityAvailable: EF=[integer, Nullable=False] | DB=[integer(32), Nullable=False, Default=none] => OK
+  - QuantityReserved: EF=[integer, Nullable=False] | DB=[integer(32), Nullable=False, Default=none] => OK
+  - UpdatedAt: EF=[timestamp with time zone, Nullable=True] | DB=[timestamp with time zone(), Nullable=True, Default=none] => OK
+
+--- PRIMARY KEY ---
+  EF PK: [Id] | DB PK: [Id] => OK
+
+--- FOREIGN KEYS ---
+  - (ProductId) -> products(Id): DeleteBehavior EF=Cascade (CASCADE) | DB=CASCADE => OK
+
+--- INDEXES ---
+  - Index 'IX_inventories_ProductId' (Unique=True, Cols=[ProductId]): EXISTS IN DB
+
+================================================================================
+TABLE: inventory_logs
+================================================================================
+
+--- COLUMNS ---
+  - Id: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+  - ChangeQuantity: EF=[integer, Nullable=False] | DB=[integer(32), Nullable=False, Default=none] => OK
+  - CreatedAt: EF=[timestamp with time zone, Nullable=False] | DB=[timestamp with time zone(), Nullable=False, Default=none] => OK
+  - InventoryId: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+  - NewQuantity: EF=[integer, Nullable=False] | DB=[integer(32), Nullable=False, Default=none] => OK
+  - PreviousQuantity: EF=[integer, Nullable=False] | DB=[integer(32), Nullable=False, Default=none] => OK
+  - Reason: EF=[text, Nullable=False] | DB=[text(), Nullable=False, Default=none] => OK
+  - UpdatedAt: EF=[timestamp with time zone, Nullable=True] | DB=[timestamp with time zone(), Nullable=True, Default=none] => OK
+
+--- PRIMARY KEY ---
+  EF PK: [Id] | DB PK: [Id] => OK
+
+--- FOREIGN KEYS ---
+  - (InventoryId) -> inventories(Id): DeleteBehavior EF=Cascade (CASCADE) | DB=CASCADE => OK
+
+--- INDEXES ---
+  - Index 'IX_inventory_logs_InventoryId' (Unique=False, Cols=[InventoryId]): EXISTS IN DB
+
+================================================================================
+TABLE: notifications
+================================================================================
+
+--- COLUMNS ---
+  - Id: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+  - CreatedAt: EF=[timestamp with time zone, Nullable=False] | DB=[timestamp with time zone(), Nullable=False, Default=none] => OK
+  - IsRead: EF=[boolean, Nullable=False] | DB=[boolean(), Nullable=False, Default=none] => OK
+  - Message: EF=[text, Nullable=False] | DB=[text(), Nullable=False, Default=none] => OK
+  - Title: EF=[text, Nullable=False] | DB=[text(), Nullable=False, Default=none] => OK
+  - Type: EF=[text, Nullable=False] | DB=[text(), Nullable=False, Default=none] => OK
+  - UpdatedAt: EF=[timestamp with time zone, Nullable=True] | DB=[timestamp with time zone(), Nullable=True, Default=none] => OK
+  - UserId: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+
+--- PRIMARY KEY ---
+  EF PK: [Id] | DB PK: [Id] => OK
+
+--- FOREIGN KEYS ---
+  - (UserId) -> users(Id): DeleteBehavior EF=Cascade (CASCADE) | DB=CASCADE => OK
+
+--- INDEXES ---
+  - Index 'IX_notifications_UserId' (Unique=False, Cols=[UserId]): EXISTS IN DB
+
+================================================================================
+TABLE: order_items
+================================================================================
+
+--- COLUMNS ---
+  - Id: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+  - CreatedAt: EF=[timestamp with time zone, Nullable=False] | DB=[timestamp with time zone(), Nullable=False, Default=none] => OK
+  - ProductId: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+  - ProductName: EF=[text, Nullable=False] | DB=[text(), Nullable=False, Default=none] => OK
+  - Quantity: EF=[integer, Nullable=False] | DB=[integer(32), Nullable=False, Default=none] => OK
+  - TotalPrice: EF=[numeric(12,2), Nullable=False] | DB=[numeric(12), Nullable=False, Default=none] => OK
+  - UnitPrice: EF=[numeric(12,2), Nullable=False] | DB=[numeric(12), Nullable=False, Default=none] => OK
+  - UpdatedAt: EF=[timestamp with time zone, Nullable=True] | DB=[timestamp with time zone(), Nullable=True, Default=none] => OK
+  - VendorOrderId: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+
+--- PRIMARY KEY ---
+  EF PK: [Id] | DB PK: [Id] => OK
+
+--- FOREIGN KEYS ---
+  - (ProductId) -> products(Id): DeleteBehavior EF=Cascade (CASCADE) | DB=CASCADE => OK
+  - (VendorOrderId) -> vendor_orders(Id): DeleteBehavior EF=Cascade (CASCADE) | DB=CASCADE => OK
+
+--- INDEXES ---
+  - Index 'IX_order_items_ProductId' (Unique=False, Cols=[ProductId]): EXISTS IN DB
+  - Index 'IX_order_items_VendorOrderId' (Unique=False, Cols=[VendorOrderId]): EXISTS IN DB
+
+================================================================================
+TABLE: orders
+================================================================================
+
+--- COLUMNS ---
+  - Id: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+  - CreatedAt: EF=[timestamp with time zone, Nullable=False] | DB=[timestamp with time zone(), Nullable=False, Default=none] => OK
+  - CustomerId: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+  - DeliveryFee: EF=[numeric(12,2), Nullable=False] | DB=[numeric(12), Nullable=False, Default=none] => OK
+  - DiscountAmount: EF=[numeric(12,2), Nullable=False] | DB=[numeric(12), Nullable=False, Default=none] => OK
+  - GrandTotal: EF=[numeric(12,2), Nullable=False] | DB=[numeric(12), Nullable=False, Default=none] => OK
+  - OrderNumber: EF=[text, Nullable=False] | DB=[text(), Nullable=False, Default=none] => OK
+  - PaymentMethod: EF=[integer, Nullable=False] | DB=[integer(32), Nullable=False, Default=none] => OK
+  - PaymentStatus: EF=[integer, Nullable=False] | DB=[integer(32), Nullable=False, Default=none] => OK
+  - ShippingAddressId: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+  - SubTotal: EF=[numeric(12,2), Nullable=False] | DB=[numeric(12), Nullable=False, Default=none] => OK
+  - UpdatedAt: EF=[timestamp with time zone, Nullable=True] | DB=[timestamp with time zone(), Nullable=True, Default=none] => OK
+
+--- PRIMARY KEY ---
+  EF PK: [Id] | DB PK: [Id] => OK
+
+--- FOREIGN KEYS ---
+  - (CustomerId) -> users(Id): DeleteBehavior EF=Cascade (CASCADE) | DB=CASCADE => OK
+  - (ShippingAddressId) -> customer_addresses(Id): DeleteBehavior EF=Cascade (CASCADE) | DB=CASCADE => OK
+
+--- INDEXES ---
+  - Index 'IX_orders_CustomerId' (Unique=False, Cols=[CustomerId]): EXISTS IN DB
+  - Index 'IX_orders_OrderNumber' (Unique=True, Cols=[OrderNumber]): EXISTS IN DB
+  - Index 'IX_orders_ShippingAddressId' (Unique=False, Cols=[ShippingAddressId]): EXISTS IN DB
+
+================================================================================
+TABLE: payment_transactions
+================================================================================
+
+--- COLUMNS ---
+  - Id: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+  - Amount: EF=[numeric(12,2), Nullable=False] | DB=[numeric(12), Nullable=False, Default=none] => OK
+  - CreatedAt: EF=[timestamp with time zone, Nullable=False] | DB=[timestamp with time zone(), Nullable=False, Default=none] => OK
+  - PayloadJson: EF=[text, Nullable=False] | DB=[text(), Nullable=False, Default=none] => OK
+  - PaymentId: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+  - Status: EF=[text, Nullable=False] | DB=[text(), Nullable=False, Default=none] => OK
+  - TransactionType: EF=[text, Nullable=False] | DB=[text(), Nullable=False, Default=none] => OK
+  - UpdatedAt: EF=[timestamp with time zone, Nullable=True] | DB=[timestamp with time zone(), Nullable=True, Default=none] => OK
+
+--- PRIMARY KEY ---
+  EF PK: [Id] | DB PK: [Id] => OK
+
+--- FOREIGN KEYS ---
+  - (PaymentId) -> payments(Id): DeleteBehavior EF=Cascade (CASCADE) | DB=CASCADE => OK
+
+--- INDEXES ---
+  - Index 'IX_payment_transactions_PaymentId' (Unique=False, Cols=[PaymentId]): EXISTS IN DB
+
+================================================================================
+TABLE: payments
+================================================================================
+
+--- COLUMNS ---
+  - Id: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+  - Amount: EF=[numeric(12,2), Nullable=False] | DB=[numeric(12), Nullable=False, Default=none] => OK
+  - CreatedAt: EF=[timestamp with time zone, Nullable=False] | DB=[timestamp with time zone(), Nullable=False, Default=none] => OK
+  - GatewayTransactionId: EF=[text, Nullable=True] | DB=[text(), Nullable=True, Default=none] => OK
+  - OrderId: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+  - PaymentMethod: EF=[integer, Nullable=False] | DB=[integer(32), Nullable=False, Default=none] => OK
+  - PaymentStatus: EF=[integer, Nullable=False] | DB=[integer(32), Nullable=False, Default=none] => OK
+  - UpdatedAt: EF=[timestamp with time zone, Nullable=True] | DB=[timestamp with time zone(), Nullable=True, Default=none] => OK
+
+--- PRIMARY KEY ---
+  EF PK: [Id] | DB PK: [Id] => OK
+
+--- FOREIGN KEYS ---
+  - (OrderId) -> orders(Id): DeleteBehavior EF=Cascade (CASCADE) | DB=CASCADE => OK
+
+--- INDEXES ---
+  - Index 'IX_payments_OrderId' (Unique=True, Cols=[OrderId]): EXISTS IN DB
+
+================================================================================
+TABLE: permissions
+================================================================================
+
+--- COLUMNS ---
+  - Id: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+  - CreatedAt: EF=[timestamp with time zone, Nullable=False] | DB=[timestamp with time zone(), Nullable=False, Default=none] => OK
+  - Description: EF=[text, Nullable=False] | DB=[text(), Nullable=False, Default=none] => OK
+  - Name: EF=[text, Nullable=False] | DB=[text(), Nullable=False, Default=none] => OK
+  - UpdatedAt: EF=[timestamp with time zone, Nullable=True] | DB=[timestamp with time zone(), Nullable=True, Default=none] => OK
+
+--- PRIMARY KEY ---
+  EF PK: [Id] | DB PK: [Id] => OK
+
+--- FOREIGN KEYS ---
+
+--- INDEXES ---
+
+================================================================================
+TABLE: product_images
+================================================================================
+
+--- COLUMNS ---
+  - Id: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+  - CreatedAt: EF=[timestamp with time zone, Nullable=False] | DB=[timestamp with time zone(), Nullable=False, Default=none] => OK
+  - DisplayOrder: EF=[integer, Nullable=False] | DB=[integer(32), Nullable=False, Default=none] => OK
+  - ImageUrl: EF=[text, Nullable=False] | DB=[text(), Nullable=False, Default=none] => OK
+  - IsMain: EF=[boolean, Nullable=False] | DB=[boolean(), Nullable=False, Default=none] => OK
+  - ProductId: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+  - UpdatedAt: EF=[timestamp with time zone, Nullable=True] | DB=[timestamp with time zone(), Nullable=True, Default=none] => OK
+
+--- PRIMARY KEY ---
+  EF PK: [Id] | DB PK: [Id] => OK
+
+--- FOREIGN KEYS ---
+  - (ProductId) -> products(Id): DeleteBehavior EF=Cascade (CASCADE) | DB=CASCADE => OK
+
+--- INDEXES ---
+  - Index 'IX_product_images_ProductId' (Unique=False, Cols=[ProductId]): EXISTS IN DB
+
+================================================================================
+TABLE: products
+================================================================================
+
+--- COLUMNS ---
+  - Id: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+  - CategoryId: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+  - CreatedAt: EF=[timestamp with time zone, Nullable=False] | DB=[timestamp with time zone(), Nullable=False, Default=none] => OK
+  - Description: EF=[text, Nullable=False] | DB=[text(), Nullable=False, Default=none] => OK
+  - Name: EF=[text, Nullable=False] | DB=[text(), Nullable=False, Default=none] => OK
+  - Price: EF=[numeric(12,2), Nullable=False] | DB=[numeric(12), Nullable=False, Default=none] => OK
+  - SKU: EF=[text, Nullable=False] | DB=[text(), Nullable=False, Default=none] => OK
+  - Slug: EF=[text, Nullable=False] | DB=[text(), Nullable=False, Default=none] => OK
+  - Status: EF=[integer, Nullable=False] | DB=[integer(32), Nullable=False, Default=none] => OK
+  - UpdatedAt: EF=[timestamp with time zone, Nullable=True] | DB=[timestamp with time zone(), Nullable=True, Default=none] => OK
+  - VendorId: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+
+--- PRIMARY KEY ---
+  EF PK: [Id] | DB PK: [Id] => OK
+
+--- FOREIGN KEYS ---
+  - (CategoryId) -> categories(Id): DeleteBehavior EF=Cascade (CASCADE) | DB=CASCADE => OK
+  - (VendorId) -> vendors(Id): DeleteBehavior EF=Cascade (CASCADE) | DB=CASCADE => OK
+
+--- INDEXES ---
+  - Index 'IX_products_CategoryId' (Unique=False, Cols=[CategoryId]): EXISTS IN DB
+  - Index 'IX_products_SKU' (Unique=False, Cols=[SKU]): EXISTS IN DB
+  - Index 'IX_products_Slug' (Unique=False, Cols=[Slug]): EXISTS IN DB
+  - Index 'IX_products_VendorId' (Unique=False, Cols=[VendorId]): EXISTS IN DB
+
+================================================================================
+TABLE: refresh_tokens
+================================================================================
+
+--- COLUMNS ---
+  - Id: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+  - CreatedAt: EF=[timestamp with time zone, Nullable=False] | DB=[timestamp with time zone(), Nullable=False, Default=none] => OK
+  - ExpiresAt: EF=[timestamp with time zone, Nullable=False] | DB=[timestamp with time zone(), Nullable=False, Default=none] => OK
+  - IsRevoked: EF=[boolean, Nullable=False] | DB=[boolean(), Nullable=False, Default=none] => OK
+  - RevokedAt: EF=[timestamp with time zone, Nullable=True] | DB=[timestamp with time zone(), Nullable=True, Default=none] => OK
+  - Token: EF=[text, Nullable=False] | DB=[text(), Nullable=False, Default=none] => OK
+  - UpdatedAt: EF=[timestamp with time zone, Nullable=True] | DB=[timestamp with time zone(), Nullable=True, Default=none] => OK
+  - UserId: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+
+--- PRIMARY KEY ---
+  EF PK: [Id] | DB PK: [Id] => OK
+
+--- FOREIGN KEYS ---
+  - (UserId) -> users(Id): DeleteBehavior EF=Cascade (CASCADE) | DB=CASCADE => OK
+
+--- INDEXES ---
+  - Index 'IX_refresh_tokens_UserId' (Unique=False, Cols=[UserId]): EXISTS IN DB
+
+================================================================================
+TABLE: reviews
+================================================================================
+
+--- COLUMNS ---
+  - Id: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+  - Comment: EF=[text, Nullable=False] | DB=[text(), Nullable=False, Default=none] => OK
+  - CreatedAt: EF=[timestamp with time zone, Nullable=False] | DB=[timestamp with time zone(), Nullable=False, Default=none] => OK
+  - CustomerId: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+  - OrderItemId: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+  - ProductId: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+  - Rating: EF=[integer, Nullable=False] | DB=[integer(32), Nullable=False, Default=none] => OK
+  - UpdatedAt: EF=[timestamp with time zone, Nullable=True] | DB=[timestamp with time zone(), Nullable=True, Default=none] => OK
+  - VendorId: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+
+--- PRIMARY KEY ---
+  EF PK: [Id] | DB PK: [Id] => OK
+
+--- FOREIGN KEYS ---
+  - (CustomerId) -> users(Id): DeleteBehavior EF=Cascade (CASCADE) | DB=CASCADE => OK
+  - (OrderItemId) -> order_items(Id): DeleteBehavior EF=Cascade (CASCADE) | DB=CASCADE => OK
+  - (ProductId) -> products(Id): DeleteBehavior EF=Cascade (CASCADE) | DB=CASCADE => OK
+  - (VendorId) -> vendors(Id): DeleteBehavior EF=Cascade (CASCADE) | DB=CASCADE => OK
+
+--- INDEXES ---
+  - Index 'IX_reviews_CustomerId' (Unique=False, Cols=[CustomerId]): EXISTS IN DB
+  - Index 'IX_reviews_OrderItemId' (Unique=False, Cols=[OrderItemId]): EXISTS IN DB
+  - Index 'IX_reviews_ProductId' (Unique=False, Cols=[ProductId]): EXISTS IN DB
+  - Index 'IX_reviews_VendorId' (Unique=False, Cols=[VendorId]): EXISTS IN DB
+
+================================================================================
+TABLE: role_permissions
+================================================================================
+
+--- COLUMNS ---
+  - RoleId: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+  - PermissionId: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+
+--- PRIMARY KEY ---
+  EF PK: [PermissionId, RoleId] | DB PK: [PermissionId, RoleId] => OK
+
+--- FOREIGN KEYS ---
+  - (PermissionId) -> permissions(Id): DeleteBehavior EF=Cascade (CASCADE) | DB=CASCADE => OK
+  - (RoleId) -> roles(Id): DeleteBehavior EF=Cascade (CASCADE) | DB=CASCADE => OK
+
+--- INDEXES ---
+  - Index 'IX_role_permissions_PermissionId' (Unique=False, Cols=[PermissionId]): EXISTS IN DB
+
+================================================================================
+TABLE: roles
+================================================================================
+
+--- COLUMNS ---
+  - Id: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+  - CreatedAt: EF=[timestamp with time zone, Nullable=False] | DB=[timestamp with time zone(), Nullable=False, Default=none] => OK
+  - Description: EF=[text, Nullable=False] | DB=[text(), Nullable=False, Default=none] => OK
+  - Name: EF=[text, Nullable=False] | DB=[text(), Nullable=False, Default=none] => OK
+  - UpdatedAt: EF=[timestamp with time zone, Nullable=True] | DB=[timestamp with time zone(), Nullable=True, Default=none] => OK
+
+--- PRIMARY KEY ---
+  EF PK: [Id] | DB PK: [Id] => OK
+
+--- FOREIGN KEYS ---
+
+--- INDEXES ---
+
+================================================================================
+TABLE: search_logs
+================================================================================
+
+--- COLUMNS ---
+  - Id: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+  - CreatedAt: EF=[timestamp with time zone, Nullable=False] | DB=[timestamp with time zone(), Nullable=False, Default=none] => OK
+  - CustomerId: EF=[uuid, Nullable=True] | DB=[uuid(), Nullable=True, Default=none] => OK
+  - FiltersJson: EF=[text, Nullable=True] | DB=[text(), Nullable=True, Default=none] => OK
+  - ResultCount: EF=[integer, Nullable=False] | DB=[integer(32), Nullable=False, Default=none] => OK
+  - SearchQuery: EF=[text, Nullable=False] | DB=[text(), Nullable=False, Default=none] => OK
+  - UpdatedAt: EF=[timestamp with time zone, Nullable=True] | DB=[timestamp with time zone(), Nullable=True, Default=none] => OK
+
+--- PRIMARY KEY ---
+  EF PK: [Id] | DB PK: [Id] => OK
+
+--- FOREIGN KEYS ---
+  - (CustomerId) -> users(Id): DeleteBehavior EF=ClientSetNull (NO ACTION) | DB=NO ACTION => OK
+
+--- INDEXES ---
+  - Index 'IX_search_logs_CustomerId' (Unique=False, Cols=[CustomerId]): EXISTS IN DB
+
+================================================================================
+TABLE: user_roles
+================================================================================
+
+--- COLUMNS ---
+  - UserId: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+  - RoleId: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+
+--- PRIMARY KEY ---
+  EF PK: [RoleId, UserId] | DB PK: [RoleId, UserId] => OK
+
+--- FOREIGN KEYS ---
+  - (RoleId) -> roles(Id): DeleteBehavior EF=Cascade (CASCADE) | DB=CASCADE => OK
+  - (UserId) -> users(Id): DeleteBehavior EF=Cascade (CASCADE) | DB=CASCADE => OK
+
+--- INDEXES ---
+  - Index 'IX_user_roles_RoleId' (Unique=False, Cols=[RoleId]): EXISTS IN DB
+
+================================================================================
+TABLE: users
+================================================================================
+
+--- COLUMNS ---
+  - Id: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+  - CreatedAt: EF=[timestamp with time zone, Nullable=False] | DB=[timestamp with time zone(), Nullable=False, Default=none] => OK
+  - Email: EF=[text, Nullable=False] | DB=[text(), Nullable=False, Default=none] => OK
+  - FirstName: EF=[text, Nullable=False] | DB=[text(), Nullable=False, Default=none] => OK
+  - IsActive: EF=[boolean, Nullable=False] | DB=[boolean(), Nullable=False, Default=none] => OK
+  - LastName: EF=[text, Nullable=False] | DB=[text(), Nullable=False, Default=none] => OK
+  - PasswordHash: EF=[text, Nullable=False] | DB=[text(), Nullable=False, Default=none] => OK
+  - PhoneNumber: EF=[text, Nullable=False] | DB=[text(), Nullable=False, Default=none] => OK
+  - UpdatedAt: EF=[timestamp with time zone, Nullable=True] | DB=[timestamp with time zone(), Nullable=True, Default=none] => OK
+
+--- PRIMARY KEY ---
+  EF PK: [Id] | DB PK: [Id] => OK
+
+--- FOREIGN KEYS ---
+
+--- INDEXES ---
+  - Index 'IX_users_Email' (Unique=True, Cols=[Email]): EXISTS IN DB
+
+================================================================================
+TABLE: vendor_applications
+================================================================================
+
+--- COLUMNS ---
+  - Id: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+  - AddressLine1: EF=[character varying(255), Nullable=False] | DB=[character varying(255), Nullable=False, Default=''::character varying] => OK
+  - AddressLine2: EF=[character varying(255), Nullable=True] | DB=[character varying(255), Nullable=True, Default=none] => OK
+  - ApplicantUserId: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+  - BusinessCategory: EF=[character varying(100), Nullable=False] | DB=[character varying(100), Nullable=False, Default=''::character varying] => OK
+  - BusinessDescription: EF=[text, Nullable=True] | DB=[text(), Nullable=True, Default=none] => OK
+  - BusinessName: EF=[character varying(150), Nullable=False] | DB=[text(), Nullable=False, Default=none] => DIFFERENCE: Type: EF specifies 'character varying(150)' (max 150), but DB is 'text'
+  - BusinessNameboardPhotoRef: EF=[text, Nullable=True] | DB=[text(), Nullable=True, Default=none] => OK
+  - BusinessRegistrationCertificateRef: EF=[text, Nullable=True] | DB=[text(), Nullable=True, Default=none] => OK
+  - BusinessRegistrationDate: EF=[timestamp with time zone, Nullable=True] | DB=[timestamp with time zone(), Nullable=True, Default=none] => OK
+  - BusinessRegistrationNumber: EF=[character varying(100), Nullable=True] | DB=[text(), Nullable=True, Default=none] => DIFFERENCE: Type: EF specifies 'character varying(100)' (max 100), but DB is 'text'
+  - BusinessType: EF=[character varying(50), Nullable=False] | DB=[character varying(50), Nullable=False, Default='RetailShop'::character varying] => OK
+  - City: EF=[character varying(100), Nullable=False] | DB=[character varying(100), Nullable=False, Default=''::character varying] => OK
+  - ContactEmail: EF=[character varying(255), Nullable=False] | DB=[text(), Nullable=False, Default=none] => DIFFERENCE: Type: EF specifies 'character varying(255)' (max 255), but DB is 'text'
+  - ContactPhone: EF=[character varying(30), Nullable=False] | DB=[text(), Nullable=False, Default=none] => DIFFERENCE: Type: EF specifies 'character varying(30)' (max 30), but DB is 'text'
+  - CreatedAt: EF=[timestamp with time zone, Nullable=False] | DB=[timestamp with time zone(), Nullable=False, Default=none] => OK
+  - District: EF=[character varying(100), Nullable=False] | DB=[character varying(100), Nullable=False, Default=''::character varying] => OK
+  - IdDocumentRef: EF=[text, Nullable=True] | DB=[text(), Nullable=True, Default=none] => OK
+  - IdNumber: EF=[text, Nullable=True] | DB=[text(), Nullable=True, Default=none] => OK
+  - IdType: EF=[text, Nullable=True] | DB=[text(), Nullable=True, Default=none] => OK
+  - InformationAccuracyConfirmed: EF=[boolean, Nullable=False] | DB=[boolean(), Nullable=False, Default=false] => OK
+  - Latitude: EF=[double precision, Nullable=True] | DB=[double precision(53), Nullable=True, Default=none] => OK
+  - Longitude: EF=[double precision, Nullable=True] | DB=[double precision(53), Nullable=True, Default=none] => OK
+  - MarketplacePolicyAccepted: EF=[boolean, Nullable=False] | DB=[boolean(), Nullable=False, Default=false] => OK
+  - OtherLicenceRef: EF=[text, Nullable=True] | DB=[text(), Nullable=True, Default=none] => OK
+  - OwnerEmail: EF=[character varying(255), Nullable=False] | DB=[character varying(255), Nullable=False, Default=''::character varying] => OK
+  - OwnerFullName: EF=[character varying(150), Nullable=False] | DB=[character varying(150), Nullable=False, Default=''::character varying] => OK
+  - OwnerPhone: EF=[character varying(30), Nullable=False] | DB=[character varying(30), Nullable=False, Default=''::character varying] => OK
+  - OwnerPhotoRef: EF=[text, Nullable=True] | DB=[text(), Nullable=True, Default=none] => OK
+  - OwnershipType: EF=[character varying(50), Nullable=False] | DB=[character varying(50), Nullable=False, Default='Individual'::character varying] => OK
+  - PostalCode: EF=[character varying(20), Nullable=False] | DB=[character varying(20), Nullable=False, Default=''::character varying] => OK
+  - Province: EF=[character varying(100), Nullable=False] | DB=[character varying(100), Nullable=False, Default=''::character varying] => OK
+  - RejectionReason: EF=[text, Nullable=True] | DB=[text(), Nullable=True, Default=none] => OK
+  - ResidentialAddress: EF=[text, Nullable=True] | DB=[text(), Nullable=True, Default=none] => OK
+  - ReviewedAt: EF=[timestamp with time zone, Nullable=True] | DB=[timestamp with time zone(), Nullable=True, Default=none] => OK
+  - ReviewedByAdminId: EF=[uuid, Nullable=True] | DB=[uuid(), Nullable=True, Default=none] => OK
+  - SocialMediaUrl: EF=[text, Nullable=True] | DB=[text(), Nullable=True, Default=none] => OK
+  - Status: EF=[character varying(50), Nullable=False] | DB=[text(), Nullable=False, Default=none] => DIFFERENCE: Type: EF specifies 'character varying(50)' (max 50), but DB is 'text'
+  - StoreFrontPhotoRef: EF=[text, Nullable=True] | DB=[text(), Nullable=True, Default=none] => OK
+  - StoreInteriorPhotoRef: EF=[text, Nullable=True] | DB=[text(), Nullable=True, Default=none] => OK
+  - StoreLogoRef: EF=[text, Nullable=True] | DB=[text(), Nullable=True, Default=none] => OK
+  - SubmittedAt: EF=[timestamp with time zone, Nullable=False] | DB=[timestamp with time zone(), Nullable=False, Default=none] => OK
+  - TaxIdentificationNumber: EF=[character varying(100), Nullable=True] | DB=[text(), Nullable=True, Default=none] => DIFFERENCE: Type: EF specifies 'character varying(100)' (max 100), but DB is 'text'
+  - TermsAccepted: EF=[boolean, Nullable=False] | DB=[boolean(), Nullable=False, Default=false] => OK
+  - TermsAcceptedAt: EF=[timestamp with time zone, Nullable=True] | DB=[timestamp with time zone(), Nullable=True, Default=none] => OK
+  - TinCertificateRef: EF=[text, Nullable=True] | DB=[text(), Nullable=True, Default=none] => OK
+  - TradeLicenceRef: EF=[text, Nullable=True] | DB=[text(), Nullable=True, Default=none] => OK
+  - UpdatedAt: EF=[timestamp with time zone, Nullable=True] | DB=[timestamp with time zone(), Nullable=True, Default=none] => OK
+  - VatRegistrationNumber: EF=[character varying(100), Nullable=True] | DB=[character varying(100), Nullable=True, Default=none] => OK
+  - WebsiteUrl: EF=[text, Nullable=True] | DB=[text(), Nullable=True, Default=none] => OK
+
+--- PRIMARY KEY ---
+  EF PK: [Id] | DB PK: [Id] => OK
+
+--- FOREIGN KEYS ---
+  - (ApplicantUserId) -> users(Id): DeleteBehavior EF=Restrict (RESTRICT) | DB=RESTRICT => OK
+  - (ReviewedByAdminId) -> users(Id): DeleteBehavior EF=SetNull (SET NULL) | DB=SET NULL => OK
+
+--- INDEXES ---
+  - Index 'IX_vendor_applications_ApplicantUserId' (Unique=False, Cols=[ApplicantUserId]): EXISTS IN DB
+  - Index 'IX_vendor_applications_BusinessRegistrationNumber' (Unique=False, Cols=[BusinessRegistrationNumber]): MISSING IN DB
+  - Index 'IX_vendor_applications_ReviewedByAdminId' (Unique=False, Cols=[ReviewedByAdminId]): EXISTS IN DB
+  - Index 'IX_vendor_applications_Status' (Unique=False, Cols=[Status]): EXISTS IN DB
+
+================================================================================
+TABLE: vendor_commissions
+================================================================================
+
+--- COLUMNS ---
+  - Id: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+  - CommissionAmount: EF=[numeric(12,2), Nullable=False] | DB=[numeric(12), Nullable=False, Default=none] => OK
+  - CommissionRate: EF=[numeric(5,2), Nullable=False] | DB=[numeric(5), Nullable=False, Default=none] => OK
+  - CreatedAt: EF=[timestamp with time zone, Nullable=False] | DB=[timestamp with time zone(), Nullable=False, Default=none] => OK
+  - NetEarnings: EF=[numeric(12,2), Nullable=False] | DB=[numeric(12), Nullable=False, Default=none] => OK
+  - UpdatedAt: EF=[timestamp with time zone, Nullable=True] | DB=[timestamp with time zone(), Nullable=True, Default=none] => OK
+  - VendorOrderId: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+
+--- PRIMARY KEY ---
+  EF PK: [Id] | DB PK: [Id] => OK
+
+--- FOREIGN KEYS ---
+  - (VendorOrderId) -> vendor_orders(Id): DeleteBehavior EF=Cascade (CASCADE) | DB=CASCADE => OK
+
+--- INDEXES ---
+  - Index 'IX_vendor_commissions_VendorOrderId' (Unique=False, Cols=[VendorOrderId]): EXISTS IN DB
+
+================================================================================
+TABLE: vendor_orders
+================================================================================
+
+--- COLUMNS ---
+  - Id: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+  - CommissionAmount: EF=[numeric(12,2), Nullable=False] | DB=[numeric(12), Nullable=False, Default=none] => OK
+  - CommissionRate: EF=[numeric(5,2), Nullable=False] | DB=[numeric(5), Nullable=False, Default=none] => OK
+  - CreatedAt: EF=[timestamp with time zone, Nullable=False] | DB=[timestamp with time zone(), Nullable=False, Default=none] => OK
+  - NetEarnings: EF=[numeric(12,2), Nullable=False] | DB=[numeric(12), Nullable=False, Default=none] => OK
+  - ParentOrderId: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+  - Status: EF=[integer, Nullable=False] | DB=[integer(32), Nullable=False, Default=none] => OK
+  - SubOrderNumber: EF=[text, Nullable=False] | DB=[text(), Nullable=False, Default=none] => OK
+  - SubTotal: EF=[numeric(12,2), Nullable=False] | DB=[numeric(12), Nullable=False, Default=none] => OK
+  - UpdatedAt: EF=[timestamp with time zone, Nullable=True] | DB=[timestamp with time zone(), Nullable=True, Default=none] => OK
+  - VendorId: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+
+--- PRIMARY KEY ---
+  EF PK: [Id] | DB PK: [Id] => OK
+
+--- FOREIGN KEYS ---
+  - (ParentOrderId) -> orders(Id): DeleteBehavior EF=Cascade (CASCADE) | DB=CASCADE => OK
+  - (VendorId) -> vendors(Id): DeleteBehavior EF=Cascade (CASCADE) | DB=CASCADE => OK
+
+--- INDEXES ---
+  - Index 'IX_vendor_orders_ParentOrderId' (Unique=False, Cols=[ParentOrderId]): EXISTS IN DB
+  - Index 'IX_vendor_orders_SubOrderNumber' (Unique=True, Cols=[SubOrderNumber]): EXISTS IN DB
+  - Index 'IX_vendor_orders_VendorId' (Unique=False, Cols=[VendorId]): EXISTS IN DB
+
+================================================================================
+TABLE: vendor_payouts
+================================================================================
+
+--- COLUMNS ---
+  - Id: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+  - Amount: EF=[numeric(12,2), Nullable=False] | DB=[numeric(12), Nullable=False, Default=none] => OK
+  - CreatedAt: EF=[timestamp with time zone, Nullable=False] | DB=[timestamp with time zone(), Nullable=False, Default=none] => OK
+  - PayoutDate: EF=[timestamp with time zone, Nullable=True] | DB=[timestamp with time zone(), Nullable=True, Default=none] => OK
+  - Status: EF=[text, Nullable=False] | DB=[text(), Nullable=False, Default=none] => OK
+  - TransactionReference: EF=[text, Nullable=True] | DB=[text(), Nullable=True, Default=none] => OK
+  - UpdatedAt: EF=[timestamp with time zone, Nullable=True] | DB=[timestamp with time zone(), Nullable=True, Default=none] => OK
+  - VendorId: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+
+--- PRIMARY KEY ---
+  EF PK: [Id] | DB PK: [Id] => OK
+
+--- FOREIGN KEYS ---
+  - (VendorId) -> vendors(Id): DeleteBehavior EF=Cascade (CASCADE) | DB=CASCADE => OK
+
+--- INDEXES ---
+  - Index 'IX_vendor_payouts_VendorId' (Unique=False, Cols=[VendorId]): EXISTS IN DB
+
+================================================================================
+TABLE: vendors
+================================================================================
+
+--- COLUMNS ---
+  - Id: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+  - ApplicationId: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+  - BannerUrl: EF=[text, Nullable=False] | DB=[text(), Nullable=False, Default=none] => OK
+  - CommissionRate: EF=[numeric(5,2), Nullable=False] | DB=[numeric(5), Nullable=False, Default=none] => OK
+  - CreatedAt: EF=[timestamp with time zone, Nullable=False] | DB=[timestamp with time zone(), Nullable=False, Default=none] => OK
+  - Description: EF=[text, Nullable=False] | DB=[text(), Nullable=False, Default=none] => OK
+  - Latitude: EF=[double precision, Nullable=False] | DB=[double precision(53), Nullable=False, Default=none] => OK
+  - LogoUrl: EF=[text, Nullable=False] | DB=[text(), Nullable=False, Default=none] => OK
+  - Longitude: EF=[double precision, Nullable=False] | DB=[double precision(53), Nullable=False, Default=none] => OK
+  - ServiceRadiusKm: EF=[double precision, Nullable=False] | DB=[double precision(53), Nullable=False, Default=none] => OK
+  - Status: EF=[text, Nullable=False] | DB=[text(), Nullable=False, Default=none] => OK
+  - StoreName: EF=[text, Nullable=False] | DB=[text(), Nullable=False, Default=none] => OK
+  - UpdatedAt: EF=[timestamp with time zone, Nullable=True] | DB=[timestamp with time zone(), Nullable=True, Default=none] => OK
+  - UserId: EF=[uuid, Nullable=False] | DB=[uuid(), Nullable=False, Default=none] => OK
+
+--- PRIMARY KEY ---
+  EF PK: [Id] | DB PK: [Id] => OK
+
+--- FOREIGN KEYS ---
+  - (ApplicationId) -> vendor_applications(Id): DeleteBehavior EF=Restrict (RESTRICT) | DB=RESTRICT => OK
+  - (UserId) -> users(Id): DeleteBehavior EF=Cascade (CASCADE) | DB=CASCADE => OK
+
+--- INDEXES ---
+  - Index 'IX_vendors_ApplicationId' (Unique=True, Cols=[ApplicationId]): EXISTS IN DB
+  - Index 'IX_vendors_UserId' (Unique=True, Cols=[UserId]): EXISTS IN DB
+
+================================================================================
+TOTAL DIFFERENCES FOUND ACROSS ALL 30 TABLES: 7
+================================================================================
