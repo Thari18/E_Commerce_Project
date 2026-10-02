@@ -8,69 +8,69 @@ import { VendorApplicationService, VendorApplicationDetail } from '../../core/se
   standalone: true,
   imports: [CommonModule, FormsModule],
   template: `
-    <div class="max-w-7xl mx-auto px-4 py-8">
+    <div class="max-w-7xl mx-auto px-4 py-8 transition-colors duration-200">
       <!-- Admin Header -->
-      <div class="bg-slate-900 rounded-3xl p-8 border border-slate-800 mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 shadow-xl">
+      <div class="bg-lm-surface rounded-3xl p-8 border border-lm-border mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 shadow-xl">
         <div>
-          <span class="inline-block px-3 py-1 bg-purple-500/10 text-purple-400 text-xs font-bold rounded-full border border-purple-500/20 mb-2">
+          <span class="inline-block px-3 py-1 bg-blue-500/10 text-blue-400 text-xs font-bold rounded-full border border-blue-500/20 mb-2">
             Administrator Portal
           </span>
-          <h1 class="text-3xl font-extrabold text-white">System Governance & Operations</h1>
-          <p class="text-slate-400 text-sm mt-1">Vendor Onboarding Moderation, Approvals & Platform Controls</p>
+          <h1 class="text-3xl font-extrabold text-lm-text-main">System Governance & Operations</h1>
+          <p class="text-lm-text-muted text-sm mt-1">Vendor Onboarding Moderation, Approvals & Platform Controls</p>
         </div>
-        <div class="bg-purple-500/10 px-4 py-2 rounded-xl border border-purple-500/20 text-purple-300 font-semibold text-xs">
+        <div class="bg-blue-500/10 px-4 py-2 rounded-xl border border-blue-500/20 text-blue-300 font-semibold text-xs">
           Role: Admin (vendors.approve, vendors.read)
         </div>
       </div>
 
       <!-- Moderation Section Header & Filters -->
-      <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 mb-8 shadow-xl">
+      <div class="bg-lm-surface border border-lm-border rounded-3xl p-6 mb-8 shadow-xl">
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
           <div>
-            <h2 class="text-xl font-bold text-white">Vendor Applications Moderation</h2>
-            <p class="text-xs text-slate-400 mt-0.5">Review structured merchant onboarding submissions (BR-001)</p>
+            <h2 class="text-xl font-bold text-lm-text-main">Vendor Applications Moderation</h2>
+            <p class="text-xs text-lm-text-muted mt-0.5">Review structured merchant onboarding submissions (BR-001)</p>
           </div>
           <!-- Status Filter Pills -->
-          <div class="flex gap-2 bg-slate-950 p-1 rounded-xl border border-slate-800">
+          <div class="flex gap-2 bg-lm-surface-elevated p-1 rounded-xl border border-lm-border">
             <button
               (click)="setFilter(null)"
-              [class]="selectedFilter() === null ? 'bg-purple-600 text-white' : 'text-slate-400 hover:text-white'"
-              class="px-3 py-1.5 text-xs font-semibold rounded-lg transition">
+              [class]="selectedFilter() === null ? 'bg-blue-600 text-white font-bold shadow-md shadow-blue-600/20' : 'text-lm-text-muted hover:text-lm-text-main font-medium'"
+              class="px-3 py-1.5 text-xs rounded-lg transition-all">
               All
             </button>
             <button
               (click)="setFilter('Pending')"
-              [class]="selectedFilter() === 'Pending' ? 'bg-amber-600 text-white' : 'text-slate-400 hover:text-white'"
-              class="px-3 py-1.5 text-xs font-semibold rounded-lg transition">
+              [class]="selectedFilter() === 'Pending' ? 'bg-amber-600 text-white font-bold shadow-md' : 'text-lm-text-muted hover:text-lm-text-main font-medium'"
+              class="px-3 py-1.5 text-xs rounded-lg transition-all">
               Pending
             </button>
             <button
               (click)="setFilter('Approved')"
-              [class]="selectedFilter() === 'Approved' ? 'bg-emerald-600 text-white' : 'text-slate-400 hover:text-white'"
-              class="px-3 py-1.5 text-xs font-semibold rounded-lg transition">
+              [class]="selectedFilter() === 'Approved' ? 'bg-emerald-600 text-white font-bold shadow-md' : 'text-lm-text-muted hover:text-lm-text-main font-medium'"
+              class="px-3 py-1.5 text-xs rounded-lg transition-all">
               Approved
             </button>
             <button
               (click)="setFilter('Rejected')"
-              [class]="selectedFilter() === 'Rejected' ? 'bg-rose-600 text-white' : 'text-slate-400 hover:text-white'"
-              class="px-3 py-1.5 text-xs font-semibold rounded-lg transition">
+              [class]="selectedFilter() === 'Rejected' ? 'bg-rose-600 text-white font-bold shadow-md' : 'text-lm-text-muted hover:text-lm-text-main font-medium'"
+              class="px-3 py-1.5 text-xs rounded-lg transition-all">
               Rejected
             </button>
           </div>
         </div>
 
         <!-- Success / Error Notice -->
-        <div *ngIf="actionMessage()" class="mb-4 p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-xl text-emerald-400 text-xs">
+        <div *ngIf="actionMessage()" class="mb-4 p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-xl text-emerald-400 text-xs font-medium">
           {{ actionMessage() }}
         </div>
-        <div *ngIf="errorMessage()" class="mb-4 p-4 bg-rose-500/10 border border-rose-500/20 rounded-xl text-rose-400 text-xs">
+        <div *ngIf="errorMessage()" class="mb-4 p-4 bg-rose-500/10 border border-rose-500/20 rounded-xl text-rose-400 text-xs font-medium">
           {{ errorMessage() }}
         </div>
 
         <!-- Applications Table -->
         <div class="overflow-x-auto">
-          <table class="w-full text-left text-xs text-slate-300">
-            <thead class="bg-slate-950 text-slate-400 uppercase tracking-wider text-[10px] border-b border-slate-800">
+          <table class="w-full text-left text-xs text-lm-text-muted">
+            <thead class="bg-lm-surface-elevated text-lm-text-muted uppercase tracking-wider text-[10px] border-b border-lm-border">
               <tr>
                 <th class="p-4">Business / Type</th>
                 <th class="p-4">Owner / Contact</th>
@@ -80,25 +80,25 @@ import { VendorApplicationService, VendorApplicationDetail } from '../../core/se
                 <th class="p-4 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody class="divide-y divide-slate-800/60">
-              <tr *ngFor="let app of applications()" class="hover:bg-slate-800/30 transition">
+            <tbody class="divide-y divide-lm-border/60">
+              <tr *ngFor="let app of applications()" class="hover:bg-lm-surface-elevated/60 transition-colors">
                 <td class="p-4">
-                  <div class="font-bold text-white text-sm">{{ app.businessName }}</div>
-                  <div class="text-amber-400 text-[11px] font-medium">{{ app.businessType }} • {{ app.ownershipType }}</div>
+                  <div class="font-bold text-lm-text-main text-sm">{{ app.businessName }}</div>
+                  <div class="text-blue-400 text-[11px] font-medium">{{ app.businessType }} • {{ app.ownershipType }}</div>
                 </td>
                 <td class="p-4">
-                  <div class="text-slate-200 font-semibold">{{ app.ownerFullName || app.applicantName }}</div>
-                  <div class="text-slate-400 text-[11px]">{{ app.contactEmail }}</div>
-                  <div class="text-slate-500 text-[10px]">{{ app.contactPhone }}</div>
+                  <div class="text-lm-text-main font-semibold">{{ app.ownerFullName || app.applicantName }}</div>
+                  <div class="text-lm-text-muted text-[11px]">{{ app.contactEmail }}</div>
+                  <div class="text-lm-text-muted opacity-80 text-[10px]">{{ app.contactPhone }}</div>
                 </td>
                 <td class="p-4">
-                  <div>Reg: <span class="text-white font-mono font-medium">{{ app.businessRegistrationNumber }}</span></div>
-                  <div class="text-slate-400 font-mono text-[11px]">TIN: {{ app.taxIdentificationNumber || 'N/A' }}</div>
-                  <div *ngIf="app.vatRegistrationNumber" class="text-slate-500 font-mono text-[10px]">VAT: {{ app.vatRegistrationNumber }}</div>
+                  <div>Reg: <span class="text-lm-text-main font-mono font-medium">{{ app.businessRegistrationNumber }}</span></div>
+                  <div class="text-lm-text-muted font-mono text-[11px]">TIN: {{ app.taxIdentificationNumber || 'N/A' }}</div>
+                  <div *ngIf="app.vatRegistrationNumber" class="text-lm-text-muted opacity-80 font-mono text-[10px]">VAT: {{ app.vatRegistrationNumber }}</div>
                 </td>
                 <td class="p-4">
-                  <div>{{ app.city }}, {{ app.district }}</div>
-                  <div class="text-slate-500 text-[11px]">{{ app.province }}</div>
+                  <div class="text-lm-text-main">{{ app.city }}, {{ app.district }}</div>
+                  <div class="text-lm-text-muted text-[11px]">{{ app.province }}</div>
                 </td>
                 <td class="p-4">
                   <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider" [ngClass]="{
@@ -112,28 +112,28 @@ import { VendorApplicationService, VendorApplicationDetail } from '../../core/se
                 <td class="p-4 text-right space-x-2">
                   <button
                     (click)="openDetailModal(app)"
-                    class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold rounded-lg transition text-[11px] border border-slate-700">
+                    class="px-3 py-1.5 bg-lm-surface-elevated hover:bg-lm-border-hover text-lm-text-main font-semibold rounded-lg transition text-[11px] border border-lm-border">
                     Inspect
                   </button>
 
                   <button
                     *ngIf="app.status === 'Pending' || app.status === 'UnderReview'"
                     (click)="openApproveModal(app)"
-                    class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold rounded-lg transition text-[11px]">
+                    class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-lg transition text-[11px] shadow-sm">
                     Approve
                   </button>
 
                   <button
                     *ngIf="app.status === 'Pending' || app.status === 'UnderReview'"
                     (click)="openRejectModal(app)"
-                    class="px-3 py-1.5 bg-rose-600 hover:bg-rose-500 text-white font-bold rounded-lg transition text-[11px]">
+                    class="px-3 py-1.5 bg-rose-600 hover:bg-rose-500 text-white font-bold rounded-lg transition text-[11px] shadow-sm">
                     Reject
                   </button>
                 </td>
               </tr>
 
               <tr *ngIf="applications().length === 0">
-                <td colspan="6" class="p-8 text-center text-slate-500">
+                <td colspan="6" class="p-8 text-center text-lm-text-muted">
                   No vendor applications found for selected filter.
                 </td>
               </tr>

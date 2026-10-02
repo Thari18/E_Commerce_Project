@@ -99,197 +99,212 @@ app.UseAuthorization();
 app.MapControllers();
 
 // Seed Database Roles and Sample Data on Startup
-using (var scope = app.Services.CreateScope())
+try
 {
-    var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    var hasher = scope.ServiceProvider.GetRequiredService<LocalMart.Application.Common.Interfaces.IPasswordHasher>();
-    
-    // Ensure Database & Tables Created for PostgreSQL
-    var dbCreator = context.Database.GetService<IRelationalDatabaseCreator>();
-    if (dbCreator != null)
+    using (var scope = app.Services.CreateScope())
     {
-        if (!dbCreator.Exists())
-        {
-            dbCreator.Create();
-        }
+        var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+        var hasher = scope.ServiceProvider.GetRequiredService<LocalMart.Application.Common.Interfaces.IPasswordHasher>();
+        
+        // Ensure Database & Tables Created for PostgreSQL
         try
         {
-            dbCreator.CreateTables();
+            var dbCreator = context.Database.GetService<IRelationalDatabaseCreator>();
+            if (dbCreator != null)
+            {
+                if (!dbCreator.Exists())
+                {
+                    dbCreator.Create();
+                }
+                try
+                {
+                    dbCreator.CreateTables();
+                }
+                catch (Exception)
+                {
+                    // Tables already exist or partially exist in database
+                }
+            }
         }
         catch (Exception)
         {
-            // Tables already exist or partially exist in database
+            // Provider is non-relational (e.g., In-Memory) or host unreachable
         }
-    }
 
-    // Seed Roles
-    var roles = new[] { "Customer", "Vendor", "Admin", "Delivery Staff" };
-    foreach (var roleName in roles)
-    {
-        if (!context.Roles.Any(r => r.Name == roleName))
+        // Seed Roles
+        var roles = new[] { "Customer", "Vendor", "Admin", "Delivery Staff" };
+        foreach (var roleName in roles)
         {
-            context.Roles.Add(new LocalMart.Domain.Entities.Role
+            if (!context.Roles.Any(r => r.Name == roleName))
+            {
+                context.Roles.Add(new LocalMart.Domain.Entities.Role
+                {
+                    Id = Guid.NewGuid(),
+                    Name = roleName,
+                    Description = $"{roleName} Role"
+                });
+            }
+            context.SaveChanges();
+        }
+
+        // Seed Default Development Test Users (Admin, Customer, Vendor)
+        var adminRole = context.Roles.First(r => r.Name == "Admin");
+        var customerRole = context.Roles.First(r => r.Name == "Customer");
+        var vendorRole = context.Roles.First(r => r.Name == "Vendor");
+
+        var adminUser = context.Users.FirstOrDefault(u => u.Email == "admin@localmart.com");
+        if (adminUser == null)
+        {
+            adminUser = new LocalMart.Domain.Entities.User
             {
                 Id = Guid.NewGuid(),
-                Name = roleName,
-                Description = $"{roleName} Role"
-            });
+                Email = "admin@localmart.com",
+                PasswordHash = hasher.HashPassword("AdminPass123!"),
+                FirstName = "System",
+                LastName = "Administrator",
+                PhoneNumber = "+15550000001",
+                IsActive = true
+            };
+            context.Users.Add(adminUser);
+            context.UserRoles.Add(new LocalMart.Domain.Entities.UserRole { UserId = adminUser.Id, RoleId = adminRole.Id });
         }
-        context.SaveChanges();
-    }
-
-    // Seed Default Development Test Users (Admin, Customer, Vendor)
-    var adminRole = context.Roles.First(r => r.Name == "Admin");
-    var customerRole = context.Roles.First(r => r.Name == "Customer");
-    var vendorRole = context.Roles.First(r => r.Name == "Vendor");
-
-    var adminUser = context.Users.FirstOrDefault(u => u.Email == "admin@localmart.com");
-    if (adminUser == null)
-    {
-        adminUser = new LocalMart.Domain.Entities.User
+        else
         {
-            Id = Guid.NewGuid(),
-            Email = "admin@localmart.com",
-            PasswordHash = hasher.HashPassword("AdminPass123!"),
-            FirstName = "System",
-            LastName = "Administrator",
-            PhoneNumber = "+15550000001",
-            IsActive = true
-        };
-        context.Users.Add(adminUser);
-        context.UserRoles.Add(new LocalMart.Domain.Entities.UserRole { UserId = adminUser.Id, RoleId = adminRole.Id });
-    }
-    else
-    {
-        adminUser.PasswordHash = hasher.HashPassword("AdminPass123!");
-    }
+            adminUser.PasswordHash = hasher.HashPassword("AdminPass123!");
+        }
 
-    if (!context.Users.Any(u => u.Email == "customer@localmart.com"))
-    {
-        var custUser = new LocalMart.Domain.Entities.User
+        if (!context.Users.Any(u => u.Email == "customer@localmart.com"))
         {
-            Id = Guid.NewGuid(),
-            Email = "customer@localmart.com",
-            PasswordHash = hasher.HashPassword("CustomerPass123!"),
-            FirstName = "Jane",
-            LastName = "Customer",
-            PhoneNumber = "+15550000002",
-            IsActive = true
-        };
-        context.Users.Add(custUser);
-        context.UserRoles.Add(new LocalMart.Domain.Entities.UserRole { UserId = custUser.Id, RoleId = customerRole.Id });
-    }
+            var custUser = new LocalMart.Domain.Entities.User
+            {
+                Id = Guid.NewGuid(),
+                Email = "customer@localmart.com",
+                PasswordHash = hasher.HashPassword("CustomerPass123!"),
+                FirstName = "Jane",
+                LastName = "Customer",
+                PhoneNumber = "+15550000002",
+                IsActive = true
+            };
+            context.Users.Add(custUser);
+            context.UserRoles.Add(new LocalMart.Domain.Entities.UserRole { UserId = custUser.Id, RoleId = customerRole.Id });
+        }
 
-    // Seed Sample Categories if Empty
-    if (!context.Categories.Any())
-    {
-        var cat1 = new LocalMart.Domain.Entities.Category { Id = Guid.NewGuid(), Name = "Fresh Produce", Slug = "fresh-produce", Description = "Organic fruits and vegetables", ImageUrl = "https://images.unsplash.com/photo-1610832958506-aa56368176cf?auto=format&fit=crop&w=400&q=80", DisplayOrder = 1 };
-        var cat2 = new LocalMart.Domain.Entities.Category { Id = Guid.NewGuid(), Name = "Bakery & Sweets", Slug = "bakery-sweets", Description = "Artisanal bread and fresh pastries", ImageUrl = "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=400&q=80", DisplayOrder = 2 };
-        var cat3 = new LocalMart.Domain.Entities.Category { Id = Guid.NewGuid(), Name = "Dairy & Eggs", Slug = "dairy-eggs", Description = "Farm-fresh dairy products", ImageUrl = "https://images.unsplash.com/photo-1528750997573-59b89d56f4f7?auto=format&fit=crop&w=400&q=80", DisplayOrder = 3 };
-
-        context.Categories.AddRange(cat1, cat2, cat3);
-        context.SaveChanges();
-    }
-
-    // DEVELOPMENT SEED DATA (Approved sample vendors & products for localhost visual verification)
-    if (!context.Products.Any())
-    {
-        var vendorUser = new LocalMart.Domain.Entities.User
+        // Seed Sample Categories if Empty
+        if (!context.Categories.Any())
         {
-            Id = Guid.NewGuid(),
-            Email = "vendor@localmart.com",
-            PasswordHash = hasher.HashPassword("VendorPass123!"),
-            FirstName = "Green Leaf",
-            LastName = "Organics",
-            PhoneNumber = "+15550192834",
-            IsActive = true
-        };
-        context.Users.Add(vendorUser);
-        context.UserRoles.Add(new LocalMart.Domain.Entities.UserRole { UserId = vendorUser.Id, RoleId = vendorRole.Id });
+            var cat1 = new LocalMart.Domain.Entities.Category { Id = Guid.NewGuid(), Name = "Fresh Produce", Slug = "fresh-produce", Description = "Organic fruits and vegetables", ImageUrl = "https://images.unsplash.com/photo-1610832958506-aa56368176cf?auto=format&fit=crop&w=400&q=80", DisplayOrder = 1 };
+            var cat2 = new LocalMart.Domain.Entities.Category { Id = Guid.NewGuid(), Name = "Bakery & Sweets", Slug = "bakery-sweets", Description = "Artisanal bread and fresh pastries", ImageUrl = "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=400&q=80", DisplayOrder = 2 };
+            var cat3 = new LocalMart.Domain.Entities.Category { Id = Guid.NewGuid(), Name = "Dairy & Eggs", Slug = "dairy-eggs", Description = "Farm-fresh dairy products", ImageUrl = "https://images.unsplash.com/photo-1528750997573-59b89d56f4f7?auto=format&fit=crop&w=400&q=80", DisplayOrder = 3 };
 
-        var application = new LocalMart.Domain.Entities.VendorApplication
+            context.Categories.AddRange(cat1, cat2, cat3);
+            context.SaveChanges();
+        }
+
+        // DEVELOPMENT SEED DATA (Approved sample vendors & products for localhost visual verification)
+        if (!context.Products.Any())
         {
-            Id = Guid.NewGuid(),
-            ApplicantUserId = vendorUser.Id,
-            BusinessName = "Green Leaf Organics",
-            BusinessRegistrationNumber = "REG-GLO-2026-001",
-            ContactPhone = "+15550192834",
-            ContactEmail = "vendor@localmart.com",
-            Status = "Approved",
-            ReviewedAt = DateTime.UtcNow
-        };
-        context.VendorApplications.Add(application);
+            var vendorUser = new LocalMart.Domain.Entities.User
+            {
+                Id = Guid.NewGuid(),
+                Email = "vendor@localmart.com",
+                PasswordHash = hasher.HashPassword("VendorPass123!"),
+                FirstName = "Green Leaf",
+                LastName = "Organics",
+                PhoneNumber = "+15550192834",
+                IsActive = true
+            };
+            context.Users.Add(vendorUser);
+            context.UserRoles.Add(new LocalMart.Domain.Entities.UserRole { UserId = vendorUser.Id, RoleId = vendorRole.Id });
 
-        var vendor = new LocalMart.Domain.Entities.Vendor
-        {
-            Id = Guid.NewGuid(),
-            UserId = vendorUser.Id,
-            ApplicationId = application.Id,
-            StoreName = "Green Leaf Organics",
-            Description = "Neighborhood Organic Farm Store",
-            Status = "Approved"
-        };
-        context.Vendors.Add(vendor);
+            var application = new LocalMart.Domain.Entities.VendorApplication
+            {
+                Id = Guid.NewGuid(),
+                ApplicantUserId = vendorUser.Id,
+                BusinessName = "Green Leaf Organics",
+                BusinessRegistrationNumber = "REG-GLO-2026-001",
+                ContactPhone = "+15550192834",
+                ContactEmail = "vendor@localmart.com",
+                Status = "Approved",
+                ReviewedAt = DateTime.UtcNow
+            };
+            context.VendorApplications.Add(application);
 
-        var produceCat = context.Categories.First(c => c.Slug == "fresh-produce");
-        var bakeryCat = context.Categories.First(c => c.Slug == "bakery-sweets");
-        var dairyCat = context.Categories.First(c => c.Slug == "dairy-eggs");
+            var vendor = new LocalMart.Domain.Entities.Vendor
+            {
+                Id = Guid.NewGuid(),
+                UserId = vendorUser.Id,
+                ApplicationId = application.Id,
+                StoreName = "Green Leaf Organics",
+                Description = "Neighborhood Organic Farm Store",
+                Status = "Approved"
+            };
+            context.Vendors.Add(vendor);
 
-        var prod1 = new LocalMart.Domain.Entities.Product
-        {
-            Id = Guid.NewGuid(),
-            VendorId = vendor.Id,
-            CategoryId = produceCat.Id,
-            Name = "Crisp Honeycrisp Apples",
-            Slug = "honeycrisp-apples",
-            Description = "Freshly harvested organic Honeycrisp apples, rich in flavor and crunch.",
-            Price = 4.99m,
-            SKU = "PROD-APP-001",
-            Status = LocalMart.Domain.Enums.ProductStatus.Active
-        };
+            var produceCat = context.Categories.First(c => c.Slug == "fresh-produce");
+            var bakeryCat = context.Categories.First(c => c.Slug == "bakery-sweets");
+            var dairyCat = context.Categories.First(c => c.Slug == "dairy-eggs");
 
-        var prod2 = new LocalMart.Domain.Entities.Product
-        {
-            Id = Guid.NewGuid(),
-            VendorId = vendor.Id,
-            CategoryId = bakeryCat.Id,
-            Name = "Artisanal Sourdough Bread",
-            Slug = "artisanal-sourdough-bread",
-            Description = "Naturally fermented 24-hour sourdough loaf baked fresh daily.",
-            Price = 6.50m,
-            SKU = "BAK-SDR-002",
-            Status = LocalMart.Domain.Enums.ProductStatus.Active
-        };
+            var prod1 = new LocalMart.Domain.Entities.Product
+            {
+                Id = Guid.NewGuid(),
+                VendorId = vendor.Id,
+                CategoryId = produceCat.Id,
+                Name = "Crisp Honeycrisp Apples",
+                Slug = "honeycrisp-apples",
+                Description = "Freshly harvested organic Honeycrisp apples, rich in flavor and crunch.",
+                Price = 4.99m,
+                SKU = "PROD-APP-001",
+                Status = LocalMart.Domain.Enums.ProductStatus.Active
+            };
 
-        var prod3 = new LocalMart.Domain.Entities.Product
-        {
-            Id = Guid.NewGuid(),
-            VendorId = vendor.Id,
-            CategoryId = dairyCat.Id,
-            Name = "Farm Fresh Whole Milk",
-            Slug = "farm-fresh-whole-milk",
-            Description = "Pasteurized whole milk sourced from local family dairies.",
-            Price = 3.99m,
-            SKU = "DAI-MLK-003",
-            Status = LocalMart.Domain.Enums.ProductStatus.Active
-        };
+            var prod2 = new LocalMart.Domain.Entities.Product
+            {
+                Id = Guid.NewGuid(),
+                VendorId = vendor.Id,
+                CategoryId = bakeryCat.Id,
+                Name = "Artisanal Sourdough Bread",
+                Slug = "artisanal-sourdough-bread",
+                Description = "Naturally fermented 24-hour sourdough loaf baked fresh daily.",
+                Price = 6.50m,
+                SKU = "BAK-SDR-002",
+                Status = LocalMart.Domain.Enums.ProductStatus.Active
+            };
 
-        context.Products.AddRange(prod1, prod2, prod3);
+            var prod3 = new LocalMart.Domain.Entities.Product
+            {
+                Id = Guid.NewGuid(),
+                VendorId = vendor.Id,
+                CategoryId = dairyCat.Id,
+                Name = "Farm Fresh Whole Milk",
+                Slug = "farm-fresh-whole-milk",
+                Description = "Pasteurized whole milk sourced from local family dairies.",
+                Price = 3.99m,
+                SKU = "DAI-MLK-003",
+                Status = LocalMart.Domain.Enums.ProductStatus.Active
+            };
 
-        context.ProductImages.AddRange(
-            new LocalMart.Domain.Entities.ProductImage { Id = Guid.NewGuid(), ProductId = prod1.Id, ImageUrl = "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?auto=format&fit=crop&w=600&q=80", IsMain = true },
-            new LocalMart.Domain.Entities.ProductImage { Id = Guid.NewGuid(), ProductId = prod2.Id, ImageUrl = "https://images.unsplash.com/photo-1585478259715-876a6a81fc08?auto=format&fit=crop&w=600&q=80", IsMain = true },
-            new LocalMart.Domain.Entities.ProductImage { Id = Guid.NewGuid(), ProductId = prod3.Id, ImageUrl = "https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&w=600&q=80", IsMain = true }
-        );
+            context.Products.AddRange(prod1, prod2, prod3);
 
-        context.Inventories.AddRange(
-            new LocalMart.Domain.Entities.Inventory { Id = Guid.NewGuid(), ProductId = prod1.Id, QuantityAvailable = 50, QuantityReserved = 0 },
-            new LocalMart.Domain.Entities.Inventory { Id = Guid.NewGuid(), ProductId = prod2.Id, QuantityAvailable = 30, QuantityReserved = 0 },
-            new LocalMart.Domain.Entities.Inventory { Id = Guid.NewGuid(), ProductId = prod3.Id, QuantityAvailable = 40, QuantityReserved = 0 }
-        );
+            context.ProductImages.AddRange(
+                new LocalMart.Domain.Entities.ProductImage { Id = Guid.NewGuid(), ProductId = prod1.Id, ImageUrl = "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?auto=format&fit=crop&w=600&q=80", IsMain = true },
+                new LocalMart.Domain.Entities.ProductImage { Id = Guid.NewGuid(), ProductId = prod2.Id, ImageUrl = "https://images.unsplash.com/photo-1585478259715-876a6a81fc08?auto=format&fit=crop&w=600&q=80", IsMain = true },
+                new LocalMart.Domain.Entities.ProductImage { Id = Guid.NewGuid(), ProductId = prod3.Id, ImageUrl = "https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&w=600&q=80", IsMain = true }
+            );
 
-        context.SaveChanges();
+            context.Inventories.AddRange(
+                new LocalMart.Domain.Entities.Inventory { Id = Guid.NewGuid(), ProductId = prod1.Id, QuantityAvailable = 50, QuantityReserved = 0 },
+                new LocalMart.Domain.Entities.Inventory { Id = Guid.NewGuid(), ProductId = prod2.Id, QuantityAvailable = 30, QuantityReserved = 0 },
+                new LocalMart.Domain.Entities.Inventory { Id = Guid.NewGuid(), ProductId = prod3.Id, QuantityAvailable = 40, QuantityReserved = 0 }
+            );
+
+            context.SaveChanges();
+        }
     }
 }
+catch (Exception ex)
+{
+    Console.WriteLine($"Database initialization skipped/deferred: {ex.Message}");
+}
+
 
 app.Run();

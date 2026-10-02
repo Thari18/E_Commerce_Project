@@ -17,42 +17,42 @@ interface LocalFileInfo {
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterLink],
   template: `
-    <div class="max-w-5xl mx-auto px-4 py-10">
+    <div class="max-w-5xl mx-auto px-4 py-10 transition-colors duration-200">
       <!-- Header Banner -->
-      <div class="bg-slate-900 rounded-3xl p-8 border border-slate-800 mb-8 relative overflow-hidden shadow-2xl">
-        <div class="absolute inset-0 bg-gradient-to-r from-amber-500/10 via-indigo-500/10 to-emerald-500/10 pointer-events-none"></div>
+      <div class="bg-lm-surface rounded-3xl p-8 border border-lm-border mb-8 relative overflow-hidden shadow-2xl">
+        <div class="absolute inset-0 bg-gradient-to-r from-blue-600/10 via-indigo-500/10 to-blue-500/10 pointer-events-none"></div>
         <div class="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
-            <span class="px-3 py-1 bg-amber-500/10 text-amber-400 text-xs font-bold rounded-full border border-amber-500/20 mb-3 inline-block">
+            <span class="px-3 py-1 bg-blue-500/10 text-blue-400 text-xs font-bold rounded-full border border-blue-500/20 mb-3 inline-block">
               Merchant Onboarding Workflow
             </span>
-            <h1 class="text-3xl md:text-4xl font-extrabold text-white tracking-tight">Apply to Become a LocalMart Vendor</h1>
-            <p class="text-slate-300 text-sm mt-2 max-w-2xl leading-relaxed">
+            <h1 class="text-3xl md:text-4xl font-extrabold text-lm-text-main tracking-tight">Apply to Become a LocalMart Vendor</h1>
+            <p class="text-lm-text-muted text-sm mt-2 max-w-2xl leading-relaxed">
               Join neighborhood merchants on LocalMart. Complete your applicant identity, business registry, physical store location, and verification details.
             </p>
           </div>
-          <div class="shrink-0 bg-slate-800/80 border border-slate-700/60 rounded-2xl p-4 text-center">
-            <div class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Application Stage</div>
-            <div class="text-amber-400 font-extrabold text-lg mt-0.5">Step {{ currentStep() }} of 6</div>
+          <div class="shrink-0 bg-lm-surface-elevated/80 border border-lm-border rounded-2xl p-4 text-center">
+            <div class="text-xs text-lm-text-muted uppercase tracking-wider font-semibold">Application Stage</div>
+            <div class="text-blue-400 font-extrabold text-lg mt-0.5">Step {{ currentStep() }} of 6</div>
           </div>
         </div>
       </div>
 
       <!-- Governance Notice Card -->
-      <div class="bg-indigo-950/40 border border-indigo-500/30 rounded-2xl p-5 mb-8 flex gap-4 items-start">
-        <div class="p-2.5 bg-indigo-500/10 text-indigo-400 rounded-xl border border-indigo-500/20 shrink-0">
+      <div class="bg-blue-950/30 border border-blue-500/30 rounded-2xl p-5 mb-8 flex gap-4 items-start">
+        <div class="p-2.5 bg-blue-500/10 text-blue-400 rounded-xl border border-blue-500/20 shrink-0">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 9 0 11-18 0 9 9 0 0118 0z"></path>
           </svg>
         </div>
-        <div class="text-xs leading-relaxed text-slate-300">
-          <span class="font-bold text-indigo-300 uppercase tracking-wide block mb-0.5">Governance & Privacy Architecture</span>
-          Applicant identity and documents (<span class="text-amber-300 font-semibold">Owner Photo, ID, Registration Certificates, TIN, Trade Licences</span>) are <strong>Private Verification Assets</strong>. They are retained exclusively for administrative verification and compliance auditing. They are never exposed publicly on store profiles or customer catalog routes.
+        <div class="text-xs leading-relaxed text-lm-text-muted">
+          <span class="font-bold text-blue-400 uppercase tracking-wide block mb-0.5">Governance & Privacy Architecture</span>
+          Applicant identity and documents (<span class="text-blue-300 font-semibold">Owner Photo, ID, Registration Certificates, TIN, Trade Licences</span>) are <strong>Private Verification Assets</strong>. They are retained exclusively for administrative verification and compliance auditing. They are never exposed publicly on store profiles or customer catalog routes.
         </div>
       </div>
 
       <!-- Application Status View (If Already Submitted) -->
-      <div *ngIf="applicationStatus()" class="bg-slate-900 border border-slate-800 rounded-3xl p-8 mb-8 text-center shadow-xl">
+      <div *ngIf="applicationStatus()" class="bg-lm-surface border border-lm-border rounded-3xl p-8 mb-8 text-center shadow-xl">
         <div class="inline-flex p-4 rounded-full mb-4" [ngClass]="{
           'bg-amber-500/10 text-amber-400 border border-amber-500/20': applicationStatus()?.status === 'Pending' || applicationStatus()?.status === 'UnderReview',
           'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20': applicationStatus()?.status === 'Approved',
@@ -63,9 +63,9 @@ interface LocalFileInfo {
           <svg *ngIf="applicationStatus()?.status === 'Rejected'" class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
         </div>
 
-        <h2 class="text-2xl font-bold text-white mb-2">Application Status: {{ applicationStatus()?.status }}</h2>
-        <p class="text-slate-400 text-sm max-w-md mx-auto">
-          Business Name: <span class="text-white font-semibold">{{ applicationStatus()?.businessName }}</span>
+        <h2 class="text-2xl font-bold text-lm-text-main mb-2">Application Status: {{ applicationStatus()?.status }}</h2>
+        <p class="text-lm-text-muted text-sm max-w-md mx-auto">
+          Business Name: <span class="text-lm-text-main font-semibold">{{ applicationStatus()?.businessName }}</span>
         </p>
 
         <div *ngIf="applicationStatus()?.status === 'Rejected'" class="mt-4 p-4 bg-rose-500/10 border border-rose-500/20 rounded-xl text-rose-300 text-xs text-left max-w-lg mx-auto">
@@ -73,17 +73,17 @@ interface LocalFileInfo {
         </div>
 
         <div *ngIf="applicationStatus()?.status === 'Approved'" class="mt-6">
-          <a routerLink="/vendor/dashboard" class="px-6 py-3 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold rounded-xl text-sm transition">
+          <a routerLink="/vendor/dashboard" class="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-bold rounded-xl text-sm transition shadow-lg shadow-blue-500/20">
             Go to Vendor Portal
           </a>
         </div>
       </div>
 
       <!-- Application Wizard Form (If Not Submitted or Rejected) -->
-      <div *ngIf="!applicationStatus() || applicationStatus()?.status === 'Rejected'" class="bg-slate-900 border border-slate-800 rounded-3xl p-6 md:p-8 shadow-2xl">
+      <div *ngIf="!applicationStatus() || applicationStatus()?.status === 'Rejected'" class="bg-lm-surface border border-lm-border rounded-3xl p-6 md:p-8 shadow-2xl">
         
         <!-- Step Navigation Bar -->
-        <div class="grid grid-cols-2 md:grid-cols-6 gap-2 mb-8 pb-6 border-b border-slate-800">
+        <div class="grid grid-cols-2 md:grid-cols-6 gap-2 mb-8 pb-6 border-b border-lm-border">
           <button
             type="button"
             *ngFor="let step of steps; let i = index"
@@ -91,9 +91,9 @@ interface LocalFileInfo {
             [disabled]="i + 1 > maxReachedStep()"
             class="text-left p-2.5 rounded-xl border transition flex flex-col justify-between"
             [ngClass]="{
-              'bg-amber-500/15 border-amber-500/40 text-amber-400': currentStep() === (i + 1),
-              'bg-slate-950/60 border-slate-800 text-slate-400 hover:text-white': currentStep() !== (i + 1) && (i + 1) <= maxReachedStep(),
-              'opacity-40 border-slate-800/40 text-slate-600 cursor-not-allowed': (i + 1) > maxReachedStep()
+              'bg-blue-600/20 border-blue-500/50 text-blue-400 font-bold': currentStep() === (i + 1),
+              'bg-lm-surface-elevated border-lm-border text-lm-text-muted hover:text-lm-text-main': currentStep() !== (i + 1) && (i + 1) <= maxReachedStep(),
+              'opacity-40 border-lm-border/40 text-lm-text-muted cursor-not-allowed': (i + 1) > maxReachedStep()
             }">
             <div class="text-[10px] font-bold uppercase tracking-wider">Step {{ i + 1 }}</div>
             <div class="text-xs font-semibold truncate">{{ step.title }}</div>
@@ -109,48 +109,48 @@ interface LocalFileInfo {
           <!-- ==================== STEP 1: OWNER & IDENTITY DETAILS ==================== -->
           <div *ngIf="currentStep() === 1" class="space-y-6">
             <div>
-              <h2 class="text-xl font-bold text-white">1. Owner & Identity Details</h2>
-              <p class="text-slate-400 text-xs mt-1">Information regarding the primary business owner or authorized legal signatory.</p>
+              <h2 class="text-xl font-bold text-lm-text-main">1. Owner & Identity Details</h2>
+              <p class="text-lm-text-muted text-xs mt-1">Information regarding the primary business owner or authorized legal signatory.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Owner Full Name *</label>
+                <label class="block text-xs font-semibold text-lm-text-main uppercase tracking-wider mb-2">Owner Full Name *</label>
                 <input
                   type="text"
                   formControlName="ownerFullName"
                   placeholder="e.g. Jane Doe"
-                  class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-amber-500"
+                  class="w-full bg-lm-surface-elevated border border-lm-border rounded-xl px-4 py-3 text-lm-text-main placeholder-lm-text-muted text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/25 transition-all"
                 />
               </div>
 
               <div>
-                <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Owner Email *</label>
+                <label class="block text-xs font-semibold text-lm-text-main uppercase tracking-wider mb-2">Owner Email *</label>
                 <input
                   type="email"
                   formControlName="ownerEmail"
                   placeholder="e.g. jane.doe@business.com"
-                  class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-amber-500"
+                  class="w-full bg-lm-surface-elevated border border-lm-border rounded-xl px-4 py-3 text-lm-text-main placeholder-lm-text-muted text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/25 transition-all"
                 />
               </div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Owner Contact Phone *</label>
+                <label class="block text-xs font-semibold text-lm-text-main uppercase tracking-wider mb-2">Owner Contact Phone *</label>
                 <input
                   type="tel"
                   formControlName="ownerPhone"
                   placeholder="e.g. +94 77 123 4567"
-                  class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-amber-500"
+                  class="w-full bg-lm-surface-elevated border border-lm-border rounded-xl px-4 py-3 text-lm-text-main placeholder-lm-text-muted text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/25 transition-all"
                 />
               </div>
 
               <div>
-                <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Ownership Type *</label>
+                <label class="block text-xs font-semibold text-lm-text-main uppercase tracking-wider mb-2">Ownership Type *</label>
                 <select
                   formControlName="ownershipType"
-                  class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-amber-500">
+                  class="w-full bg-lm-surface-elevated border border-lm-border rounded-xl px-4 py-3 text-lm-text-main text-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/25 transition-all">
                   <option value="Individual">Individual / Sole Proprietor</option>
                   <option value="Partnership">Partnership</option>
                   <option value="Company">Private Limited / Company</option>

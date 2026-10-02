@@ -1,1 +1,165 @@
-/* You can add global styles to this file, and also import other style files */
+/* ==========================================================================
+   LOCALMART — DESIGN SYSTEM TOKENS & STYLES ENGINE
+   ========================================================================== */
+
+/* 1. DARK THEME TOKENS (DEFAULT OBSIDIAN NAVY & ELECTRIC BLUE) */
+:root, .dark {
+  /* Color Tokens */
+  --lm-bg: #090D16;                /* Deep Obsidian Navy Backdrop */
+  --lm-surface: #0F172A;           /* Surface Level 1 (Card/Nav Backdrop) */
+  --lm-surface-elevated: #1E293B;  /* Surface Level 2 (Elevated Card/Modal) */
+  --lm-border: #1E293B;           /* Subdued Border */
+  --lm-border-hover: #334155;     /* Interactive Hover Border */
+  
+  --lm-primary: #3B82F6;          /* Electric Blue Accent */
+  --lm-primary-hover: #60A5FA;    /* Bright Electric Hover Accent */
+  
+  --lm-text-main: #F8FAFC;        /* High Contrast Primary Text */
+  --lm-text-muted: #94A3B8;       /* Muted Slate Secondary Text */
+  
+  --lm-success: #10B981;          /* Emerald Success State */
+  --lm-warning: #F59E0B;          /* Amber Warning State */
+  --lm-danger: #EF4444;           /* Rose Danger State */
+  
+  /* Radii Scale */
+  --lm-radius-sm: 0.375rem;       /* 6px */
+  --lm-radius-md: 0.5rem;         /* 8px */
+  --lm-radius-lg: 0.75rem;        /* 12px */
+  --lm-radius-xl: 1rem;           /* 16px */
+  --lm-radius-2xl: 1.5rem;        /* 24px */
+  
+  /* Shadow & Glow Effects */
+  --lm-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+  --lm-glow: 0 0 25px -3px rgba(59, 130, 246, 0.35);
+  --lm-glow-hover: 0 0 30px 0px rgba(96, 165, 250, 0.45);
+}
+
+/* 2. LIGHT THEME TOKENS (SOFT COOL NAVY & ELECTRIC BLUE) */
+.light {
+  --lm-bg: #F8FAFC;                /* Soft Cool Backdrop */
+  --lm-surface: #FFFFFF;           /* Pure White Surface Level 1 */
+  --lm-surface-elevated: #F1F5F9;  /* Soft Slate Elevated Surface Level 2 */
+  --lm-border: #E2E8F0;           /* Soft Slate Border */
+  --lm-border-hover: #CBD5E1;     /* Active Border */
+  
+  --lm-primary: #2563EB;          /* Deep Electric Blue Accent */
+  --lm-primary-hover: #1D4ED8;    /* Deep Electric Hover */
+  
+  --lm-text-main: #0F172A;        /* Dark Slate Primary Text */
+  --lm-text-muted: #64748B;       /* Muted Slate Secondary Text */
+  
+  --lm-success: #059669;          /* Emerald Success */
+  --lm-warning: #D97706;          /* Amber Warning */
+  --lm-danger: #DC2626;           /* Rose Danger */
+  
+  --lm-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.08);
+  --lm-glow: 0 4px 20px -2px rgba(37, 99, 235, 0.15);
+  --lm-glow-hover: 0 6px 24px -2px rgba(37, 99, 235, 0.25);
+}
+
+/* 3. BASE RESET & SMOOTH SCROLLING */
+html {
+  scroll-behavior: smooth;
+  color-scheme: dark light;
+}
+
+body {
+  background-color: var(--lm-bg);
+  color: var(--lm-text-main);
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+/* Custom Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--lm-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--lm-border-hover);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--lm-primary);
+}
+
+/* 4. UTILITY HELPER CLASSES FOR REUSABLE COMPONENT STYLING */
+.lm-card {
+  background-color: var(--lm-surface);
+  border: 1px solid var(--lm-border);
+  border-radius: var(--lm-radius-xl);
+  box-shadow: var(--lm-shadow);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.lm-card:hover {
+  border-color: var(--lm-border-hover);
+}
+
+.lm-card-glow {
+  background-color: var(--lm-surface);
+  border: 1px solid var(--lm-border);
+  border-radius: var(--lm-radius-xl);
+  box-shadow: var(--lm-shadow);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.lm-card-glow:hover {
+  border-color: rgba(59, 130, 246, 0.4);
+  box-shadow: var(--lm-glow);
+}
+
+.lm-btn-primary {
+  background-color: var(--lm-primary);
+  color: #FFFFFF;
+  font-weight: 700;
+  border-radius: var(--lm-radius-md);
+  padding: 0.625rem 1.25rem;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px 0 rgba(37, 99, 235, 0.35);
+}
+
+.lm-btn-primary:hover:not(:disabled) {
+  background-color: var(--lm-primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px 0 rgba(37, 99, 235, 0.45);
+}
+
+.lm-btn-secondary {
+  background-color: var(--lm-surface-elevated);
+  color: var(--lm-text-main);
+  border: 1px solid var(--lm-border);
+  font-weight: 600;
+  border-radius: var(--lm-radius-md);
+  padding: 0.625rem 1.25rem;
+  transition: all 0.2s ease;
+}
+
+.lm-btn-secondary:hover:not(:disabled) {
+  border-color: var(--lm-border-hover);
+  color: var(--lm-primary-hover);
+}
+
+.lm-input {
+  background-color: var(--lm-surface-elevated);
+  border: 1px solid var(--lm-border);
+  color: var(--lm-text-main);
+  border-radius: var(--lm-radius-md);
+  padding: 0.625rem 1rem;
+  transition: all 0.2s ease;
+}
+
+.lm-input:focus {
+  outline: none;
+  border-color: var(--lm-primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+}
+
+.lm-input::placeholder {
+  color: var(--lm-text-muted);
+}

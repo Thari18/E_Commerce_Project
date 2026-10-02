@@ -53,3 +53,63 @@ export interface SearchProductsResponse {
   pageNumber: number;
   pageSize: number;
 }
+
+export interface ProductDetailDto {
+  id: string;
+  vendorId: string;
+  vendorBusinessName: string;
+  categoryId: string;
+  categoryName: string;
+  name: string;
+  slug: string;
+  description: string;
+  sku: string;
+  price: number;
+  status: string;
+  imageUrls: string[];
+  quantityAvailable: number;
+  inStock: boolean;
+  createdAt: string;
+}
+
+export interface CustomerAddressDto {
+  id: string;
+  customerId: string;
+  title: string;
+  addressLine1: string;
+  addressLine2?: string;
+  city: string;
+  state: string;
+  postalCode: string;
+  latitude?: number;
+  longitude?: number;
+  isDefault: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface CreateAddressRequestDto {
+  title: string;
+  addressLine1: string;
+  addressLine2?: string;
+  city: string;
+  state: string;
+  postalCode: string;
+  latitude?: number;
+  longitude?: number;
+  isDefault?: boolean;
+}
+
+export interface UpdateAddressRequestDto {
+  title: string;
+  addressLine1: string;
+  addressLine2?: string;
+  city: string;
+  state: string;
+  postalCode: string;
+  latitude?: number;
+  longitude?: number;
+  isDefault?: boolean;
+}
+
+

@@ -39,6 +39,56 @@ public class AuthController : ApiController
         return Ok(result);
     }
 
+    [HttpPost("social-login")]
+    [AllowAnonymous]
+    [ProducesResponseType(typeof(AuthResponseDto), StatusCodes.Status200OK)]
+    public async Task<IActionResult> SocialLogin([FromBody] SocialLoginRequestDto request, CancellationToken ct)
+    {
+        var command = new SocialLoginCommand(request.Provider, request.Email, request.Name);
+        var result = await Mediator.Send(command, ct);
+        return Ok(result);
+    }
+
+    [HttpPost("refresh")]
+    [AllowAnonymous]
+    [ProducesResponseType(typeof(AuthResponseDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status401Unauthorized)]
+    public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequestDto request, CancellationToken ct)
+    {
+        try
+        {
+            var command = new RefreshTokenCommand(request.RefreshToken);
+            var result = await Mediator.Send(command, ct);
+            return Ok(result);
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            return Unauthorized(new ProblemDetails
+            {
+                Title = "Unauthorized",
+                Detail = ex.Message,
+                Status = StatusCodes.Status401Unauthorized
+            });
+        }
+    }
+
+    [HttpPost("logout")]
+    [AllowAnonymous]
+    [ProducesResponseType(typeof(LogoutResponseDto), StatusCodes.Status200OK)]
+    public async Task<IActionResult> Logout([FromBody] LogoutRequestDto? request, CancellationToken ct)
+    {
+        Guid? userId = null;
+        var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (Guid.TryParse(userIdClaim, out var parsedId))
+        {
+            userId = parsedId;
+        }
+
+        var command = new LogoutCommand(request?.RefreshToken, userId);
+        var result = await Mediator.Send(command, ct);
+        return Ok(result);
+    }
+
     [HttpGet("vendor/verify-token")]
     [AllowAnonymous]
     [ProducesResponseType(typeof(VerifyVendorTokenResponseDto), StatusCodes.Status200OK)]

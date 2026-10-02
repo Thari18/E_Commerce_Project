@@ -30,9 +30,10 @@ public static class DependencyInjection
 
         services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
         services.AddTransient<IPasswordHasher, PasswordHasherAdapter>();
-        services.AddScoped<IEmailService, LoggingEmailService>();
+        services.AddScoped<IEmailService, SmtpEmailService>();
 
-        // Frontend Application Settings
+        // Email & Frontend Settings Configuration
+        services.Configure<LocalMart.Application.Common.Models.SmtpSettings>(configuration.GetSection(LocalMart.Application.Common.Models.SmtpSettings.SectionName));
         services.Configure<LocalMart.Application.Common.Models.FrontendSettings>(configuration.GetSection(LocalMart.Application.Common.Models.FrontendSettings.SectionName));
 
         // JWT Settings Options & Token Generator

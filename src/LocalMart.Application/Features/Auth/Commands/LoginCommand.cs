@@ -1,3 +1,5 @@
+using System.Security.Cryptography;
+using System.Text;
 using FluentValidation;
 using LocalMart.Application.Common.Interfaces;
 using LocalMart.Application.DTOs;
@@ -62,12 +64,13 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, AuthResponseDto
 
         var accessToken = _jwtTokenGenerator.GenerateAccessToken(user.Id, user.Email, roles);
         var refreshTokenString = _jwtTokenGenerator.GenerateRefreshToken();
+        var tokenHash = Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(refreshTokenString)));
 
         var refreshToken = new RefreshToken
         {
             Id = Guid.NewGuid(),
             UserId = user.Id,
-            Token = refreshTokenString,
+            Token = tokenHash,
             ExpiresAt = DateTime.UtcNow.AddDays(7),
             IsRevoked = false,
             CreatedAt = DateTime.UtcNow

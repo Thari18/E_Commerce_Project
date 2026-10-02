@@ -9,34 +9,34 @@ import { AuthService } from '../../core/services/auth.service';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterModule],
   template: `
-    <div class="min-h-screen bg-slate-950 text-slate-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative overflow-hidden">
+    <div class="min-h-screen bg-lm-bg text-lm-text-main flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative overflow-hidden transition-colors duration-200">
       <!-- Background Glow Accents -->
-      <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
       <div class="absolute bottom-10 right-10 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
       <div class="sm:mx-auto sm:w-full sm:max-w-md relative z-10">
-        <div class="flex items-center justify-center gap-2 mb-4">
-          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-cyan-400 flex items-center justify-center shadow-lg shadow-emerald-500/20 font-black text-slate-950 text-xl">
+        <div class="flex items-center justify-center gap-2.5 mb-4">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 via-blue-500 to-cyan-400 flex items-center justify-center shadow-lg shadow-blue-500/20 font-black text-white text-xl">
             LM
           </div>
-          <span class="text-2xl font-bold bg-gradient-to-r from-emerald-400 to-cyan-300 bg-clip-text text-transparent">LocalMart</span>
+          <span class="text-2xl font-bold bg-gradient-to-r from-blue-400 via-blue-500 to-cyan-400 bg-clip-text text-transparent">LocalMart</span>
         </div>
-        <h2 class="text-center text-2xl font-extrabold tracking-tight text-white">
+        <h2 class="text-center text-2xl font-extrabold tracking-tight text-lm-text-main">
           Activate Vendor Account
         </h2>
-        <p class="mt-2 text-center text-xs text-slate-400">
+        <p class="mt-2 text-center text-xs text-lm-text-muted">
           Create your password to complete onboarding and access your merchant portal.
         </p>
       </div>
 
       <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md relative z-10">
-        <div class="bg-slate-900/80 backdrop-blur-xl py-8 px-6 shadow-2xl rounded-3xl border border-slate-800 sm:px-10">
+        <div class="bg-lm-surface/90 backdrop-blur-xl py-8 px-6 shadow-2xl rounded-3xl border border-lm-border sm:px-10">
 
           <!-- 1. Validating Token State -->
           <div *ngIf="isValidatingToken()" class="py-12 flex flex-col items-center justify-center space-y-4 text-center">
-            <div class="w-10 h-10 border-3 border-emerald-400 border-t-transparent rounded-full animate-spin"></div>
-            <p class="text-sm text-slate-300 font-medium">Validating activation link...</p>
-            <p class="text-xs text-slate-500">Checking security authorization</p>
+            <div class="w-10 h-10 border-3 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+            <p class="text-sm text-lm-text-main font-medium">Validating activation link...</p>
+            <p class="text-xs text-lm-text-muted">Checking security authorization</p>
           </div>
 
           <!-- 2. Invalid / Expired / Already-Used Token State -->
@@ -47,14 +47,14 @@ import { AuthService } from '../../core/services/auth.service';
               </svg>
             </div>
             <div>
-              <h3 class="text-base font-bold text-white mb-1">Activation Link Expired or Invalid</h3>
-              <p class="text-xs text-slate-400 leading-relaxed">{{ tokenError() }}</p>
+              <h3 class="text-base font-bold text-lm-text-main mb-1">Activation Link Expired or Invalid</h3>
+              <p class="text-xs text-lm-text-muted leading-relaxed">{{ tokenError() }}</p>
             </div>
             <div class="pt-4 flex flex-col gap-2 w-full">
-              <a routerLink="/login" class="w-full py-2.5 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold text-center transition">
+              <a routerLink="/login" class="w-full py-2.5 px-4 rounded-xl bg-lm-surface-elevated hover:bg-lm-border-hover text-lm-text-main text-xs font-semibold text-center transition border border-lm-border">
                 Go to Sign In
               </a>
-              <a routerLink="/vendor-application" class="w-full py-2.5 px-4 rounded-xl bg-slate-900 border border-slate-700 hover:border-slate-600 text-slate-300 text-xs font-semibold text-center transition">
+              <a routerLink="/vendor-application" class="w-full py-2.5 px-4 rounded-xl bg-lm-surface border border-lm-border hover:border-lm-border-hover text-lm-text-muted text-xs font-semibold text-center transition">
                 Check Application Status
               </a>
             </div>
@@ -62,19 +62,19 @@ import { AuthService } from '../../core/services/auth.service';
 
           <!-- 3. Password Setup Success State -->
           <div *ngIf="!isValidatingToken() && isSuccess()" class="py-6 flex flex-col items-center text-center space-y-4">
-            <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+            <div class="w-14 h-14 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400">
               <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
               </svg>
             </div>
             <div>
-              <h3 class="text-base font-bold text-white mb-1">Password Created Successfully!</h3>
-              <p class="text-xs text-slate-400 leading-relaxed">
+              <h3 class="text-base font-bold text-lm-text-main mb-1">Password Created Successfully!</h3>
+              <p class="text-xs text-lm-text-muted leading-relaxed">
                 Your vendor account has been activated. You can now sign in with your email and new password to access your Vendor Portal.
               </p>
             </div>
             <div class="pt-4 w-full">
-              <a routerLink="/login" class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-slate-950 font-bold text-xs flex items-center justify-center shadow-lg shadow-emerald-500/20 transition">
+              <a routerLink="/login" class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-bold text-xs flex items-center justify-center shadow-lg shadow-blue-500/20 transition">
                 Sign In to Vendor Portal
               </a>
             </div>
@@ -82,9 +82,9 @@ import { AuthService } from '../../core/services/auth.service';
 
           <!-- 4. Password Creation Form -->
           <form *ngIf="!isValidatingToken() && !tokenError() && !isSuccess()" [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-5">
-            <div *ngIf="maskedEmail()" class="p-3 bg-slate-950/60 rounded-xl border border-slate-800 text-xs flex items-center justify-between">
-              <span class="text-slate-400">Merchant Account:</span>
-              <span class="font-mono text-emerald-400 font-semibold">{{ maskedEmail() }}</span>
+            <div *ngIf="maskedEmail()" class="p-3 bg-lm-surface-elevated/60 rounded-xl border border-lm-border text-xs flex items-center justify-between">
+              <span class="text-lm-text-muted">Merchant Account:</span>
+              <span class="font-mono text-blue-400 font-semibold">{{ maskedEmail() }}</span>
             </div>
 
             <!-- Error Banner -->
@@ -94,11 +94,11 @@ import { AuthService } from '../../core/services/auth.service';
 
             <!-- New Password -->
             <div>
-              <label class="block text-xs font-medium text-slate-300 mb-1">New Password *</label>
+              <label class="block text-xs font-medium text-lm-text-main mb-1">New Password *</label>
               <input
                 type="password"
                 formControlName="newPassword"
-                class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition"
+                class="w-full bg-lm-surface-elevated border border-lm-border rounded-xl px-4 py-2.5 text-xs text-lm-text-main placeholder-lm-text-muted focus:outline-none focus:border-blue-500 transition focus:ring-2 focus:ring-blue-500/25"
                 placeholder="••••••••••••"
               />
               <div *ngIf="form.get('newPassword')?.touched && form.get('newPassword')?.errors" class="mt-1 text-[11px] text-rose-400 space-y-0.5">
@@ -108,19 +108,19 @@ import { AuthService } from '../../core/services/auth.service';
             </div>
 
             <!-- Password Requirements Checklist -->
-            <div class="p-3 bg-slate-950/40 rounded-xl border border-slate-800/80 text-[11px] space-y-1">
-              <p class="font-medium text-slate-400 mb-1">Password must include:</p>
+            <div class="p-3 bg-lm-surface-elevated/40 rounded-xl border border-lm-border text-[11px] space-y-1">
+              <p class="font-medium text-lm-text-muted mb-1">Password must include:</p>
               <div class="grid grid-cols-2 gap-1 text-[10px]">
-                <span [class.text-emerald-400]="hasLength()" [class.text-slate-500]="!hasLength()">
+                <span [class.text-blue-500]="hasLength()" [class.text-lm-text-muted]="!hasLength()">
                   ✓ 8+ characters
                 </span>
-                <span [class.text-emerald-400]="hasUpper()" [class.text-slate-500]="!hasUpper()">
+                <span [class.text-blue-500]="hasUpper()" [class.text-lm-text-muted]="!hasUpper()">
                   ✓ Uppercase letter
                 </span>
-                <span [class.text-emerald-400]="hasLower()" [class.text-slate-500]="!hasLower()">
+                <span [class.text-blue-500]="hasLower()" [class.text-lm-text-muted]="!hasLower()">
                   ✓ Lowercase letter
                 </span>
-                <span [class.text-emerald-400]="hasDigit()" [class.text-slate-500]="!hasDigit()">
+                <span [class.text-blue-500]="hasDigit()" [class.text-lm-text-muted]="!hasDigit()">
                   ✓ Number & Symbol
                 </span>
               </div>
@@ -128,11 +128,11 @@ import { AuthService } from '../../core/services/auth.service';
 
             <!-- Confirm Password -->
             <div>
-              <label class="block text-xs font-medium text-slate-300 mb-1">Confirm Password *</label>
+              <label class="block text-xs font-medium text-lm-text-main mb-1">Confirm Password *</label>
               <input
                 type="password"
                 formControlName="confirmPassword"
-                class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition"
+                class="w-full bg-lm-surface-elevated border border-lm-border rounded-xl px-4 py-2.5 text-xs text-lm-text-main placeholder-lm-text-muted focus:outline-none focus:border-blue-500 transition focus:ring-2 focus:ring-blue-500/25"
                 placeholder="••••••••••••"
               />
               <div *ngIf="form.get('confirmPassword')?.touched && form.errors?.['passwordMismatch']" class="mt-1 text-[11px] text-rose-400">
@@ -143,9 +143,9 @@ import { AuthService } from '../../core/services/auth.service';
             <button
               type="submit"
               [disabled]="form.invalid || isSubmitting()"
-              class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-slate-950 font-bold text-xs flex items-center justify-center shadow-lg shadow-emerald-500/20 disabled:opacity-50 disabled:cursor-not-allowed transition"
+              class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-bold text-xs flex items-center justify-center shadow-lg shadow-blue-500/20 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
             >
-              <span *ngIf="isSubmitting()" class="inline-block w-4 h-4 border-2 border-slate-950 border-t-transparent rounded-full animate-spin mr-2"></span>
+              <span *ngIf="isSubmitting()" class="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></span>
               {{ isSubmitting() ? 'Setting Password...' : 'Save Password & Activate Account' }}
             </button>
           </form>
@@ -257,3 +257,4 @@ export class VendorSetPasswordComponent implements OnInit {
     });
   }
 }
+

@@ -9,91 +9,91 @@ import { AuthService } from '../../core/services/auth.service';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterLink],
   template: `
-    <div class="max-w-md mx-auto my-10 bg-slate-900 border border-slate-800 rounded-3xl p-8 shadow-2xl space-y-6">
+    <div class="max-w-md mx-auto my-10 bg-lm-surface border border-lm-border rounded-3xl p-8 shadow-2xl space-y-6 transition-colors duration-200">
       <div class="text-center space-y-2">
-        <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-bold text-2xl flex items-center justify-center mx-auto">
+        <div class="w-12 h-12 rounded-2xl bg-blue-500/10 border border-blue-500/20 text-blue-400 font-bold text-2xl flex items-center justify-center mx-auto shadow-sm">
           🛍️
         </div>
-        <h2 class="text-2xl font-black text-white tracking-tight">Create Customer Account</h2>
-        <p class="text-slate-400 text-xs">Join LocalMart to discover and order from neighborhood vendors.</p>
+        <h2 class="text-2xl font-black text-lm-text-main tracking-tight">Create Customer Account</h2>
+        <p class="text-lm-text-muted text-xs">Join LocalMart to discover and order from neighborhood vendors.</p>
       </div>
 
       <!-- Public Registration Governance Banner -->
-      <div class="bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs p-3 rounded-xl flex items-start gap-2">
+      <div class="bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs p-3 rounded-xl flex items-start gap-2">
         <span class="text-sm">ℹ️</span>
         <div>
-          <span class="font-bold">Public Registration Governance:</span> Public accounts are created with the <strong>Customer</strong> role by default. (Vendor onboarding requires submitting a Vendor Application for Admin approval).
+          <span class="font-bold text-blue-400">Public Registration Governance:</span> Public accounts are created with the <strong>Customer</strong> role by default. (Vendor onboarding requires submitting a Vendor Application for Admin approval).
         </div>
       </div>
 
-      <div *ngIf="errorMessage()" class="bg-red-500/10 border border-red-500/30 text-red-400 text-xs p-3.5 rounded-xl">
+      <div *ngIf="errorMessage()" class="bg-rose-500/10 border border-rose-500/30 text-rose-400 text-xs p-3.5 rounded-xl">
         {{ errorMessage() }}
       </div>
 
       <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-4">
         <div class="grid grid-cols-2 gap-3">
           <div>
-            <label class="block text-xs font-semibold text-slate-300 mb-1">First Name</label>
+            <label class="block text-xs font-semibold text-lm-text-main mb-1">First Name</label>
             <input 
               type="text" 
               formControlName="firstName" 
               placeholder="Jane" 
-              class="w-full bg-slate-950 border border-slate-700 focus:border-emerald-400 rounded-xl px-3.5 py-2.5 text-white text-sm outline-none transition-all"
+              class="w-full bg-lm-surface-elevated border border-lm-border focus:border-blue-500 rounded-xl px-3.5 py-2.5 text-lm-text-main placeholder-lm-text-muted text-sm outline-none transition-all focus:ring-2 focus:ring-blue-500/25"
             />
           </div>
           <div>
-            <label class="block text-xs font-semibold text-slate-300 mb-1">Last Name</label>
+            <label class="block text-xs font-semibold text-lm-text-main mb-1">Last Name</label>
             <input 
               type="text" 
               formControlName="lastName" 
               placeholder="Doe" 
-              class="w-full bg-slate-950 border border-slate-700 focus:border-emerald-400 rounded-xl px-3.5 py-2.5 text-white text-sm outline-none transition-all"
+              class="w-full bg-lm-surface-elevated border border-lm-border focus:border-blue-500 rounded-xl px-3.5 py-2.5 text-lm-text-main placeholder-lm-text-muted text-sm outline-none transition-all focus:ring-2 focus:ring-blue-500/25"
             />
           </div>
         </div>
 
         <div>
-          <label class="block text-xs font-semibold text-slate-300 mb-1">Email Address</label>
+          <label class="block text-xs font-semibold text-lm-text-main mb-1">Email Address</label>
           <input 
             type="email" 
             formControlName="email" 
             placeholder="jane.doe@example.com" 
-            class="w-full bg-slate-950 border border-slate-700 focus:border-emerald-400 rounded-xl px-3.5 py-2.5 text-white text-sm outline-none transition-all"
+            class="w-full bg-lm-surface-elevated border border-lm-border focus:border-blue-500 rounded-xl px-3.5 py-2.5 text-lm-text-main placeholder-lm-text-muted text-sm outline-none transition-all focus:ring-2 focus:ring-blue-500/25"
           />
         </div>
 
         <div>
-          <label class="block text-xs font-semibold text-slate-300 mb-1">Phone Number</label>
+          <label class="block text-xs font-semibold text-lm-text-main mb-1">Phone Number</label>
           <input 
             type="tel" 
             formControlName="phoneNumber" 
             placeholder="+1 555 123 4567" 
-            class="w-full bg-slate-950 border border-slate-700 focus:border-emerald-400 rounded-xl px-3.5 py-2.5 text-white text-sm outline-none transition-all"
+            class="w-full bg-lm-surface-elevated border border-lm-border focus:border-blue-500 rounded-xl px-3.5 py-2.5 text-lm-text-main placeholder-lm-text-muted text-sm outline-none transition-all focus:ring-2 focus:ring-blue-500/25"
           />
         </div>
 
         <div>
-          <label class="block text-xs font-semibold text-slate-300 mb-1">Password</label>
+          <label class="block text-xs font-semibold text-lm-text-main mb-1">Password</label>
           <input 
             type="password" 
             formControlName="password" 
             placeholder="Minimum 6 characters" 
-            class="w-full bg-slate-950 border border-slate-700 focus:border-emerald-400 rounded-xl px-3.5 py-2.5 text-white text-sm outline-none transition-all"
+            class="w-full bg-lm-surface-elevated border border-lm-border focus:border-blue-500 rounded-xl px-3.5 py-2.5 text-lm-text-main placeholder-lm-text-muted text-sm outline-none transition-all focus:ring-2 focus:ring-blue-500/25"
           />
         </div>
 
         <button 
           type="submit" 
           [disabled]="registerForm.invalid || isSubmitting()" 
-          class="w-full bg-gradient-to-r from-emerald-500 to-teal-400 hover:from-emerald-400 hover:to-teal-300 disabled:opacity-50 text-slate-950 font-bold py-3.5 rounded-xl transition-all shadow-lg shadow-emerald-500/20 text-sm mt-2"
+          class="w-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 disabled:opacity-50 text-white font-bold py-3.5 rounded-xl transition-all shadow-lg shadow-blue-500/20 text-sm mt-2"
         >
           {{ isSubmitting() ? 'Creating Account...' : 'Register Customer Account' }}
         </button>
       </form>
 
-      <div class="text-center text-xs text-slate-400 pt-2 border-t border-slate-800">
+      <div class="text-center text-xs text-lm-text-muted pt-2 border-t border-lm-border">
         Already have an account? 
-        <a routerLink="/login" class="text-emerald-400 font-semibold hover:underline">Sign In</a>
+        <a routerLink="/login" class="text-blue-500 font-semibold hover:underline">Sign In</a>
       </div>
     </div>
   `
@@ -139,3 +139,4 @@ export class RegisterComponent {
     });
   }
 }
+

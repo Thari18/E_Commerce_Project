@@ -18,11 +18,44 @@ export const routes: Routes = [
   { path: 'vendor-application', component: VendorApplicationComponent },
   { path: 'vendor/set-password', component: VendorSetPasswordComponent },
   {
+    path: 'products/search',
+    loadComponent: () => import('./features/customer/search-results.component').then(m => m.SearchResultsComponent)
+  },
+  {
+    path: 'products/:idOrSlug',
+    loadComponent: () => import('./features/customer/product-detail.component').then(m => m.ProductDetailComponent)
+  },
+  {
     path: 'customer/dashboard',
     component: CustomerDashboardComponent,
     canActivate: [authGuard, roleGuard],
     data: { roles: ['Customer'] }
   },
+  {
+    path: 'customer/addresses',
+    loadComponent: () => import('./features/customer/customer-addresses.component').then(m => m.CustomerAddressesComponent),
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['Customer'] }
+  },
+  {
+    path: 'customer/cart',
+    loadComponent: () => import('./features/customer/cart.component').then(m => m.CartComponent),
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['Customer'] }
+  },
+  {
+    path: 'customer/checkout',
+    loadComponent: () => import('./features/customer/checkout.component').then(m => m.CheckoutComponent),
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['Customer'] }
+  },
+  {
+    path: 'customer/orders/:id/success',
+    loadComponent: () => import('./features/customer/order-success.component').then(m => m.OrderSuccessComponent),
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['Customer'] }
+  },
+
   {
     path: 'vendor/dashboard',
     component: VendorDashboardComponent,

@@ -28,3 +28,22 @@ public record UserProfileDto(
     string PhoneNumber,
     List<string> Roles
 );
+
+public record RefreshTokenRequestDto(
+    string RefreshToken
+);
+
+public record LogoutRequestDto(
+    string? RefreshToken
+);
+
+public record LogoutResponseDto(
+    bool Success,
+    string Message
+);
+
+public record SocialLoginRequestDto(
+    string Provider,
+    string? Email,
+    string? Name
+);
